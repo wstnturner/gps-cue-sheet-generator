@@ -1,0 +1,16 @@
+#summary Short biographical info about each team member; will be used in project documentation
+
+= Hang =
+
+= Jungyul Cho =
+
+= Ka Long  =
+
+= Kurt Mueller =
+
+Master's student at U of O, 1st year.
+Languages: Java, Objective-C and iOS, Ruby, C.
+10 years professional software development experience.
+Strengths/interests: project management, documentation, user interfaces.
+
+= Weston Turner =
