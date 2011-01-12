@@ -14,3 +14,11 @@ http://thomer.com/cuerator/
 
 http://www.bikemap.net/
 
+
+= Software development resources =
+
+[http://www.eclipse.org/downloads/ Eclipse IDE - probably just want the Eclipse IDE for Java Developers]
+
+[http://en.wikipedia.org/wiki/Javadoc Javadoc wikipedia article with simple examples, probably all we need]
+
+[http://junit.sourceforge.net/ JUnit testing framework]
