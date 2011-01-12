@@ -1,0 +1,16 @@
+#summary These might come in handy
+
+= About geocoding / Google Maps API =
+
+[http://code.google.com/apis/maps/documentation/geocoding/ Google Geocoding API]
+
+[http://code.google.com/apis/maps/documentation/staticmaps/ Google Static Maps API]
+
+= Similar services =
+
+http://thomer.com/cuerator/
+
+= Sources for gpx maps, also potential users of our app =
+
+http://www.bikemap.net/
+
