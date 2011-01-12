@@ -1,0 +1,33 @@
+#summary How to use SVN to checkout the project and commit changes
+
+= Checkout =
+
+You do this to checkout a fresh copy of the code from the SVN repo. Once checked out, you will make changes, add files, commit your changes, update your local directory from the repo, etc., but you shouldn't have to do another checkout unless you want to create a new working directory on your local machine.
+
+From a command prompt:
+
+{{{
+$ svn checkout https://gps-cue-sheet-generator.googlecode.com/svn/trunk/ pathfinder --username YOURUSERNAME
+}}}
+
+This will create a directory called "pathfinder" in the current directory, with the project files inside.
+
+If it asks you for a password, do NOT input your gmail/google code password. This will not work. Instead, google code creates a special SVN password for you, which you can find at https://code.google.com/hosting/settings when logged in.
+
+= Checking in changes =
+
+{{{
+$ svn status
+}}}
+
+and
+
+{{{
+$ svn diff
+}}}
+
+are your friends. They will tell you if your local directory has changed files, and tell you the exact nature of the changes if you are unclear. Once you are happy that your local changes are ready to commit:
+
+{{{
+$ svn commit -m "SOME_GOOD_DESCRIPTION_OF_WHAT_YOU_DID_HERE"
+}}}
