@@ -1,0 +1,14 @@
+#summary Some things to consider implementing in version 1
+
+
+= Caching of geocode requests and results =
+
+This would go a long way to helping deal with Google's 2500 request/day limit, especially during testing when we will probably be running the same track over and over again. 
+
+We could build some fuzziness into the caching system, so that you'd get a cache hit even if your lat/long values were slightly different from ones already in the cache. For instance, suppose you make a request for 1.123/4.456 and you put the result in the cache. Then, later, you make a request for 1.125/4.454. This isn't identical to the value in cache, but it may be close enough that the cache value will do so you pull the cached result rather than submit a new geocode request to Google. This would speed up processing and help keep us from hitting the 2500 limit. Of course, there would be added overhead of doing a fuzzy lookup in the cache ('is there anything in cache between 1.121-1.125/4.454-4.458?' rather than 'is 1.123/4.456 in cache?'), and it would take some trial and error to see how much fuzziness is acceptable and whether there is real benefit to using it.
+
+= Turn correction =
+
+It would be nice to have the ability to correct turns that are not properly detected by the algorithm. Prototype already has a pop-up window for each turn, so could view and modify in this window.
+
+= What else? =
