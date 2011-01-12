@@ -11,4 +11,8 @@ We could build some fuzziness into the caching system, so that you'd get a cache
 
 It would be nice to have the ability to correct turns that are not properly detected by the algorithm. Prototype already has a pop-up window for each turn, so could view and modify in this window.
 
+= Generate a link to a dynamic google map showing generated route with directions =
+
+This would be a great way for someone to share the cue sheet with another rider, and to get it onto a mobile device (iPhone, Android phone) that could be used on a real ride to follow the cue sheet. Might be more useful than printing out the cue sheet and carrying it on a ride, at least for some people. User could copy/paste the link into email or make a browser bookmark.
+
 = What else? =
