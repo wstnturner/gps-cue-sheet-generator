@@ -1,0 +1,10 @@
+#summary These are the roles of the team members in the project
+
+|| *Role* || *Primary* || *Backup* ||
+|| Manager || Kurt || Ka Long ||
+|| Architect || Weston || Ka Long ||
+|| Quality control || Ka Long || Jungyul ||
+|| Technical documentation || Hang || Weston ||
+|| User documentation || Jungyul || Kurt ||
+|| User interface || Hang || Jungyul ||
+|| Configuration control / buildmaster || Kurt || Weston || 
