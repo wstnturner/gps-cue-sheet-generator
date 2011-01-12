@@ -1,0 +1,44 @@
+#summary How to use Ant for compiling and running the program
+
+= Compiling the project =
+
+Assuming you have a directory called "pathfinder" which you got by checking out the SVN repo:
+
+{{{
+$ cd pathfinder
+$ ant compile
+}}}
+
+This will compile the source files from the src directory (PathFinder.java, for example) into corresponding class files in the build directory.
+
+= Creating a jar file =
+
+{{{
+$ ant jar
+}}}
+
+will create a jar file from the class files in build (compiling first if necessary), and put the jar file in build/jar/.
+
+= Running =
+
+{{{
+$ ant run
+}}}
+
+This will take the jar file in build/jar/ (compiling and creating the jar file first if necessary) and execute the main method of the class specified in the build.xml main-class property (currently set to cis522/PathFinder.class).
+
+= Cleaning =
+
+{{{
+$ ant clean
+}}}
+
+will remove the build directory and all files in it (compiled class files and jar files). It will also remove the dist directory.
+
+= Making a distribution jar with timestamp =
+
+{{{
+$ ant dist
+}}}
+
+will create a timestamp-labeled jar file in dist/lib.
