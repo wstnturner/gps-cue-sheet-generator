@@ -1,6 +1,6 @@
 #summary Short biographical info about each team member; will be used in project documentation
 
-= Hang =
+= Hang Xu=
 
 = Jungyul Cho =
 
