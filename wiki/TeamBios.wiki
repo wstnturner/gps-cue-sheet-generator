@@ -25,3 +25,11 @@ Languages: Java, Objective-C and iOS, Ruby, C.
 Strengths/interests: project management, documentation, user interfaces.
 
 = Weston Turner =
+
+Undergrad student at UO, senior year
+
+Languages: C/C++, C#, Java, Perl
+
+Worked for two years in a manufacturing and test engineering role developing PCB test systems. Wrote software for various test and configuration systems. Amateur roboticist, with an interest in autonomous robotic vehicles.
+
+Strengths and interests include AI, robotics, and software architecture.
