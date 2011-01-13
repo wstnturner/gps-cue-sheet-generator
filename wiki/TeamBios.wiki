@@ -1,11 +1,14 @@
 #summary Short biographical info about each team member; will be used in project documentation
 
 = Hang Xu=
-Undergrad in senior year focus on Database track. 
+Undergrad in senior year; focus on Database track. 
 
 Language: Java, C/C++, SQL
+
 Tool: Eclipse
+
 Web: HTML, XHTML, JSP, PHP.
+
 Strengths: coding. 
 
 = Jungyul Cho =
