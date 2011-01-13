@@ -31,3 +31,9 @@ are your friends. They will tell you if your local directory has changed files, 
 {{{
 $ svn commit -m "SOME_GOOD_DESCRIPTION_OF_WHAT_YOU_DID_HERE"
 }}}
+
+=Adding Subversion to Eclipse=
+
+This is a very thorough article on how to begin working with Subversion through the Eclipse IDE:
+
+http://www.ibm.com/developerworks/opensource/library/os-ecl-subversion/
