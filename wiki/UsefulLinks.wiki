@@ -1,5 +1,9 @@
 #summary These might come in handy
 
+= Zoho task management site for the project =
+
+http://projects.zoho.com/portal/gpspathfinder#allprojects
+
 = About geocoding / Google Maps API =
 
 [http://code.google.com/apis/maps/documentation/geocoding/ Google Geocoding API]
