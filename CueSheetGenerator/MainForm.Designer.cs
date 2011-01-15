@@ -45,6 +45,8 @@
 			this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.lookupToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -196,7 +198,9 @@
 			// statusStrip1
 			// 
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel1,
+            this.lookupToolStripProgressBar,
+            this.toolStripStatusLabel2});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 544);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(792, 22);
@@ -239,6 +243,17 @@
 			this.splitContainer1.Size = new System.Drawing.Size(792, 520);
 			this.splitContainer1.SplitterDistance = 532;
 			this.splitContainer1.TabIndex = 4;
+			// 
+			// lookupToolStripProgressBar
+			// 
+			this.lookupToolStripProgressBar.Name = "lookupToolStripProgressBar";
+			this.lookupToolStripProgressBar.Size = new System.Drawing.Size(200, 16);
+			this.lookupToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			// 
+			// toolStripStatusLabel2
+			// 
+			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+			this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
 			// 
 			// MainForm
 			// 
@@ -291,6 +306,8 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+		private System.Windows.Forms.ToolStripProgressBar lookupToolStripProgressBar;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
 	}
 }
 
