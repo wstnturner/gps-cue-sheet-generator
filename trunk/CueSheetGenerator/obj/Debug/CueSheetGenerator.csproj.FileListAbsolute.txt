@@ -1,0 +1,17 @@
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\bin\Debug\CueSheetGenerator.exe
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\bin\Debug\CueSheetGenerator.pdb
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.Form1.resources
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.Properties.Resources.resources
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.csproj.GenerateResource.Cache
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.exe
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\artificial_intelligence\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.pdb
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.exe
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.pdb
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\bin\Debug\CueSheetGenerator.exe
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\bin\Debug\CueSheetGenerator.pdb
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.Properties.Resources.resources
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.csproj.GenerateResource.Cache
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.MainForm.resources
+C:\Documents and Settings\student\My Documents\Visual Studio 2008\projects\CueSheetGenerator\CueSheetGenerator\obj\Debug\CueSheetGenerator.TurnViewer.resources
