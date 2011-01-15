@@ -33,7 +33,7 @@ namespace CueSheetGenerator {
 			waypoints[0].Northing = _utmConvert.Northing;
 			waypoints[0].Zone = _utmConvert.Zone;
 			waypoints[0].Distance = 0.0;
-			for (int i = 1; i < _waypoints.Count - 1; i++) {
+			for (int i = 1; i < _waypoints.Count; i++) {
 				radLat = ConvertDegRad.getRadians(_waypoints[i].Lat);
 				radLon = ConvertDegRad.getRadians(_waypoints[i].Lon);
 				_utmConvert.convertLatLonToUtm(radLat, radLon);

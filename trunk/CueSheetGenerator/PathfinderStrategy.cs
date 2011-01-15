@@ -3,35 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Threading;
 
 namespace CueSheetGenerator {
 	class PathfinderStrategy {
+		public delegate void updateStatusEventHandler();
+		public event updateStatusEventHandler finishedProcessing;
+		public event updateStatusEventHandler processedWaypoint;
 
-		string _statusString = "Ok";
+		string _status = "Ok";
 
 		public const double WAYPOINT_SEPERATION = 10.0;
 
-		public string StatusString { get { return _statusString; } }
+		public string Status {
+			get { return _status; }
+		}
 
 		string _directionsString = "";
 		
 		public const double METERS_PER_MILE = 1609.344;
 
 		WebInterface _web = null;
-		internal WebInterface Web { get { return _web; } }
+		internal WebInterface Web { 
+			get { return _web; } 
+		}
 	
 		GpxParser _parser = null;
-		TrackPath _path = null;
 
+		TrackPath _path = null;
+		internal TrackPath Path {
+			get { return _path; }
+		}
+
+		List<Location> _locations = null;
+		internal List<Location> Locations {
+			get { return _locations; }
+		}
+		
 		DirectionsGenerator _directions = null;
-		internal DirectionsGenerator Directions { get { return _directions; } }
+		internal DirectionsGenerator Directions {
+			get { return _directions; } 
+		}
 
 		Image _image = null;
 
 		string _baseMapUrl = "http://maps.google.com/maps/api/staticmap?size=";
 		string _mapSize = "500x500&";
 		string _baseGeoUrl = "http://maps.googleapis.com/maps/api/geocode/xml?latlng=";
-		List<Location> _locations = null;
+		
 
 		AddressCache _cache = null;
 
@@ -42,6 +61,8 @@ namespace CueSheetGenerator {
 		}
 
 		public Image getMap(int height, int width) {
+			if (height > 640) height = 640;
+			if (width > 640) width = 640;
 			_mapSize = width.ToString() + "x" + height.ToString() + "&";
 			// Download web image
 			if(_path != null && _path.Waypoints.Count > 0)
@@ -99,7 +120,7 @@ namespace CueSheetGenerator {
 			_path = new TrackPath();
 			//parse the gpx file for waypoints
 			_parser = new GpxParser(fileName, ref _path);
-			_statusString = _parser.Status;
+			_status = _parser.Status;
 			_directions = new DirectionsGenerator(_path.Waypoints);
 			//if waypoints are within a 5 meters of eachother, remove one of them
 			for (int i = 0; i < _path.Waypoints.Count - 1; i++)
@@ -114,10 +135,21 @@ namespace CueSheetGenerator {
 			_locations = new List<Location>();
 			//iterate through the waypoints, look it up in the cache, if it is found, the use it
 			//if it is not then ask google or geonames
-			
+			Thread t = new Thread(getLocations);
+			t.Start();
+		}
+
+
+		bool _exceeded_query_limit = false;
+		string _fullGeoUrl = "";
+		Location _tempLoc = null;
+
+		void getLocations() {
 			for (int i = 0; i < _path.Waypoints.Count; i++) {
 				if (i % 10 == 0) _exceeded_query_limit = false;
 				getLocation(_path.Waypoints[i], i);
+				if (processedWaypoint != null)
+					processedWaypoint.Invoke();
 			}
 			//sanatize input
 			for (int i = 0; i < _locations.Count; i++) {
@@ -125,12 +157,9 @@ namespace CueSheetGenerator {
 			}
 			//generate directions
 			if (_locations.Count > 0) _directions.generateDirections(_locations);
+			if (finishedProcessing != null)
+				finishedProcessing.Invoke();
 		}
-
-
-		bool _exceeded_query_limit = false;
-		string _fullGeoUrl = "";
-		Location _tempLoc = null;
 
 		void getLocation(Waypoint wpt, int i) {
 			//hit the cache first
@@ -140,7 +169,7 @@ namespace CueSheetGenerator {
 				_fullGeoUrl = _baseGeoUrl + wpt.Lat + "," + wpt.Lon + "&sensor=false";
 				_locations.Add(new Location(_web.downloadWebPage(_fullGeoUrl), wpt, i));
 				if (_locations[i].Status == Location.OVER_QUERY_LIMIT) {
-					_statusString = "Exceeded Google reverse geocoding API request quota";
+					_status = "Exceeded Google reverse geocoding API request quota";
 					_exceeded_query_limit = true;
 					getLocation(wpt, i);
 				}

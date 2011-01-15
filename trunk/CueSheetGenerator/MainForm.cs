@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace CueSheetGenerator {
 	public partial class MainForm : Form {
+		event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
+		event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
+
 		PathfinderStrategy _ps = null;
 		internal PathfinderStrategy Strategy {
 			get { return _ps; }
@@ -19,6 +22,10 @@ namespace CueSheetGenerator {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
 			updateMap();
+			_ps.finishedProcessing += updateDirections;
+			finishedProcessing += updateDirections;
+			_ps.processedWaypoint += updateProgressBar;
+			processedWaypoint += updateProgressBar;
 		}
 
 		void updateMap() {
@@ -28,16 +35,31 @@ namespace CueSheetGenerator {
 				toolStripStatusLabel1.Text = _ps.Web.Status;
 		}
 
+		void updateProgressBar() {
+			if (directionsTextBox.InvokeRequired)
+				this.Invoke(processedWaypoint);
+			else
+				lookupToolStripProgressBar.Value = _ps.Locations.Count;
+		}
+		
+		public void updateDirections() {
+			if (directionsTextBox.InvokeRequired)
+				this.Invoke(finishedProcessing);
+			else {
+				directionsTextBox.Clear();
+				directionsTextBox.Text = _ps.getDirections(unitsToolStripComboBox.SelectedItem.ToString());
+				toolStripStatusLabel1.Text = _ps.Status;
+				toolStripStatusLabel2.Text = "Done";
+				lookupToolStripProgressBar.Value = 0;
+			}
+		}
+
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
 			_ps.processInput(openGpxFileDialog.FileName);
 			updateMap();
-			updateDirections();
-			toolStripStatusLabel1.Text = _ps.StatusString;
-		}
-
-		public void updateDirections() {
-			directionsTextBox.Clear();
-			directionsTextBox.Text = _ps.getDirections(unitsToolStripComboBox.SelectedItem.ToString());
+			//initialize the progress bar
+			lookupToolStripProgressBar.Maximum = _ps.Path.Waypoints.Count;
+			toolStripStatusLabel2.Text = "Processing";
 		}
 
 		private void openToolStripMenuItem1_Click(object sender, EventArgs e) {

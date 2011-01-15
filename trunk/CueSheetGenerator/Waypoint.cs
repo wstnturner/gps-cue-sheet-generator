@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CueSheetGenerator {
-	class Waypoint {
+	class Waypoint : IComparable {
 		double _lat = 0, _lon = 0;
 		string _zone = "T10";
 
@@ -40,6 +40,25 @@ namespace CueSheetGenerator {
 		public double Easting {
 			get { return _easting; }
 			set { _easting = value; }
+		}
+
+		private string _key = null;
+
+		public long Key {
+			get { return long.Parse(_key); }
+		}
+
+		public void setKey() {
+			_key = ((int)(_northing / 10.0)).ToString() 
+				+ ((int)(_easting / 10.0)).ToString();
+		}
+
+		public int CompareTo(object obj) {
+			Waypoint otherwaypoint = obj as Waypoint;
+			if (otherwaypoint != null)
+				return this.Key.CompareTo(otherwaypoint.Key);
+			else
+				throw new ArgumentException("Object is not a Waypoint");
 		}
 
 		public Waypoint() { }
