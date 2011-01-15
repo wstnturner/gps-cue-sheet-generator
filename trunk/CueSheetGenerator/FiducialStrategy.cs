@@ -5,5 +5,6 @@ using System.Text;
 
 namespace CueSheetGenerator {
 	class FiducialStrategy {
+	//comment
 	}
 }
