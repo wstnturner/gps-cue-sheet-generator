@@ -56,7 +56,7 @@ namespace CueSheetGenerator {
 		}
 
 		private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
-			if (_ps.Web != null) updateMap();
+			if (_ps != null) updateMap();
 		}
 
 	}
