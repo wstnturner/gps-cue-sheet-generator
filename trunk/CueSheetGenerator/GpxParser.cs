@@ -41,6 +41,7 @@ namespace CueSheetGenerator {
 					if (n.Name == "trkpt") {
 						Waypoint wpt = new Waypoint(double.Parse(n.Attributes[0].Value)
 						, double.Parse(n.Attributes[1].Value));
+						wpt.Elevation = double.Parse(n.FirstChild.InnerText);
 						path.Waypoints.Add(wpt);
 					}
 				}

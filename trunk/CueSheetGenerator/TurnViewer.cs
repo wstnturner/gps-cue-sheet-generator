@@ -34,7 +34,7 @@ namespace CueSheetGenerator {
 			foreach (Location loc in _turns[_currentTurn].Locs)
 				_path.Waypoints.Add(loc.GpxWaypoint);
 			string fullMapUrl = _baseMapUrl + _mapSize + _path.getPathString() + "&sensor=false";
-			mapPictureBox.Image = _web.downloadImage(fullMapUrl);
+			mapPictureBox.Image = _form.Strategy.drawWaypoints(_web.downloadImage(fullMapUrl), _path);
 			turnNumberTextBox.Text = (_currentTurn + 1).ToString();
 			toolStripStatusLabel1.Text =_turns[_currentTurn].Locs[0].StreetName + " to "
 				+ _turns[_currentTurn].Locs[2].StreetName + ": " 

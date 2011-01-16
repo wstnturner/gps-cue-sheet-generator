@@ -50,18 +50,23 @@ namespace CueSheetGenerator {
 		}
 
 		public Waypoint averageWaypoints(List<Waypoint> list) {
-			double lat = 0.0, lon = 0.0, east = 0.0, north = 0.0, dist = 0.0;
+			double lat = 0.0, lon = 0.0, east = 0.0, north = 0.0, dist = 0.0, ele = 0.0;
 			foreach (Waypoint wpt in list) {
 				lat += wpt.Lat;
 				lon += wpt.Lon;
 				east += wpt.Easting;
 				north += wpt.Northing;
 				dist += wpt.Distance;
+				ele += wpt.Elevation;
+
 			}
 			Waypoint temp = new Waypoint(lat /= list.Count, lon /= list.Count);
 			temp.Easting = east /= list.Count;
 			temp.Northing = north /= list.Count;
 			temp.Distance = dist /= list.Count;
+			temp.Elevation = ele /= list.Count;
+			if (list.Count > 0)
+				temp.Zone = list[0].Zone;
 			return temp;
 		}
 
@@ -102,7 +107,7 @@ namespace CueSheetGenerator {
 			//two and three. The two angles are examined and a turn direction is determined
 			//compute turn directions and distances between turns 
 			computeTurnDistances();
-			for (int i = 1; i < _turns.Count; i++) computeTurn(i);
+			for (int i = 0; i < _turns.Count; i++) computeTurn(i);
 		}
 
 		public void computeTurnDistances() {

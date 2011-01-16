@@ -25,8 +25,8 @@ namespace CueSheetGenerator {
 			, Terrain = "terrain", Hybrid = "hybrid";
 		public string MapType = Roadmap;
 
-		const string MarkersString1 = "&markers=color:red|size:tiny|";
-		const string MarkersString2 = "&markers=color:brown|size:tiny|";
+		const string MarkersString1 = "&markers=color:0xff00ee|size:tiny|";
+		const string MarkersString2 = "&markers=color:0xff00dd|size:tiny|";
 
 		const int MAX_MAP_POINTS = 90;
 		const int MAX_GPX_POINTS = 500;
@@ -45,6 +45,14 @@ namespace CueSheetGenerator {
 
 		List<Waypoint> _pathWaypoints = null;
 		List<Waypoint> _sortedWaypoints = null;
+
+		internal Waypoint UpperLeft {
+			get { return _sortedWaypoints[_sortedWaypoints.Count - 1]; }
+		}
+
+		internal Waypoint LowerRight {
+			get { return _sortedWaypoints[0]; }
+		}
 
 		public TrackPath() {
 			_waypoints = new List<Waypoint>();

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Threading;
 
 namespace CueSheetGenerator {
 	public partial class MainForm : Form {
@@ -36,10 +36,16 @@ namespace CueSheetGenerator {
 		}
 
 		void updateProgressBar() {
-			if (directionsTextBox.InvokeRequired)
-				this.Invoke(processedWaypoint);
-			else
-				lookupToolStripProgressBar.Value = _ps.Locations.Count;
+			//not ideal, i'd rather use logic to terminate the thread
+			//rather than use error handling
+			try {
+				if (directionsTextBox.InvokeRequired)
+					this.Invoke(processedWaypoint);
+				else
+					lookupToolStripProgressBar.Value = _ps.Locations.Count;
+			} catch(Exception e) {
+				Thread.CurrentThread.Abort();
+			}
 		}
 		
 		public void updateDirections() {
@@ -80,6 +86,34 @@ namespace CueSheetGenerator {
 		private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
 			if (_ps != null) updateMap();
 		}
+
+		private void mapPictureBox_MouseMove(object sender, MouseEventArgs e) {
+			if (_ps != null) {
+				Point pt = new Point(e.X, e.Y);
+				_ps.getWaypointFromMousePosition(pt);
+				if (_ps.WaypointFromMouse != null)
+					toolStripStatusLabel3.Text = _ps.Path.UpperLeft.Zone + " E "
+						+ Math.Round(_ps.WaypointFromMouse.Easting, 2).ToString()
+						+ ", " + "N " + Math.Round(_ps.WaypointFromMouse.Northing, 2).ToString();
+			}
+		}
+
+		private void mapPictureBox_MouseClick(object sender, MouseEventArgs e) {
+			//use this event to add notes to locations on the map
+			//the note will appear in the csv file output by the program
+			_ps.addPointOfInterest(new Point(e.X, e.Y));
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
+			saveCsvFileDialog.ShowDialog();
+		}
+
+		private void saveCsvFileDialog_FileOk(object sender, CancelEventArgs e) {
+			_ps.writeCsvFile(saveCsvFileDialog.FileName, unitsToolStripComboBox.SelectedItem.ToString());
+			toolStripStatusLabel1.Text = _ps.Status;
+		}
+
+
 
 	}
 

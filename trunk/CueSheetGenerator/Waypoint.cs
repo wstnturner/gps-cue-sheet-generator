@@ -23,6 +23,12 @@ namespace CueSheetGenerator {
 			set { _lon = value; }
 		}
 
+		private double _elevation = 0.0;
+		public double Elevation {
+			get { return _elevation; }
+			set { _elevation = value; }
+		}
+
 		double _distance = 0.0;
 
 		public double Distance {
