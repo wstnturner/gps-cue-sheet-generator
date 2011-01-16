@@ -14,6 +14,12 @@ namespace CueSheetGenerator {
 			get { return _status; }
 		}
 
+		string _notes = "";
+		public string Notes {
+			get { return _notes; }
+			set { _notes = value; }
+		}
+
 		Waypoint _gpxWaypoint = null;
 
 		int _waypointIndex = 0;

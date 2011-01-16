@@ -12,6 +12,7 @@ namespace CueSheetGenerator {
 		public event updateStatusEventHandler processedWaypoint;
 
 		string _status = "Ok";
+		string _csvFile = "";
 
 		public const double WAYPOINT_SEPERATION = 10.0;
 
@@ -53,22 +54,55 @@ namespace CueSheetGenerator {
 		
 
 		AddressCache _cache = null;
+		FiducialStrategy _fidStrategy = null;
+		Waypoint _waypointFromMouse = null;
+
+		internal Waypoint WaypointFromMouse {
+			get { return _waypointFromMouse; }
+		}
 
 		public PathfinderStrategy() {
 			_web = new WebInterface();
 			_cache = new AddressCache();
+			_fidStrategy = new FiducialStrategy();
 
 		}
 
 		public Image getMap(int height, int width) {
-			if (height > 640) height = 640;
-			if (width > 640) width = 640;
 			_mapSize = width.ToString() + "x" + height.ToString() + "&";
 			// Download web image
-			if(_path != null && _path.Waypoints.Count > 0)
+			if (_path != null && _path.Waypoints.Count > 0) {
 				_image = _web.downloadImage(_baseMapUrl + _mapSize + _path.getPathString() + "&sensor=false");
-			else _image = _web.downloadImage(_baseMapUrl + _mapSize + "&sensor=false");
+				_image = drawWaypoints(_image, _path);
+			} else
+				_image = _web.downloadImage(_baseMapUrl + _mapSize + "&sensor=false");
 			return _image;
+		}
+
+		public Image drawWaypoints(Image image, TrackPath path) {
+			_fidStrategy.processImage((Bitmap)image);
+			if (_fidStrategy.MapLocated) {
+				_fidStrategy.setCorrespondence(path.UpperLeft, path.LowerRight);
+				//Image imag = Image.FromStream(new MemoryStream(imageR));
+				image = new Bitmap(new Bitmap(image));
+				Graphics g = Graphics.FromImage(image);
+				SolidBrush brush = new SolidBrush(Color.Green);
+				Point pt;
+				for (int i = 0; i < path.Waypoints.Count; i++) {
+					pt = _fidStrategy.getPoint(path.Waypoints[i]);
+					g.FillEllipse(brush, pt.X - 2, pt.Y - 2, 4, 4);
+				}
+			}
+			return image;
+		}
+
+		public void getWaypointFromMousePosition(Point pt) {
+			if (_fidStrategy.MapLocated)
+				_waypointFromMouse = _fidStrategy.getWaypoint(pt);
+		}
+
+		public void addPointOfInterest(Point p) {
+
 		}
 
 		public string getDirections(string units) {
@@ -114,6 +148,50 @@ namespace CueSheetGenerator {
 				case "Miles": return Math.Round(distance / METERS_PER_MILE, 1).ToString() + " miles";
 				default: return null;
 			}
+		}
+
+		private string getDistanceUnits(double distance, string units) {
+			switch (units) {
+				case "Meters": return Math.Round(distance, 1).ToString();
+				case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString();
+				case "Miles": return Math.Round(distance / METERS_PER_MILE, 1).ToString();
+				default: return null;
+			}
+		}
+
+		string generateCsvFile(string units) {
+			string csvFile = "";
+			//case for meters, kilometers, and miles
+			if (_locations != null && _locations.Count > 0 && _directions.Turns != null) {
+				csvFile = "Start at " + _locations[0].Address + "\r\n";
+				csvFile += "Interval " + units + ",Total " + units + ",Turn Direction"
+				+ ",Turn Magnitude (degrees),Street,Notes,Latitude,Longitude,Elevation (meters)"
+				+ ",UTM Zone,Northing,Easting\r\n";
+				string notes = "";
+				for (int i = 0; i < _directions.Turns.Count; i++) {
+					notes = _directions.Turns[i].Locs[0].Notes + "|"
+						+ _directions.Turns[i].Locs[1].Notes + "|" + _directions.Turns[i].Locs[2].Notes;
+					csvFile += getDistanceUnits(_directions.Turns[i].Distance, units)
+						+ "," + getDistanceUnits(_directions.Turns[i].Locs[1].GpxWaypoint.Distance, units)
+						+ "," + _directions.Turns[i].TurnDirection + "," + _directions.Turns[i].TurnMagnitude
+						+ "," + _directions.Turns[i].Locs[2].StreetName + "," + notes
+						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Lat
+						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Lon
+						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Elevation
+						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Zone
+						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Northing
+						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Easting + "\r\n";
+				}
+				csvFile += "End at " + _locations[_locations.Count - 1].Address
+					+ "\r\ntotal distance: " + getDistanceInUnits(_directions.TotalDistance, units);
+			}
+			return csvFile;
+		}
+
+		public void writeCsvFile(string fileName, string units) {
+			CsvWriter cw = new CsvWriter();
+			cw.writeCsvFile(fileName, generateCsvFile(units));
+			_status = cw.Status;
 		}
 
 		public void processInput(string fileName) {

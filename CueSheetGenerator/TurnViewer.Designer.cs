@@ -57,7 +57,7 @@
 			this.mapPictureBox.Location = new System.Drawing.Point(3, 16);
 			this.mapPictureBox.Name = "mapPictureBox";
 			this.mapPictureBox.Size = new System.Drawing.Size(362, 281);
-			this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.mapPictureBox.TabIndex = 0;
 			this.mapPictureBox.TabStop = false;
 			this.mapPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);

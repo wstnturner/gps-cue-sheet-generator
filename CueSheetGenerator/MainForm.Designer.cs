@@ -41,12 +41,19 @@
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lookupToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openGpxFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.lookupToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
+			this.button3 = new System.Windows.Forms.Button();
+			this.button4 = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -55,6 +62,8 @@
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			this.groupBox3.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -74,18 +83,22 @@
 			this.mapPictureBox.Location = new System.Drawing.Point(3, 16);
 			this.mapPictureBox.Name = "mapPictureBox";
 			this.mapPictureBox.Size = new System.Drawing.Size(526, 501);
-			this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
 			this.mapPictureBox.TabIndex = 0;
 			this.mapPictureBox.TabStop = false;
+			this.mapPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mapPictureBox_MouseMove);
+			this.mapPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mapPictureBox_MouseClick);
 			this.mapPictureBox.SizeChanged += new System.EventHandler(this.mapPictureBox_SizeChanged);
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.directionsTextBox);
-			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox2.Location = new System.Drawing.Point(0, 0);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(256, 520);
+			this.groupBox2.Size = new System.Drawing.Size(256, 219);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Directions";
@@ -101,7 +114,7 @@
 			this.directionsTextBox.Name = "directionsTextBox";
 			this.directionsTextBox.ReadOnly = true;
 			this.directionsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.directionsTextBox.Size = new System.Drawing.Size(250, 501);
+			this.directionsTextBox.Size = new System.Drawing.Size(250, 200);
 			this.directionsTextBox.TabIndex = 0;
 			this.directionsTextBox.WordWrap = false;
 			// 
@@ -129,15 +142,16 @@
 			// openToolStripMenuItem1
 			// 
 			this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
-			this.openToolStripMenuItem1.Size = new System.Drawing.Size(111, 22);
+			this.openToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.openToolStripMenuItem1.Text = "Open";
 			this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.saveToolStripMenuItem.Text = "Save";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// viewToolStripMenuItem
 			// 
@@ -200,7 +214,8 @@
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.lookupToolStripProgressBar,
-            this.toolStripStatusLabel2});
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 544);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(792, 22);
@@ -213,6 +228,23 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(20, 17);
 			this.toolStripStatusLabel1.Text = "Ok";
 			// 
+			// lookupToolStripProgressBar
+			// 
+			this.lookupToolStripProgressBar.Name = "lookupToolStripProgressBar";
+			this.lookupToolStripProgressBar.Size = new System.Drawing.Size(200, 16);
+			this.lookupToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			// 
+			// toolStripStatusLabel2
+			// 
+			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+			this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
+			// 
+			// toolStripStatusLabel3
+			// 
+			this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+			this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 17);
+			this.toolStripStatusLabel3.Text = "0, 0";
+			// 
 			// openGpxFileDialog
 			// 
 			this.openGpxFileDialog.Filter = "GPX Files|*.gpx";
@@ -222,6 +254,7 @@
 			// saveCsvFileDialog
 			// 
 			this.saveCsvFileDialog.Filter = "CSV File|*.csv";
+			this.saveCsvFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveCsvFileDialog_FileOk);
 			// 
 			// printDialog1
 			// 
@@ -239,21 +272,76 @@
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.Controls.Add(this.button4);
+			this.splitContainer1.Panel2.Controls.Add(this.button3);
+			this.splitContainer1.Panel2.Controls.Add(this.button2);
+			this.splitContainer1.Panel2.Controls.Add(this.button1);
+			this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
 			this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
 			this.splitContainer1.Size = new System.Drawing.Size(792, 520);
 			this.splitContainer1.SplitterDistance = 532;
 			this.splitContainer1.TabIndex = 4;
 			// 
-			// lookupToolStripProgressBar
+			// groupBox3
 			// 
-			this.lookupToolStripProgressBar.Name = "lookupToolStripProgressBar";
-			this.lookupToolStripProgressBar.Size = new System.Drawing.Size(200, 16);
-			this.lookupToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox3.Controls.Add(this.pictureBox1);
+			this.groupBox3.Location = new System.Drawing.Point(3, 225);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(250, 263);
+			this.groupBox3.TabIndex = 2;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Turn Inspector";
 			// 
-			// toolStripStatusLabel2
+			// pictureBox1
 			// 
-			this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-			this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
+			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBox1.Location = new System.Drawing.Point(3, 16);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(244, 244);
+			this.pictureBox1.TabIndex = 0;
+			this.pictureBox1.TabStop = false;
+			// 
+			// button1
+			// 
+			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.button1.Location = new System.Drawing.Point(3, 494);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(48, 23);
+			this.button1.TabIndex = 3;
+			this.button1.Text = "Edit";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// button2
+			// 
+			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.button2.Location = new System.Drawing.Point(57, 494);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(57, 23);
+			this.button2.TabIndex = 4;
+			this.button2.Text = "Delete";
+			this.button2.UseVisualStyleBackColor = true;
+			// 
+			// button3
+			// 
+			this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.button3.Location = new System.Drawing.Point(124, 494);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(57, 23);
+			this.button3.TabIndex = 5;
+			this.button3.Text = "<< Back";
+			this.button3.UseVisualStyleBackColor = true;
+			// 
+			// button4
+			// 
+			this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.button4.Location = new System.Drawing.Point(187, 494);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(57, 23);
+			this.button4.TabIndex = 6;
+			this.button4.Text = "Next >>";
+			this.button4.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
@@ -278,6 +366,8 @@
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);
+			this.groupBox3.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -308,6 +398,13 @@
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripProgressBar lookupToolStripProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.PictureBox pictureBox1;
 	}
 }
 
