@@ -38,6 +38,20 @@
 			this.metersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.kilometersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.milesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mapTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.roadmapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.satelliteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.terrainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.hybridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pathResToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tenMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.fifteenMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.twentyMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.revGeoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.points250ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.points500ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.points750ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.points1000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.howDoIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +60,7 @@
 			this.lookupToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.openGpxFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
@@ -56,7 +71,7 @@
 			this.editButton = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.turnPictureBox = new System.Windows.Forms.PictureBox();
-			this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.thirtyMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -145,14 +160,14 @@
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
@@ -160,7 +175,10 @@
 			// 
 			this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem,
-            this.unitsToolStripMenuItem});
+            this.unitsToolStripMenuItem,
+            this.mapTypeToolStripMenuItem,
+            this.pathResToolStripMenuItem,
+            this.revGeoToolStripMenuItem});
 			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
 			this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
 			this.viewToolStripMenuItem.Text = "View";
@@ -169,7 +187,7 @@
 			// 
 			this.optionsToolStripMenuItem.Enabled = false;
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.optionsToolStripMenuItem.Text = "Options";
 			// 
 			// unitsToolStripMenuItem
@@ -179,7 +197,7 @@
             this.kilometersToolStripMenuItem,
             this.milesToolStripMenuItem});
 			this.unitsToolStripMenuItem.Name = "unitsToolStripMenuItem";
-			this.unitsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.unitsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.unitsToolStripMenuItem.Text = "Units";
 			// 
 			// metersToolStripMenuItem
@@ -208,6 +226,120 @@
 			this.milesToolStripMenuItem.Text = "Miles";
 			this.milesToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
 			// 
+			// mapTypeToolStripMenuItem
+			// 
+			this.mapTypeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.roadmapToolStripMenuItem,
+            this.satelliteToolStripMenuItem,
+            this.terrainToolStripMenuItem,
+            this.hybridToolStripMenuItem});
+			this.mapTypeToolStripMenuItem.Name = "mapTypeToolStripMenuItem";
+			this.mapTypeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.mapTypeToolStripMenuItem.Text = "Map Type";
+			// 
+			// roadmapToolStripMenuItem
+			// 
+			this.roadmapToolStripMenuItem.Checked = true;
+			this.roadmapToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.roadmapToolStripMenuItem.Name = "roadmapToolStripMenuItem";
+			this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.roadmapToolStripMenuItem.Text = "Roadmap";
+			this.roadmapToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
+			// 
+			// satelliteToolStripMenuItem
+			// 
+			this.satelliteToolStripMenuItem.Name = "satelliteToolStripMenuItem";
+			this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.satelliteToolStripMenuItem.Text = "Satellite";
+			this.satelliteToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
+			// 
+			// terrainToolStripMenuItem
+			// 
+			this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
+			this.terrainToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.terrainToolStripMenuItem.Text = "Terrain";
+			this.terrainToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
+			// 
+			// hybridToolStripMenuItem
+			// 
+			this.hybridToolStripMenuItem.Name = "hybridToolStripMenuItem";
+			this.hybridToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.hybridToolStripMenuItem.Text = "Hybrid";
+			this.hybridToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
+			// 
+			// pathResToolStripMenuItem
+			// 
+			this.pathResToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tenMToolStripMenuItem,
+            this.fifteenMToolStripMenuItem,
+            this.twentyMToolStripMenuItem,
+            this.thirtyMToolStripMenuItem});
+			this.pathResToolStripMenuItem.Name = "pathResToolStripMenuItem";
+			this.pathResToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.pathResToolStripMenuItem.Text = "Path Resolution";
+			// 
+			// tenMToolStripMenuItem
+			// 
+			this.tenMToolStripMenuItem.Name = "tenMToolStripMenuItem";
+			this.tenMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tenMToolStripMenuItem.Text = "10m";
+			this.tenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
+			// 
+			// fifteenMToolStripMenuItem
+			// 
+			this.fifteenMToolStripMenuItem.Name = "fifteenMToolStripMenuItem";
+			this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.fifteenMToolStripMenuItem.Text = "15m";
+			this.fifteenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
+			// 
+			// twentyMToolStripMenuItem
+			// 
+			this.twentyMToolStripMenuItem.Name = "twentyMToolStripMenuItem";
+			this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.twentyMToolStripMenuItem.Text = "20m";
+			this.twentyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
+			// 
+			// revGeoToolStripMenuItem
+			// 
+			this.revGeoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.points250ToolStripMenuItem,
+            this.points500ToolStripMenuItem,
+            this.points750ToolStripMenuItem,
+            this.points1000ToolStripMenuItem});
+			this.revGeoToolStripMenuItem.Name = "revGeoToolStripMenuItem";
+			this.revGeoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+			this.revGeoToolStripMenuItem.Text = "Geocode Points";
+			// 
+			// points250ToolStripMenuItem
+			// 
+			this.points250ToolStripMenuItem.Checked = true;
+			this.points250ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.points250ToolStripMenuItem.Name = "points250ToolStripMenuItem";
+			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points250ToolStripMenuItem.Text = "250 Points";
+			this.points250ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
+			// 
+			// points500ToolStripMenuItem
+			// 
+			this.points500ToolStripMenuItem.Name = "points500ToolStripMenuItem";
+			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points500ToolStripMenuItem.Text = "500 Points";
+			this.points500ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
+			// 
+			// points750ToolStripMenuItem
+			// 
+			this.points750ToolStripMenuItem.Name = "points750ToolStripMenuItem";
+			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points750ToolStripMenuItem.Text = "750 Points";
+			this.points750ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
+			// 
+			// points1000ToolStripMenuItem
+			// 
+			this.points1000ToolStripMenuItem.Name = "points1000ToolStripMenuItem";
+			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points1000ToolStripMenuItem.Text = "1000 Points";
+			this.points1000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
+			// 
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -220,13 +352,13 @@
 			// howDoIToolStripMenuItem
 			// 
 			this.howDoIToolStripMenuItem.Name = "howDoIToolStripMenuItem";
-			this.howDoIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.howDoIToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
 			this.howDoIToolStripMenuItem.Text = "How do I";
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -266,6 +398,11 @@
 			this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
 			this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 17);
 			this.toolStripStatusLabel3.Text = "0, 0";
+			// 
+			// toolStripStatusLabel4
+			// 
+			this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+			this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 17);
 			// 
 			// openGpxFileDialog
 			// 
@@ -371,10 +508,14 @@
 			this.turnPictureBox.TabStop = false;
 			this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
 			// 
-			// toolStripStatusLabel4
+			// thirtyMToolStripMenuItem
 			// 
-			this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-			this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 17);
+			this.thirtyMToolStripMenuItem.Checked = true;
+			this.thirtyMToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.thirtyMToolStripMenuItem.Name = "thirtyMToolStripMenuItem";
+			this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.thirtyMToolStripMenuItem.Text = "30m";
+			this.thirtyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -441,6 +582,21 @@
 		private System.Windows.Forms.ToolStripMenuItem kilometersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem milesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+		private System.Windows.Forms.ToolStripMenuItem mapTypeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem roadmapToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem satelliteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem hybridToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pathResToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tenMToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem fifteenMToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem twentyMToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem revGeoToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem points250ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem points500ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem points750ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem points1000ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem thirtyMToolStripMenuItem;
 	}
 }
 
