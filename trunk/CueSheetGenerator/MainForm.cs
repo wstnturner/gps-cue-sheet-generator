@@ -164,7 +164,7 @@ namespace CueSheetGenerator {
 		private void deleteButton_Click(object sender, EventArgs e) {
 			_ps.deleteCurrentTurn();
 			updateTurnMap();
-			if (_ps.Directions.Turns != null)
+			if (_ps.Directions!= null && _ps.Directions.Turns != null)
 				updateDirections();
 		}
 
