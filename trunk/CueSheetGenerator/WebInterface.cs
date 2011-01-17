@@ -24,8 +24,8 @@ namespace CueSheetGenerator {
 		/// <param name="_URL">URL address to download image</param>
 		/// <returns>Image</returns>
 		public Image downloadImage(string _URL) {
+			Image _tmpImage = null;
 			try {
-				Image _tmpImage = null;
 				// Open a connection
 				HttpWebRequest _HttpWebRequest = (HttpWebRequest)HttpWebRequest.Create(_URL);
 				_HttpWebRequest.AllowWriteStreamBuffering = true;
@@ -38,11 +38,10 @@ namespace CueSheetGenerator {
 				// Cleanup
 				_WebResponse.Close();
 				_WebResponse.Close();
-				return _tmpImage;
 			} catch (Exception e) {
 				Status = e.Message;
-				return new Bitmap(1, 1);
 			}
+			return _tmpImage;
 		}
 
 		//adapted from:
