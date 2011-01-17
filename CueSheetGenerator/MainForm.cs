@@ -209,6 +209,7 @@ namespace CueSheetGenerator {
 			tenMToolStripMenuItem.Checked = false;
 			fifteenMToolStripMenuItem.Checked = false;
 			twentyMToolStripMenuItem.Checked = false;
+			thirtyMToolStripMenuItem.Checked = false;
 			switch (sender.ToString()) {
 				case "10m":
 					tenMToolStripMenuItem.Checked = true;

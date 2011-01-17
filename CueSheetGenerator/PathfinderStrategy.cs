@@ -234,7 +234,8 @@ namespace CueSheetGenerator {
 						+ _directions.Turns[i].Locs[1].Notes + "|" + _directions.Turns[i].Locs[2].Notes;
 					csvFile.Append(getDistanceUnits(_directions.Turns[i].Distance, units)
 						+ "," + getDistanceUnits(_directions.Turns[i].Locs[1].GpxWaypoint.Distance, units)
-						+ "," + _directions.Turns[i].TurnDirection + "," + _directions.Turns[i].TurnMagnitude
+						+ "," + _directions.Turns[i].TurnDirection 
+						+ "," + Math.Round(_directions.Turns[i].TurnMagnitude)
 						+ "," + _directions.Turns[i].Locs[2].StreetName + "," + notes
 						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Lat
 						+ "," + _directions.Turns[i].Locs[1].GpxWaypoint.Lon
@@ -252,6 +253,7 @@ namespace CueSheetGenerator {
 		public void writeCsvFile(string fileName, string units) {
 			CsvWriter cw = new CsvWriter();
 			cw.writeCsvFile(fileName, generateCsvFile(units));
+			_image.Save(fileName + ".bmp");
 			_status = cw.Status;
 		}
 
