@@ -25,6 +25,7 @@ namespace CueSheetGenerator {
 				StreamReader sr = new StreamReader(fileName);
 				string file = sr.ReadToEnd();
 				sr.Close();
+				path.Waypoints.Clear();
 				_doc = new XmlDocument();
 				_doc.LoadXml(file);
 				XmlNode node = _doc.ChildNodes[0];

@@ -12,7 +12,14 @@ namespace CueSheetGenerator {
 		public event updateStatusEventHandler processedWaypoint;
 
 		string _status = "Ok";
-		public const double WAYPOINT_SEPERATION = 10.0;
+		public const double TEN_M = 10.0, FIFTEEN_M = 15.0
+			, TWENTY_M = 20.0, THIRTY_M = 30.0;
+		double _waypointSeperation = THIRTY_M;
+		public double WaypointSeperation {
+			get { return _waypointSeperation; }
+			set { _waypointSeperation = value; }
+		}
+
 		public string Status {
 			get { return _status; }
 		}
@@ -52,6 +59,7 @@ namespace CueSheetGenerator {
 		}
 
 		public PathfinderStrategy() {
+			_path = new TrackPath();
 			_web = new WebInterface();
 			_cache = new AddressCache();
 			_fidStrategy = new FiducialStrategy();
@@ -79,8 +87,9 @@ namespace CueSheetGenerator {
 			string mapSize = width.ToString() + "x" + height.ToString() + "&";
 			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count > _currentTurn) {
-				foreach (Location loc in _directions.Turns[_currentTurn].Locs)
-					turnPath.Waypoints.Add(loc.GpxWaypoint);
+				for(int i = _directions.Turns[_currentTurn].Locs[0].WaypointIndex;
+					i <= _directions.Turns[_currentTurn].Locs[2].WaypointIndex; i++)
+					turnPath.Waypoints.Add(_path.Waypoints[i]);
 			}
 			// download web image
 			if (turnPath != null && turnPath.Waypoints.Count > 0) {
@@ -216,8 +225,8 @@ namespace CueSheetGenerator {
 			//case for meters, kilometers, and miles
 			if (_locations != null && _locations.Count > 0 && _directions.Turns != null) {
 				csvFile.Append("Start at " + _locations[0].Address + "\r\n");
-				csvFile.Append("Interval " + units + ",Total " + units + ",Turn Direction"
-				+ ",Turn Magnitude (degrees),Street,Notes,Latitude,Longitude,Elevation (meters)"
+				csvFile.Append("Interval " + units + ",Total " + units + ",Turn"
+				+ ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
 				+ ",UTM Zone,Northing,Easting\r\n");
 				string notes = "";
 				for (int i = 0; i < _directions.Turns.Count; i++) {
@@ -247,15 +256,14 @@ namespace CueSheetGenerator {
 		}
 
 		public void processInput(string fileName) {
-			_path = new TrackPath();
 			//parse the gpx file for waypoints
 			_parser = new GpxParser(fileName, ref _path);
 			_status = _parser.Status;
 			_directions = new DirectionsGenerator(_path.Waypoints);
-			//if waypoints are within WAYPOINT_SEPERATION meters of eachother, remove one of them
+			//if waypoints are within _waypointSeperation meters of eachother, remove one of them
 			for (int i = 0; i < _path.Waypoints.Count - 1; i++) {
 				if (Math.Abs(_path.Waypoints[i].Distance
-					- _path.Waypoints[i + 1].Distance) < WAYPOINT_SEPERATION) {
+					- _path.Waypoints[i + 1].Distance) < _waypointSeperation) {
 					_path.Waypoints.RemoveAt(i + 1); 
 					i--;
 				}
@@ -277,6 +285,7 @@ namespace CueSheetGenerator {
 			for (int i = 0; i < _path.Waypoints.Count; i++) {
 				if (i % 10 == 0) _exceeded_query_limit = false;
 				getLocation(_path.Waypoints[i], i);
+				Thread.Sleep(20);
 				if (processedWaypoint != null)
 					processedWaypoint.Invoke();
 			}

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CueSheetGenerator {
 	class PointOfInterest {
-		Location _loc;
-		string _name;
-		string _description;
+		//Location _loc;
+		//string _name;
+		//string _description;
 	}
 
 }

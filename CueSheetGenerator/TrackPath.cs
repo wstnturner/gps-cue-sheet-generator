@@ -21,15 +21,28 @@ namespace CueSheetGenerator {
 			set { _color = value; }
 		}
 
-		public const string Roadmap = "roadmap", Satellite = "satellite"
-			, Terrain = "terrain", Hybrid = "hybrid";
-		public string MapType = Roadmap;
+		public const string ROADMAP = "roadmap", SATELLITE = "satellite"
+			, TERRAIN = "terrain", HYBRID = "hybrid";
+		string _mapType = ROADMAP;
+		public string MapType {
+			get { return _mapType; }
+			set { _mapType = value; }
+		}
 
 		const string MarkersString1 = "&markers=color:0xff00ee|size:tiny|";
 		const string MarkersString2 = "&markers=color:0xff00dd|size:tiny|";
 
 		const int MAX_MAP_POINTS = 90;
-		const int MAX_GPX_POINTS = 500;
+		
+		public const int REV_GEO_250 = 250, REV_GEO_500 = 500
+			, REV_GEO_750 = 750, REV_GEO_1000 = 1000;
+		int _maxGpxPoints = REV_GEO_250;
+		public int MaxGpxPoints {
+			get { return _maxGpxPoints; }
+			set { _maxGpxPoints = value; }
+		}
+
+
 		bool _round = true;
 
 		public bool Round {
@@ -62,11 +75,11 @@ namespace CueSheetGenerator {
 
 		void preProcessPath() {
 			//prune the set of waypoints to reverse geocode based on the number
-			//of input waypoints and the MAX_GPX_POINTS
-			double divisor = _waypoints.Count / (double)MAX_GPX_POINTS;
+			//of input waypoints and the _maxGpxPoints
+			double divisor = _waypoints.Count / (double)_maxGpxPoints;
 			if (divisor > 1) {
 				List<Waypoint> temp = new List<Waypoint>();
-				for (int i = 0; i < MAX_GPX_POINTS; i++)
+				for (int i = 0; i < _maxGpxPoints; i++)
 					temp.Add(_waypoints[(int)((double)i * divisor)]);
 				_waypoints = temp;
 			} 
@@ -107,7 +120,7 @@ namespace CueSheetGenerator {
 					pathString += "," + wpt.Lon;
 				}
 			}
-			return pathString + "&maptype=" + MapType + MarkersString1
+			return pathString + "&maptype=" + _mapType + MarkersString1
 				+ _sortedWaypoints[0].Lat + "," + _sortedWaypoints[0].Lon
 				+ MarkersString2
 				+ _sortedWaypoints[_sortedWaypoints.Count-1].Lat + "," 

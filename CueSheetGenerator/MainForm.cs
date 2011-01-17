@@ -50,7 +50,7 @@ namespace CueSheetGenerator {
 				else
 					lookupToolStripProgressBar.Value = _ps.Locations.Count;
 			} catch(Exception e) {
-				Thread.CurrentThread.Abort();
+				Thread.CurrentThread.Abort(e);
 			}
 		}
 		
@@ -171,6 +171,95 @@ namespace CueSheetGenerator {
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			PathfinderAboutBox p = new PathfinderAboutBox();
 			p.Show();
+		}
+
+		private void mapTypeToolStripMenuItem_Click(object sender, EventArgs e) {
+			//if (_ps.Path != null) {
+				roadmapToolStripMenuItem.Checked = false;
+				satelliteToolStripMenuItem.Checked = false;
+				terrainToolStripMenuItem.Checked = false;
+				hybridToolStripMenuItem.Checked = false;
+				switch (sender.ToString()) {
+					case "Roadmap":
+						roadmapToolStripMenuItem.Checked = true;
+						_ps.Path.MapType = TrackPath.ROADMAP;
+						break;
+					case "Satellite":
+						satelliteToolStripMenuItem.Checked = true;
+						_ps.Path.MapType = TrackPath.SATELLITE;
+						break;
+					case "Terrain":
+						terrainToolStripMenuItem.Checked = true;
+						_ps.Path.MapType = TrackPath.TERRAIN;
+						break;
+					case "Hybrid":
+						hybridToolStripMenuItem.Checked = true;
+						_ps.Path.MapType = TrackPath.HYBRID;
+						break;
+					default:
+						roadmapToolStripMenuItem.Checked = true;
+						_ps.Path.MapType = TrackPath.ROADMAP;
+						break;
+				}
+				updateRideMap();
+			//}
+		}
+
+		private void pathResolutionToolStripMenuItem_Click(object sender, EventArgs e) {
+			tenMToolStripMenuItem.Checked = false;
+			fifteenMToolStripMenuItem.Checked = false;
+			twentyMToolStripMenuItem.Checked = false;
+			switch (sender.ToString()) {
+				case "10m":
+					tenMToolStripMenuItem.Checked = true;
+					_ps.WaypointSeperation = PathfinderStrategy.TEN_M;
+					break;
+				case "15m":
+					fifteenMToolStripMenuItem.Checked = true;
+					_ps.WaypointSeperation = PathfinderStrategy.FIFTEEN_M;
+					break;
+				case "20m":
+					twentyMToolStripMenuItem.Checked = true;
+					_ps.WaypointSeperation = PathfinderStrategy.TWENTY_M;
+					break;
+				case "30m":
+					thirtyMToolStripMenuItem.Checked = true;
+					_ps.WaypointSeperation = PathfinderStrategy.THIRTY_M;
+					break;
+				default:
+					thirtyMToolStripMenuItem.Checked = true;
+					_ps.WaypointSeperation = PathfinderStrategy.THIRTY_M;
+					break;
+			}
+		}
+
+		private void revGeoToolStripMenuItem_Click(object sender, EventArgs e) {
+			points250ToolStripMenuItem.Checked = false;
+			points500ToolStripMenuItem.Checked = false;
+			points750ToolStripMenuItem.Checked = false;
+			points1000ToolStripMenuItem.Checked = false;
+			switch (sender.ToString()) {
+				case "250 Points":
+					points250ToolStripMenuItem.Checked = true;
+					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_250;
+					break;
+				case "500 Points":
+					points500ToolStripMenuItem.Checked = true;
+					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_500;
+					break;
+				case "750 Points":
+					points750ToolStripMenuItem.Checked = true;
+					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_750;
+					break;
+				case "1000 Points":
+					points1000ToolStripMenuItem.Checked = true;
+					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_1000;
+					break;
+				default:
+					points250ToolStripMenuItem.Checked = true;
+					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_250;
+					break;
+			}
 		}
 
 	}
