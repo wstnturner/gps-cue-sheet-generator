@@ -79,6 +79,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GpxParser.cs" />
+    <Compile Include="PathfinderAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PathfinderAboutBox.Designer.cs">
+      <DependentUpon>PathfinderAboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="PointOfInterest.cs" />
     <Compile Include="TrackPath.cs" />
     <Compile Include="PathfinderStrategy.cs" />
@@ -89,13 +95,13 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="PathfinderAboutBox.resx">
+      <DependentUpon>PathfinderAboutBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TurnViewer.resx">
-      <DependentUpon>TurnViewer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -112,13 +118,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Location.cs" />
-    <Compile Include="TurnExaminerStrategy.cs" />
-    <Compile Include="TurnViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TurnViewer.Designer.cs">
-      <DependentUpon>TurnViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="UtmPoint.cs" />
     <Compile Include="UtmPointSet.cs" />
     <Compile Include="Waypoint.cs" />

@@ -21,17 +21,23 @@ namespace CueSheetGenerator {
 		public MainForm() {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
-			updateMap();
+			updateRideMap();
 			_ps.finishedProcessing += updateDirections;
 			finishedProcessing += updateDirections;
 			_ps.processedWaypoint += updateProgressBar;
 			processedWaypoint += updateProgressBar;
 		}
 
-		void updateMap() {
+		void updateRideMap() {
 			// show image in picturebox
-			mapPictureBox.Image = _ps.getMap(mapPictureBox.Height, mapPictureBox.Width);
-			if (mapPictureBox.Image.Height == 1 && mapPictureBox.Image.Width == 1)
+			mapPictureBox.Image = _ps.getRideMap(mapPictureBox.Height, mapPictureBox.Width);
+			if (mapPictureBox.Image == null)
+				toolStripStatusLabel1.Text = _ps.Web.Status;
+		}
+
+		void updateTurnMap() {
+			turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
+			if (turnPictureBox.Image == null)
 				toolStripStatusLabel1.Text = _ps.Web.Status;
 		}
 
@@ -53,30 +59,28 @@ namespace CueSheetGenerator {
 				this.Invoke(finishedProcessing);
 			else {
 				directionsTextBox.Clear();
-				directionsTextBox.Text = _ps.getDirections(unitsToolStripComboBox.SelectedItem.ToString());
+				directionsTextBox.Text = _ps.getDirections(_units);
 				toolStripStatusLabel1.Text = _ps.Status;
-				toolStripStatusLabel2.Text = "Done";
+				toolStripStatusLabel2.Text = "Done,";
 				lookupToolStripProgressBar.Value = 0;
+				fileToolStripMenuItem.Enabled = true;
+				updateTurnMap();
+				toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
 			}
 		}
 
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
 			_ps.processInput(openGpxFileDialog.FileName);
-			updateMap();
+			fileToolStripMenuItem.Enabled = false;
+			updateRideMap();
+			directionsTextBox.Clear();
 			//initialize the progress bar
 			lookupToolStripProgressBar.Maximum = _ps.Path.Waypoints.Count;
-			toolStripStatusLabel2.Text = "Processing";
+			toolStripStatusLabel2.Text = "Processing,";
 		}
 
 		private void openToolStripMenuItem1_Click(object sender, EventArgs e) {
 			openGpxFileDialog.ShowDialog();
-		}
-
-		private void turnViewerToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (_ps.Directions.Turns != null && _ps.Directions.Turns.Count > 0) {
-				TurnViewer tv = new TurnViewer(_ps.Directions.Turns, _ps.Web, this);
-				tv.Show();
-			}
 		}
 
 		private void unitsToolStripComboBox_Click(object sender, EventArgs e) {
@@ -84,7 +88,7 @@ namespace CueSheetGenerator {
 		}
 
 		private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
-			if (_ps != null) updateMap();
+			if (_ps != null) updateRideMap();
 		}
 
 		private void mapPictureBox_MouseMove(object sender, MouseEventArgs e) {
@@ -93,8 +97,9 @@ namespace CueSheetGenerator {
 				_ps.getWaypointFromMousePosition(pt);
 				if (_ps.WaypointFromMouse != null)
 					toolStripStatusLabel3.Text = _ps.Path.UpperLeft.Zone + " E "
-						+ Math.Round(_ps.WaypointFromMouse.Easting, 2).ToString()
-						+ ", " + "N " + Math.Round(_ps.WaypointFromMouse.Northing, 2).ToString();
+						+ Math.Round(_ps.WaypointFromMouse.Easting).ToString()
+						+ ", " + "N " + Math.Round(_ps.WaypointFromMouse.Northing).ToString()
+						+ ",";
 			}
 		}
 
@@ -109,11 +114,64 @@ namespace CueSheetGenerator {
 		}
 
 		private void saveCsvFileDialog_FileOk(object sender, CancelEventArgs e) {
-			_ps.writeCsvFile(saveCsvFileDialog.FileName, unitsToolStripComboBox.SelectedItem.ToString());
+			_ps.writeCsvFile(saveCsvFileDialog.FileName, _units);
 			toolStripStatusLabel1.Text = _ps.Status;
 		}
 
+		public const string METERS = "Meters", KM = "Kilometers", MILES = "Miles";
+		string _units = MILES;
 
+		private void unitsToolStripMenuItem_Click(object sender, EventArgs e) {
+			metersToolStripMenuItem.Checked = false;
+			kilometersToolStripMenuItem.Checked = false;
+			milesToolStripMenuItem.Checked = false;
+			switch (sender.ToString()) {
+				case "Meters":
+					metersToolStripMenuItem.Checked = true;
+					_units = METERS;
+					break;
+				case "Kilometers":
+					kilometersToolStripMenuItem.Checked = true;
+					_units = KM;
+					break;
+				case "Miles":
+					milesToolStripMenuItem.Checked = true;
+					_units = MILES;
+					break;
+				default:
+					milesToolStripMenuItem.Checked = true;
+					break;
+			}
+			updateDirections();
+		}
+
+		private void turnPictureBox_SizeChanged(object sender, EventArgs e) {
+			if (_ps != null) updateTurnMap();
+		}
+
+		private void nextButton_Click(object sender, EventArgs e) {
+			_ps.incrementTurn();
+			updateTurnMap();
+			toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+		}
+
+		private void backButton_Click(object sender, EventArgs e) {
+			_ps.decrementTurn();
+			updateTurnMap();
+			toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+		}
+
+		private void deleteButton_Click(object sender, EventArgs e) {
+			_ps.deleteCurrentTurn();
+			updateTurnMap();
+			if (_ps.Directions.Turns != null)
+				updateDirections();
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+			PathfinderAboutBox p = new PathfinderAboutBox();
+			p.Show();
+		}
 
 	}
 

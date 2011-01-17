@@ -29,13 +29,15 @@
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.directionsTextBox = new System.Windows.Forms.TextBox();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.openToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.turnViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.unitsToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+			this.unitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.metersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.kilometersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.milesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.howDoIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,12 +50,13 @@
 			this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.nextButton = new System.Windows.Forms.Button();
+			this.backButton = new System.Windows.Forms.Button();
+			this.deleteButton = new System.Windows.Forms.Button();
+			this.editButton = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
+			this.turnPictureBox = new System.Windows.Forms.PictureBox();
+			this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -63,7 +66,7 @@
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.groupBox3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.turnPictureBox)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -121,7 +124,7 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
+            this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -130,21 +133,21 @@
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+			this.fileToolStripMenuItem.Text = "File";
+			// 
 			// openToolStripMenuItem
 			// 
-			this.openToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem1,
-            this.saveToolStripMenuItem});
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
-			this.openToolStripMenuItem.Text = "File";
-			// 
-			// openToolStripMenuItem1
-			// 
-			this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
-			this.openToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-			this.openToolStripMenuItem1.Text = "Open";
-			this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Text = "Open";
+			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -156,37 +159,54 @@
 			// viewToolStripMenuItem
 			// 
 			this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.turnViewerToolStripMenuItem,
             this.optionsToolStripMenuItem,
-            this.unitsToolStripComboBox});
+            this.unitsToolStripMenuItem});
 			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
 			this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
 			this.viewToolStripMenuItem.Text = "View";
 			// 
-			// turnViewerToolStripMenuItem
-			// 
-			this.turnViewerToolStripMenuItem.Name = "turnViewerToolStripMenuItem";
-			this.turnViewerToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-			this.turnViewerToolStripMenuItem.Text = "Turn Viewer";
-			this.turnViewerToolStripMenuItem.Click += new System.EventHandler(this.turnViewerToolStripMenuItem_Click);
-			// 
 			// optionsToolStripMenuItem
 			// 
+			this.optionsToolStripMenuItem.Enabled = false;
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.optionsToolStripMenuItem.Text = "Options";
 			// 
-			// unitsToolStripComboBox
+			// unitsToolStripMenuItem
 			// 
-			this.unitsToolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
-			this.unitsToolStripComboBox.Items.AddRange(new object[] {
-            "Meters",
-            "Kilometers",
-            "Miles"});
-			this.unitsToolStripComboBox.Name = "unitsToolStripComboBox";
-			this.unitsToolStripComboBox.Size = new System.Drawing.Size(121, 150);
-			this.unitsToolStripComboBox.Text = "Miles";
-			this.unitsToolStripComboBox.Click += new System.EventHandler(this.unitsToolStripComboBox_Click);
+			this.unitsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.metersToolStripMenuItem,
+            this.kilometersToolStripMenuItem,
+            this.milesToolStripMenuItem});
+			this.unitsToolStripMenuItem.Name = "unitsToolStripMenuItem";
+			this.unitsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.unitsToolStripMenuItem.Text = "Units";
+			// 
+			// metersToolStripMenuItem
+			// 
+			this.metersToolStripMenuItem.Name = "metersToolStripMenuItem";
+			this.metersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+			this.metersToolStripMenuItem.Tag = "Meters";
+			this.metersToolStripMenuItem.Text = "Meters";
+			this.metersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
+			// 
+			// kilometersToolStripMenuItem
+			// 
+			this.kilometersToolStripMenuItem.Name = "kilometersToolStripMenuItem";
+			this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+			this.kilometersToolStripMenuItem.Tag = "Kilometers";
+			this.kilometersToolStripMenuItem.Text = "Kilometers";
+			this.kilometersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
+			// 
+			// milesToolStripMenuItem
+			// 
+			this.milesToolStripMenuItem.Checked = true;
+			this.milesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.milesToolStripMenuItem.Name = "milesToolStripMenuItem";
+			this.milesToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+			this.milesToolStripMenuItem.Tag = "Miles";
+			this.milesToolStripMenuItem.Text = "Miles";
+			this.milesToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -200,14 +220,15 @@
 			// howDoIToolStripMenuItem
 			// 
 			this.howDoIToolStripMenuItem.Name = "howDoIToolStripMenuItem";
-			this.howDoIToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+			this.howDoIToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.howDoIToolStripMenuItem.Text = "How do I";
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// statusStrip1
 			// 
@@ -215,7 +236,8 @@
             this.toolStripStatusLabel1,
             this.lookupToolStripProgressBar,
             this.toolStripStatusLabel2,
-            this.toolStripStatusLabel3});
+            this.toolStripStatusLabel3,
+            this.toolStripStatusLabel4});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 544);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(792, 22);
@@ -272,21 +294,65 @@
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.button4);
-			this.splitContainer1.Panel2.Controls.Add(this.button3);
-			this.splitContainer1.Panel2.Controls.Add(this.button2);
-			this.splitContainer1.Panel2.Controls.Add(this.button1);
+			this.splitContainer1.Panel2.Controls.Add(this.nextButton);
+			this.splitContainer1.Panel2.Controls.Add(this.backButton);
+			this.splitContainer1.Panel2.Controls.Add(this.deleteButton);
+			this.splitContainer1.Panel2.Controls.Add(this.editButton);
 			this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
 			this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
 			this.splitContainer1.Size = new System.Drawing.Size(792, 520);
 			this.splitContainer1.SplitterDistance = 532;
 			this.splitContainer1.TabIndex = 4;
 			// 
+			// nextButton
+			// 
+			this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.nextButton.Location = new System.Drawing.Point(187, 494);
+			this.nextButton.Name = "nextButton";
+			this.nextButton.Size = new System.Drawing.Size(57, 23);
+			this.nextButton.TabIndex = 6;
+			this.nextButton.Text = "Next >>";
+			this.nextButton.UseVisualStyleBackColor = true;
+			this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
+			// 
+			// backButton
+			// 
+			this.backButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.backButton.Location = new System.Drawing.Point(124, 494);
+			this.backButton.Name = "backButton";
+			this.backButton.Size = new System.Drawing.Size(57, 23);
+			this.backButton.TabIndex = 5;
+			this.backButton.Text = "<< Back";
+			this.backButton.UseVisualStyleBackColor = true;
+			this.backButton.Click += new System.EventHandler(this.backButton_Click);
+			// 
+			// deleteButton
+			// 
+			this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.deleteButton.Location = new System.Drawing.Point(57, 494);
+			this.deleteButton.Name = "deleteButton";
+			this.deleteButton.Size = new System.Drawing.Size(57, 23);
+			this.deleteButton.TabIndex = 4;
+			this.deleteButton.Text = "Delete";
+			this.deleteButton.UseVisualStyleBackColor = true;
+			this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+			// 
+			// editButton
+			// 
+			this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.editButton.Enabled = false;
+			this.editButton.Location = new System.Drawing.Point(3, 494);
+			this.editButton.Name = "editButton";
+			this.editButton.Size = new System.Drawing.Size(48, 23);
+			this.editButton.TabIndex = 3;
+			this.editButton.Text = "Edit";
+			this.editButton.UseVisualStyleBackColor = true;
+			// 
 			// groupBox3
 			// 
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Controls.Add(this.pictureBox1);
+			this.groupBox3.Controls.Add(this.turnPictureBox);
 			this.groupBox3.Location = new System.Drawing.Point(3, 225);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(250, 263);
@@ -294,54 +360,21 @@
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Turn Inspector";
 			// 
-			// pictureBox1
+			// turnPictureBox
 			// 
-			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pictureBox1.Location = new System.Drawing.Point(3, 16);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(244, 244);
-			this.pictureBox1.TabIndex = 0;
-			this.pictureBox1.TabStop = false;
+			this.turnPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.turnPictureBox.Location = new System.Drawing.Point(3, 16);
+			this.turnPictureBox.Name = "turnPictureBox";
+			this.turnPictureBox.Size = new System.Drawing.Size(244, 244);
+			this.turnPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.turnPictureBox.TabIndex = 0;
+			this.turnPictureBox.TabStop = false;
+			this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
 			// 
-			// button1
+			// toolStripStatusLabel4
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button1.Location = new System.Drawing.Point(3, 494);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(48, 23);
-			this.button1.TabIndex = 3;
-			this.button1.Text = "Edit";
-			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button2.Location = new System.Drawing.Point(57, 494);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(57, 23);
-			this.button2.TabIndex = 4;
-			this.button2.Text = "Delete";
-			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// button3
-			// 
-			this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button3.Location = new System.Drawing.Point(124, 494);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(57, 23);
-			this.button3.TabIndex = 5;
-			this.button3.Text = "<< Back";
-			this.button3.UseVisualStyleBackColor = true;
-			// 
-			// button4
-			// 
-			this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button4.Location = new System.Drawing.Point(187, 494);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(57, 23);
-			this.button4.TabIndex = 6;
-			this.button4.Text = "Next >>";
-			this.button4.UseVisualStyleBackColor = true;
+			this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+			this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 17);
 			// 
 			// MainForm
 			// 
@@ -367,7 +400,7 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.turnPictureBox)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -384,27 +417,30 @@
 		private System.Windows.Forms.SaveFileDialog saveCsvFileDialog;
 		private System.Windows.Forms.PrintDialog printDialog1;
 		private System.Windows.Forms.TextBox directionsTextBox;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem turnViewerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem howDoIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.ToolStripComboBox unitsToolStripComboBox;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripProgressBar lookupToolStripProgressBar;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-		private System.Windows.Forms.Button button4;
-		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button nextButton;
+		private System.Windows.Forms.Button backButton;
+		private System.Windows.Forms.Button deleteButton;
+		private System.Windows.Forms.Button editButton;
 		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.PictureBox turnPictureBox;
+		private System.Windows.Forms.ToolStripMenuItem unitsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem metersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem kilometersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem milesToolStripMenuItem;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
 	}
 }
 
