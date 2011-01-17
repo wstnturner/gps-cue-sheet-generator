@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CueSheetGenerator</RootNamespace>
-    <AssemblyName>CueSheetGenerator</AssemblyName>
+    <AssemblyName>Pathfinder</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>system-log-out_1.ico</ApplicationIcon>

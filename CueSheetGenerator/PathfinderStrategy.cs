@@ -92,22 +92,24 @@ namespace CueSheetGenerator {
 		}
 
 		public void incrementTurn() {
-			if (_directions.Turns != null 
+			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count - 1 > _currentTurn)
 				_currentTurn++;
 			else _currentTurn = 0;
 		}
 
 		public void decrementTurn() {
-			if (_directions.Turns != null && 0 < _currentTurn)
+			if (_directions != null && _directions.Turns != null 
+				&& 0 < _currentTurn)
 				_currentTurn--;
-			else if (_directions.Turns != null)
+			else if (_directions != null && _directions.Turns != null)
 				_currentTurn = _directions.Turns.Count - 1;
 			else _currentTurn = 0;
 		}
 
 		public void deleteCurrentTurn() {
-			if (_directions.Turns != null && _directions.Turns.Count != 0) {
+			if (_directions != null && _directions.Turns != null 
+				&& _directions.Turns.Count != 0) {
 				_directions.Turns.RemoveAt(_currentTurn);
 				if(_currentTurn > 0) _currentTurn--;
 			}
@@ -115,7 +117,8 @@ namespace CueSheetGenerator {
 
 		public string getCurrentTurnString() {
 			string turnString = "";
-			if (_directions.Turns != null && _directions.Turns.Count != 0) {
+			if (_directions != null && _directions.Turns != null 
+				&& _directions.Turns.Count != 0) {
 				turnString = (_currentTurn + 1).ToString() + ") "
 					+ _directions.Turns[_currentTurn].Locs[0].StreetName + " to "
 					+ _directions.Turns[_currentTurn].Locs[2].StreetName + ": "
@@ -154,6 +157,7 @@ namespace CueSheetGenerator {
 
 		public string getDirections(string units) {
 			//case for meters, kilometers, and miles
+			if (_locations == null) return "";
 			if (_locations.Count > 0 && _directions.Turns != null && _directions.Turns.Count > 0) {
 				_directionsString = new StringBuilder(("1) Start at " + _locations[0].Address
 					+ "\r\ngo " + getDistanceInUnits(_directions.Turns[0].Distance, units)
