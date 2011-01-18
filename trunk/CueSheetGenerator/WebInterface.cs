@@ -23,25 +23,27 @@ namespace CueSheetGenerator {
 		/// </summary>
 		/// <param name="_URL">URL address to download image</param>
 		/// <returns>Image</returns>
-		public Image downloadImage(string _URL) {
-			Image _tmpImage = null;
+		public Image downloadImage(string url) {
+			Image tmpImage = null;
 			try {
 				// Open a connection
-				HttpWebRequest _HttpWebRequest = (HttpWebRequest)HttpWebRequest.Create(_URL);
-				_HttpWebRequest.AllowWriteStreamBuffering = true;
+				HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+				httpWebRequest.AllowWriteStreamBuffering = true;
+				// set timeout for 5 seconds
+		        httpWebRequest.Timeout = 5000;  
 				// Request response:
-				WebResponse _WebResponse = _HttpWebRequest.GetResponse();
+				WebResponse webResponse = httpWebRequest.GetResponse();
 				// Open data stream:
-				Stream _WebStream = _WebResponse.GetResponseStream();
+				Stream webStream = webResponse.GetResponseStream();
 				// convert webstream to image
-				_tmpImage = Image.FromStream(_WebStream);
+				tmpImage = Image.FromStream(webStream);
 				// Cleanup
-				_WebResponse.Close();
-				_WebResponse.Close();
+				webResponse.Close();
+				webResponse.Close();
 			} catch (Exception e) {
 				Status = e.Message;
 			}
-			return _tmpImage;
+			return tmpImage;
 		}
 
 		//adapted from:
@@ -56,6 +58,8 @@ namespace CueSheetGenerator {
 			try {
 				// Open a connection
 				HttpWebRequest webRequestObject = (HttpWebRequest)HttpWebRequest.Create(url);
+				// set timeout for 5 seconds
+				webRequestObject.Timeout = 5000; 
 				// Request response:
 				WebResponse response = webRequestObject.GetResponse();
 				// Open data stream:
