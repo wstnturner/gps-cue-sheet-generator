@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CueSheetGenerator {
+	//waypoint class, contains lat lon, UTM point and key
 	class Waypoint : IComparable {
 		double _lat = 0, _lon = 0;
 		string _zone = "T10";
@@ -54,11 +55,13 @@ namespace CueSheetGenerator {
 			get { return long.Parse(_key); }
 		}
 
+		//the key which to sort the waypoints by
 		public void setKey() {
 			_key = ((int)(_northing / 10.0)).ToString() 
 				+ ((int)(_easting / 10.0)).ToString();
 		}
 
+		//implements IComparable 
 		public int CompareTo(object obj) {
 			Waypoint otherwaypoint = obj as Waypoint;
 			if (otherwaypoint != null)

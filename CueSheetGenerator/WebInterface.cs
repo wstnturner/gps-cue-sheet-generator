@@ -7,6 +7,8 @@ using System.IO;
 using System.Drawing;
 
 namespace CueSheetGenerator {
+	//class through which to retrieve web pages (XML) and images (maps)
+	//from google mosly
 	class WebInterface {
 		string _status = "Ok";
 
