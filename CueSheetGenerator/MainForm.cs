@@ -24,6 +24,7 @@ namespace CueSheetGenerator {
 			updateRideMap();
 			_ps.finishedProcessing += updateDirections;
 			finishedProcessing += updateDirections;
+			finishedProcessing += reEnableControls;
 			_ps.processedWaypoint += updateProgressBar;
 			processedWaypoint += updateProgressBar;
 		}
@@ -36,11 +37,9 @@ namespace CueSheetGenerator {
 		}
 
 		void updateTurnMap() {
-			if (_ps.Directions.Turns != null) {
-				turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
-				if (turnPictureBox.Image == null)
-					toolStripStatusLabel1.Text = _ps.Web.Status;
-			}
+			turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
+			if (turnPictureBox.Image == null)
+				toolStripStatusLabel1.Text = _ps.Web.Status;
 		}
 
 		void updateProgressBar() {
@@ -60,25 +59,34 @@ namespace CueSheetGenerator {
 			if (directionsTextBox.InvokeRequired) {
 				this.Invoke(finishedProcessing);
 			} else {
-				if (_ps.Directions.Turns != null) {
-					directionsTextBox.Clear();
-					directionsTextBox.Text = _ps.getDirections(_units);
-					toolStripStatusLabel1.Text = _ps.Status;
-					toolStripStatusLabel2.Text = "Done,";
-					lookupToolStripProgressBar.Value = 0;
-					fileToolStripMenuItem.Enabled = true;
-					updateTurnMap();
-					toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
-				}
+				directionsTextBox.Clear();
+				directionsTextBox.Text = _ps.getDirections(_units);
+				toolStripStatusLabel1.Text = _ps.Status;
+				toolStripStatusLabel2.Text = "Done,";
+				lookupToolStripProgressBar.Value = 0;
+				updateTurnMap();
+				toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
 			}
+		}
+
+		public void reEnableControls() {
+			fileToolStripMenuItem.Enabled = true;
+			viewToolStripMenuItem.Enabled = true;
+			deleteButton.Enabled = true;
+			backButton.Enabled = true;
+			nextButton.Enabled = true;
 		}
 
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
 			_ps.processInput(openGpxFileDialog.FileName);
 			turnPictureBox.Image = null;
-			fileToolStripMenuItem.Enabled = false;
-			updateRideMap();
 			directionsTextBox.Clear();
+			fileToolStripMenuItem.Enabled = false;
+			viewToolStripMenuItem.Enabled = false;
+			deleteButton.Enabled = false;
+			backButton.Enabled = false;
+			nextButton.Enabled = false;
+			updateRideMap();
 			//initialize the progress bar
 			lookupToolStripProgressBar.Maximum = _ps.Path.Waypoints.Count;
 			toolStripStatusLabel2.Text = "Processing,";

@@ -93,9 +93,9 @@ namespace CueSheetGenerator {
 			}
 			// download web image
 			if (turnPath != null && turnPath.Waypoints.Count > 0) {
-				image = _web.downloadImage(_baseMapUrl + mapSize 
+				image = _web.downloadImage(_baseMapUrl + mapSize
 					+ turnPath.getPathString() + "&sensor=false");
-				image = drawWaypoints(image, turnPath);
+					image = drawWaypoints(image, turnPath);
 			}
 			return image;
 		}

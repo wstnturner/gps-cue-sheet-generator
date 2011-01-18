@@ -49,6 +49,10 @@ namespace CueSheetGenerator {
 
 		//get pixels of two particular shades
 		public void processImage(Bitmap b) {
+			if (b == null) {
+				_mapLocated = false;
+				return;
+			}
 			_height = b.Height;
 			_width = b.Width;
 			_col1s.Clear();

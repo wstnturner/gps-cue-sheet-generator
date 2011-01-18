@@ -47,6 +47,7 @@
 			this.tenMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.fifteenMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.twentyMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.thirtyMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.revGeoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.points250ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.points500ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,7 +72,6 @@
 			this.editButton = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.turnPictureBox = new System.Windows.Forms.PictureBox();
-			this.thirtyMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -242,28 +242,28 @@
 			this.roadmapToolStripMenuItem.Checked = true;
 			this.roadmapToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.roadmapToolStripMenuItem.Name = "roadmapToolStripMenuItem";
-			this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.roadmapToolStripMenuItem.Text = "Roadmap";
 			this.roadmapToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
 			// 
 			// satelliteToolStripMenuItem
 			// 
 			this.satelliteToolStripMenuItem.Name = "satelliteToolStripMenuItem";
-			this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.satelliteToolStripMenuItem.Text = "Satellite";
 			this.satelliteToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
 			// 
 			// terrainToolStripMenuItem
 			// 
 			this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
-			this.terrainToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.terrainToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.terrainToolStripMenuItem.Text = "Terrain";
 			this.terrainToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
 			// 
 			// hybridToolStripMenuItem
 			// 
 			this.hybridToolStripMenuItem.Name = "hybridToolStripMenuItem";
-			this.hybridToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.hybridToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
 			this.hybridToolStripMenuItem.Text = "Hybrid";
 			this.hybridToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
 			// 
@@ -281,23 +281,32 @@
 			// tenMToolStripMenuItem
 			// 
 			this.tenMToolStripMenuItem.Name = "tenMToolStripMenuItem";
-			this.tenMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.tenMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
 			this.tenMToolStripMenuItem.Text = "10m";
 			this.tenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
 			// 
 			// fifteenMToolStripMenuItem
 			// 
 			this.fifteenMToolStripMenuItem.Name = "fifteenMToolStripMenuItem";
-			this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
 			this.fifteenMToolStripMenuItem.Text = "15m";
 			this.fifteenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
 			// 
 			// twentyMToolStripMenuItem
 			// 
 			this.twentyMToolStripMenuItem.Name = "twentyMToolStripMenuItem";
-			this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
 			this.twentyMToolStripMenuItem.Text = "20m";
 			this.twentyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
+			// 
+			// thirtyMToolStripMenuItem
+			// 
+			this.thirtyMToolStripMenuItem.Checked = true;
+			this.thirtyMToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.thirtyMToolStripMenuItem.Name = "thirtyMToolStripMenuItem";
+			this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+			this.thirtyMToolStripMenuItem.Text = "30m";
+			this.thirtyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
 			// 
 			// revGeoToolStripMenuItem
 			// 
@@ -315,28 +324,28 @@
 			this.points250ToolStripMenuItem.Checked = true;
 			this.points250ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.points250ToolStripMenuItem.Name = "points250ToolStripMenuItem";
-			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points250ToolStripMenuItem.Text = "250 Points";
 			this.points250ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points500ToolStripMenuItem
 			// 
 			this.points500ToolStripMenuItem.Name = "points500ToolStripMenuItem";
-			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points500ToolStripMenuItem.Text = "500 Points";
 			this.points500ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points750ToolStripMenuItem
 			// 
 			this.points750ToolStripMenuItem.Name = "points750ToolStripMenuItem";
-			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points750ToolStripMenuItem.Text = "750 Points";
 			this.points750ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points1000ToolStripMenuItem
 			// 
 			this.points1000ToolStripMenuItem.Name = "points1000ToolStripMenuItem";
-			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points1000ToolStripMenuItem.Text = "1000 Points";
 			this.points1000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
@@ -444,6 +453,7 @@
 			// nextButton
 			// 
 			this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.nextButton.Enabled = false;
 			this.nextButton.Location = new System.Drawing.Point(187, 494);
 			this.nextButton.Name = "nextButton";
 			this.nextButton.Size = new System.Drawing.Size(57, 23);
@@ -455,6 +465,7 @@
 			// backButton
 			// 
 			this.backButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.backButton.Enabled = false;
 			this.backButton.Location = new System.Drawing.Point(124, 494);
 			this.backButton.Name = "backButton";
 			this.backButton.Size = new System.Drawing.Size(57, 23);
@@ -466,6 +477,7 @@
 			// deleteButton
 			// 
 			this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.deleteButton.Enabled = false;
 			this.deleteButton.Location = new System.Drawing.Point(57, 494);
 			this.deleteButton.Name = "deleteButton";
 			this.deleteButton.Size = new System.Drawing.Size(57, 23);
@@ -507,15 +519,6 @@
 			this.turnPictureBox.TabIndex = 0;
 			this.turnPictureBox.TabStop = false;
 			this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
-			// 
-			// thirtyMToolStripMenuItem
-			// 
-			this.thirtyMToolStripMenuItem.Checked = true;
-			this.thirtyMToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.thirtyMToolStripMenuItem.Name = "thirtyMToolStripMenuItem";
-			this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.thirtyMToolStripMenuItem.Text = "30m";
-			this.thirtyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
