@@ -20,6 +20,7 @@ namespace CueSheetGenerator {
 			set { _status = value; }
 		}
 
+		//parses the input .gpx file, get lat, lon, and elevation
 		public GpxParser(string fileName, ref TrackPath path) {
 			try {
 				StreamReader sr = new StreamReader(fileName);

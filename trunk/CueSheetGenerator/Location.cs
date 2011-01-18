@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace CueSheetGenerator {
 	class Location {
+		//location class contains location information such as
+		//waypoint, address, and helper functions to parse the
+		//returned xml from google or geonames
 		string _status = "Ok";
 		public const string OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
 		public const string SERVERS_OVERLOADED = "GEONAMES_SERVERS_OVERLOADED";
@@ -53,9 +56,9 @@ namespace CueSheetGenerator {
 		}
 
 		string _xml = "";
-
 		public string Xml { get { return _xml; } }
 
+		//constructor
 		public Location(string doc, Waypoint gpxWpt, int index) {
 			_xml = doc;
 			if (_xml.Contains("xml"))

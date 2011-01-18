@@ -59,14 +59,16 @@ namespace CueSheetGenerator {
 		List<Waypoint> _pathWaypoints = null;
 		List<Waypoint> _sortedWaypoints = null;
 
+		//1nd locating UTM point
 		internal Waypoint UpperLeft {
 			get { return _sortedWaypoints[_sortedWaypoints.Count - 1]; }
 		}
-
+		//2nd locating UTM point
 		internal Waypoint LowerRight {
 			get { return _sortedWaypoints[0]; }
 		}
 
+		//constructor
 		public TrackPath() {
 			_waypoints = new List<Waypoint>();
 			_pathWaypoints = new List<Waypoint>();
@@ -107,6 +109,7 @@ namespace CueSheetGenerator {
 				_pathWaypoints = _waypoints;
 		}
 
+		//returns a string that represents the URL of the google static maps path
 		public string getPathString() {
 			preProcessPath();
 			StringBuilder pathString = new StringBuilder();

@@ -9,6 +9,8 @@ namespace UtmConvert {
 	//Steven Dutch, Natural and Applied Sciences, University of Wisconsin - Green Bay
 	//http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
 
+	//this is really intense, but thoroughly debugged, so dont bother trying to 
+	//figure out how it works, it converts lat lon to UTM and vice versa thats it
     public class ConvertLatLonUtm {
         Datum _datum;
         public Datum Datum {

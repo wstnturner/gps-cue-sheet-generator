@@ -23,34 +23,39 @@ namespace CueSheetGenerator {
 
 		List<Waypoint> _waypoints = null;
 
+		//initailize the waypoints with UTM data
+		//this seems like a reasonable place to put this but it seams
+		//to have caused some pain, it may be more appropriate to put this
+		//in the PathfinderStrategy class
 		public DirectionsGenerator(List<Waypoint> waypoints) {
 			_waypoints = waypoints;
 			_utmConvert = new ConvertLatLonUtm();
 			double radLat = ConvertDegRad.getRadians(_waypoints[0].Lat);
 			double radLon = ConvertDegRad.getRadians(_waypoints[0].Lon);
 			_utmConvert.convertLatLonToUtm(radLat, radLon);
-			waypoints[0].Easting = _utmConvert.Easting;
-			waypoints[0].Northing = _utmConvert.Northing;
-			waypoints[0].Zone = _utmConvert.Zone;
-			waypoints[0].Distance = 0.0;
-			waypoints[0].setKey();
+			_waypoints[0].Easting = _utmConvert.Easting;
+			_waypoints[0].Northing = _utmConvert.Northing;
+			_waypoints[0].Zone = _utmConvert.Zone;
+			_waypoints[0].Distance = 0.0;
+			_waypoints[0].setKey();
 			for (int i = 1; i < _waypoints.Count; i++) {
 				radLat = ConvertDegRad.getRadians(_waypoints[i].Lat);
 				radLon = ConvertDegRad.getRadians(_waypoints[i].Lon);
 				_utmConvert.convertLatLonToUtm(radLat, radLon);
-				waypoints[i].Easting = _utmConvert.Easting;
-				waypoints[i].Northing = _utmConvert.Northing;
-				x1 = waypoints[i-1].Easting;
-				y1 = waypoints[i-1].Northing;
-				x2 = waypoints[i].Easting;
-				y2 = waypoints[i].Northing;
-				waypoints[i].setKey();
+				_waypoints[i].Easting = _utmConvert.Easting;
+				_waypoints[i].Northing = _utmConvert.Northing;
+				x1 = _waypoints[i - 1].Easting;
+				y1 = _waypoints[i - 1].Northing;
+				x2 = _waypoints[i].Easting;
+				y2 = _waypoints[i].Northing;
+				_waypoints[i].setKey();
 				_totalDistance += Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
-				waypoints[i].Zone = _utmConvert.Zone;
-				waypoints[i].Distance = _totalDistance;
+				_waypoints[i].Zone = _utmConvert.Zone;
+				_waypoints[i].Distance = _totalDistance;
 			}
 		}
 
+		//computes the average of a list of waypoints
 		public Waypoint averageWaypoints(List<Waypoint> list) {
 			double lat = 0.0, lon = 0.0, east = 0.0, north = 0.0, dist = 0.0, ele = 0.0;
 			foreach (Waypoint wpt in list) {
@@ -72,6 +77,7 @@ namespace CueSheetGenerator {
 			return temp;
 		}
 
+		//generates turn directions given a list of locations
 		public void generateDirections(List<Location> locations) {
 			List<Waypoint> tempWpts = new List<Waypoint>();
 			_locs = locations;
@@ -112,6 +118,7 @@ namespace CueSheetGenerator {
 			for (int i = 0; i < _turns.Count; i++) computeTurn(i);
 		}
 
+		//computes the distance between each turn
 		public void computeTurnDistances() {
 			if (_turns.Count > 0)
 				_turns[0].Distance = _turns[0].Locs[1].GpxWaypoint.Distance;
@@ -148,7 +155,7 @@ namespace CueSheetGenerator {
 			else _turns[i].TurnDirection = "null";
 		}
 
-
+		//calculates the angles of the pre and post turn line segments
 		double calculateTheta(double xDelta, double yDelta) {
 			double theta = 0.0;
 			if (xDelta == 0.0 && yDelta > 0.0) theta = 90.0;
@@ -163,7 +170,7 @@ namespace CueSheetGenerator {
 		}
 	}
 
-
+	//helper class Turn
 	class Turn {
 		Location[] _locs;
 		double _distance = 0.0;

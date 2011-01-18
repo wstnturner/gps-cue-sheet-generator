@@ -96,6 +96,7 @@ namespace CueSheetGenerator {
 			return top;
 		}
 
+		//sets a correspondence between the image pixels and UTM coordinates
 		public void setCorrespondence(Waypoint wpt1, Waypoint wpt2) {
 			double dx1 = wpt2.Easting - wpt1.Easting;
 			double dy1 = wpt2.Northing - wpt1.Northing;

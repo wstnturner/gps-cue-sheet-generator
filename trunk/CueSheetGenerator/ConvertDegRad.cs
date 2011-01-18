@@ -5,6 +5,10 @@ using System.Text;
 
 namespace UtmConvert {
     public static class ConvertDegRad {
+		//this class is really overkill for what we are trying to do
+		//all we need is a basic radian to degree converter and vice versa 
+		//but this is code I am reusing from another project that works with
+		//lots of strings, so what the hell.
 
 		public delegate void updateErrorEventHandler(Exception error);
 		public static event updateErrorEventHandler updateErrorEvent;
