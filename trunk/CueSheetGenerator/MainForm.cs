@@ -36,9 +36,11 @@ namespace CueSheetGenerator {
 		}
 
 		void updateTurnMap() {
-			turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
-			if (turnPictureBox.Image == null)
-				toolStripStatusLabel1.Text = _ps.Web.Status;
+			if (_ps.Directions.Turns != null) {
+				turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
+				if (turnPictureBox.Image == null)
+					toolStripStatusLabel1.Text = _ps.Web.Status;
+			}
 		}
 
 		void updateProgressBar() {
@@ -55,22 +57,25 @@ namespace CueSheetGenerator {
 		}
 		
 		public void updateDirections() {
-			if (directionsTextBox.InvokeRequired)
+			if (directionsTextBox.InvokeRequired) {
 				this.Invoke(finishedProcessing);
-			else {
-				directionsTextBox.Clear();
-				directionsTextBox.Text = _ps.getDirections(_units);
-				toolStripStatusLabel1.Text = _ps.Status;
-				toolStripStatusLabel2.Text = "Done,";
-				lookupToolStripProgressBar.Value = 0;
-				fileToolStripMenuItem.Enabled = true;
-				updateTurnMap();
-				toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+			} else {
+				if (_ps.Directions.Turns != null) {
+					directionsTextBox.Clear();
+					directionsTextBox.Text = _ps.getDirections(_units);
+					toolStripStatusLabel1.Text = _ps.Status;
+					toolStripStatusLabel2.Text = "Done,";
+					lookupToolStripProgressBar.Value = 0;
+					fileToolStripMenuItem.Enabled = true;
+					updateTurnMap();
+					toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+				}
 			}
 		}
 
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
 			_ps.processInput(openGpxFileDialog.FileName);
+			turnPictureBox.Image = null;
 			fileToolStripMenuItem.Enabled = false;
 			updateRideMap();
 			directionsTextBox.Clear();
@@ -174,35 +179,33 @@ namespace CueSheetGenerator {
 		}
 
 		private void mapTypeToolStripMenuItem_Click(object sender, EventArgs e) {
-			//if (_ps.Path != null) {
-				roadmapToolStripMenuItem.Checked = false;
-				satelliteToolStripMenuItem.Checked = false;
-				terrainToolStripMenuItem.Checked = false;
-				hybridToolStripMenuItem.Checked = false;
-				switch (sender.ToString()) {
-					case "Roadmap":
-						roadmapToolStripMenuItem.Checked = true;
-						_ps.Path.MapType = TrackPath.ROADMAP;
-						break;
-					case "Satellite":
-						satelliteToolStripMenuItem.Checked = true;
-						_ps.Path.MapType = TrackPath.SATELLITE;
-						break;
-					case "Terrain":
-						terrainToolStripMenuItem.Checked = true;
-						_ps.Path.MapType = TrackPath.TERRAIN;
-						break;
-					case "Hybrid":
-						hybridToolStripMenuItem.Checked = true;
-						_ps.Path.MapType = TrackPath.HYBRID;
-						break;
-					default:
-						roadmapToolStripMenuItem.Checked = true;
-						_ps.Path.MapType = TrackPath.ROADMAP;
-						break;
-				}
-				updateRideMap();
-			//}
+			roadmapToolStripMenuItem.Checked = false;
+			satelliteToolStripMenuItem.Checked = false;
+			terrainToolStripMenuItem.Checked = false;
+			hybridToolStripMenuItem.Checked = false;
+			switch (sender.ToString()) {
+				case "Roadmap":
+					roadmapToolStripMenuItem.Checked = true;
+					_ps.Path.MapType = TrackPath.ROADMAP;
+					break;
+				case "Satellite":
+					satelliteToolStripMenuItem.Checked = true;
+					_ps.Path.MapType = TrackPath.SATELLITE;
+					break;
+				case "Terrain":
+					terrainToolStripMenuItem.Checked = true;
+					_ps.Path.MapType = TrackPath.TERRAIN;
+					break;
+				case "Hybrid":
+					hybridToolStripMenuItem.Checked = true;
+					_ps.Path.MapType = TrackPath.HYBRID;
+					break;
+				default:
+					roadmapToolStripMenuItem.Checked = true;
+					_ps.Path.MapType = TrackPath.ROADMAP;
+					break;
+			}
+			updateRideMap();
 		}
 
 		private void pathResolutionToolStripMenuItem_Click(object sender, EventArgs e) {

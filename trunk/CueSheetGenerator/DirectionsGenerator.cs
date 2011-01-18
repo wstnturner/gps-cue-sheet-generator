@@ -33,6 +33,7 @@ namespace CueSheetGenerator {
 			waypoints[0].Northing = _utmConvert.Northing;
 			waypoints[0].Zone = _utmConvert.Zone;
 			waypoints[0].Distance = 0.0;
+			waypoints[0].setKey();
 			for (int i = 1; i < _waypoints.Count; i++) {
 				radLat = ConvertDegRad.getRadians(_waypoints[i].Lat);
 				radLon = ConvertDegRad.getRadians(_waypoints[i].Lon);
@@ -43,6 +44,7 @@ namespace CueSheetGenerator {
 				y1 = waypoints[i-1].Northing;
 				x2 = waypoints[i].Easting;
 				y2 = waypoints[i].Northing;
+				waypoints[i].setKey();
 				_totalDistance += Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
 				waypoints[i].Zone = _utmConvert.Zone;
 				waypoints[i].Distance = _totalDistance;

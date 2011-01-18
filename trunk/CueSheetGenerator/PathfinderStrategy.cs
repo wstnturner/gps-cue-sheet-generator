@@ -111,7 +111,8 @@ namespace CueSheetGenerator {
 			if (_directions != null && _directions.Turns != null 
 				&& 0 < _currentTurn)
 				_currentTurn--;
-			else if (_directions != null && _directions.Turns != null)
+			else if (_directions != null && _directions.Turns != null
+				&& _directions.Turns.Count > 0)
 				_currentTurn = _directions.Turns.Count - 1;
 			else _currentTurn = 0;
 		}
@@ -120,7 +121,8 @@ namespace CueSheetGenerator {
 			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count != 0) {
 				_directions.Turns.RemoveAt(_currentTurn);
-				if(_currentTurn > 0) _currentTurn--;
+				if (_currentTurn > _directions.Turns.Count - 1) 
+					_currentTurn = 0;
 			}
 		}
 
@@ -160,9 +162,7 @@ namespace CueSheetGenerator {
 				_waypointFromMouse = _fidStrategy.getWaypoint(pt);
 		}
 
-		public void addPointOfInterest(Point p) {
-
-		}
+		public void addPointOfInterest(Point p) {}
 
 		public string getDirections(string units) {
 			//case for meters, kilometers, and miles
@@ -258,6 +258,7 @@ namespace CueSheetGenerator {
 		}
 
 		public void processInput(string fileName) {
+			_currentTurn = 0;
 			//parse the gpx file for waypoints
 			_parser = new GpxParser(fileName, ref _path);
 			_status = _parser.Status;
