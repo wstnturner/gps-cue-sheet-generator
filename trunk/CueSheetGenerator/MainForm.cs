@@ -60,13 +60,17 @@ namespace CueSheetGenerator {
 				this.Invoke(finishedProcessing);
 			} else {
 				directionsTextBox.Clear();
-				directionsTextBox.Text = _ps.getDirections(_units);
-				toolStripStatusLabel1.Text = _ps.Status;
+				directionsTextBox.Text = _ps.getDirections(_units);               
+                toolStripStatusLabel1.Text = _ps.Status;
 				toolStripStatusLabel2.Text = "Done,";
 				lookupToolStripProgressBar.Value = 0;
 				updateTurnMap();
 				toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+                /*hightlight current direction text*/
+                highlight();
 			}
+
+
 		}
 
 		public void reEnableControls() {
@@ -166,12 +170,17 @@ namespace CueSheetGenerator {
 			_ps.incrementTurn();
 			updateTurnMap();
 			toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
-		}
+            /*hightlight current direction text*/
+            highlight();
+            
+        }
 
 		private void backButton_Click(object sender, EventArgs e) {
 			_ps.decrementTurn();
 			updateTurnMap();
 			toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+            /*hightlight current direction text*/
+            highlight();
 		}
 
 		private void deleteButton_Click(object sender, EventArgs e) {
@@ -179,6 +188,8 @@ namespace CueSheetGenerator {
 			updateTurnMap();
 			if (_ps.Directions!= null && _ps.Directions.Turns != null)
 				updateDirections();
+            /*hightlight current direction text*/
+            highlight();
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -273,6 +284,21 @@ namespace CueSheetGenerator {
 					break;
 			}
 		}
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        /*hightlight current direction text*/
+        public void highlight()
+        {
+            string s = directionsTextBox.Text;    
+            int i = s.IndexOf((_ps.CurrentTurn+1).ToString() + ")");
+            directionsTextBox.SelectionStart = i;
+            directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
+            directionsTextBox.Focus();                         
+        }
+    
 
 	}
 
