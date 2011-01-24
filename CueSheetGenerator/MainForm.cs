@@ -12,6 +12,7 @@ namespace CueSheetGenerator {
 	public partial class MainForm : Form {
 		event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
 		event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
+		bool osx = false;
 
 		PathfinderStrategy _ps = null;
 		internal PathfinderStrategy Strategy {
@@ -21,6 +22,8 @@ namespace CueSheetGenerator {
 		public MainForm() {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
+			osx = Environment.OSVersion.VersionString.Contains("OSX");
+			if (osx) openToolStripMenuItem.Enabled = false;
 			updateRideMap();
 			_ps.finishedProcessing += updateDirections;
 			finishedProcessing += updateDirections;
@@ -37,9 +40,12 @@ namespace CueSheetGenerator {
 		}
 
 		void updateTurnMap() {
+			highlight();
 			turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
-			if (turnPictureBox.Image == null)
+			if (turnPictureBox.Image == null) {
 				toolStripStatusLabel1.Text = _ps.Web.Status;
+				/*hightlight current direction text*/
+			}
 		}
 
 		void updateProgressBar() {
@@ -66,23 +72,23 @@ namespace CueSheetGenerator {
 				lookupToolStripProgressBar.Value = 0;
 				updateTurnMap();
 				toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
-                /*hightlight current direction text*/
-                highlight();
+				/*hightlight current direction text*/
+				highlight();
 			}
 
 
 		}
 
 		public void reEnableControls() {
-			fileToolStripMenuItem.Enabled = true;
+			if (!osx) fileToolStripMenuItem.Enabled = true;
 			viewToolStripMenuItem.Enabled = true;
 			deleteButton.Enabled = true;
 			backButton.Enabled = true;
 			nextButton.Enabled = true;
 		}
 
-		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
-			_ps.processInput(openGpxFileDialog.FileName);
+		private void openGpxFile(string fileName) {
+			_ps.processInput(fileName);
 			turnPictureBox.Image = null;
 			directionsTextBox.Clear();
 			fileToolStripMenuItem.Enabled = false;
@@ -96,8 +102,16 @@ namespace CueSheetGenerator {
 			toolStripStatusLabel2.Text = "Processing,";
 		}
 
+		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
+			openGpxFile(openGpxFileDialog.FileName);
+		}
+
 		private void openToolStripMenuItem1_Click(object sender, EventArgs e) {
 			openGpxFileDialog.ShowDialog();
+		}
+
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
+			saveCsvFileDialog.ShowDialog();
 		}
 
 		private void unitsToolStripComboBox_Click(object sender, EventArgs e) {
@@ -124,10 +138,6 @@ namespace CueSheetGenerator {
 			//use this event to add notes to locations on the map
 			//the note will appear in the csv file output by the program
 			_ps.addPointOfInterest(new Point(e.X, e.Y));
-		}
-
-		private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-			saveCsvFileDialog.ShowDialog();
 		}
 
 		private void saveCsvFileDialog_FileOk(object sender, CancelEventArgs e) {
@@ -285,20 +295,36 @@ namespace CueSheetGenerator {
 			}
 		}
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-        /*hightlight current direction text*/
-        public void highlight()
-        {
-            string s = directionsTextBox.Text;    
-            int i = s.IndexOf((_ps.CurrentTurn+1).ToString() + ")");
-            directionsTextBox.SelectionStart = i;
-            directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
-            directionsTextBox.Focus();                         
-        }
-    
+		private void MainForm_DragEnter(object sender, DragEventArgs e) {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+				e.Effect = DragDropEffects.Copy;
+			else e.Effect = DragDropEffects.None;
+		}
+
+		private void MainForm_DragDrop(object sender, DragEventArgs e) {
+			Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
+			if (a != null) {
+				string s = a.GetValue(0).ToString();
+				if (s.EndsWith(".gpx"))
+					openGpxFile(s);
+			}
+
+		}
+
+		/*hightlight current direction text*/
+		public void highlight() {
+			string s = directionsTextBox.Text;
+			int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
+			directionsTextBox.Focus();
+			directionsTextBox.SelectionStart = i;
+			directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
+			directionsTextBox.ScrollToCaret();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+			Application.Exit();
+		}
+
 
 	}
 

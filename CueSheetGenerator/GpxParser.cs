@@ -2,24 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using System.IO;
+using System.Xml;
 
 namespace CueSheetGenerator {
-	class GpxParser {
-		XmlDocument _doc;
-		public XmlDocument Doc {
-			get { return _doc; }
-			set { _doc = value; }
-		}
-
-		string _status = "Ok";
-
-		public string Status {
-			get { return _status; }
-			set { _status = value; }
-		}
-
+	class GpxParser : TrackFileParser {
 		//parses the input .gpx file, get lat, lon, and elevation
 		public GpxParser(string fileName, ref TrackPath path) {
 			try {
@@ -50,8 +37,7 @@ namespace CueSheetGenerator {
 				_status = "Read " + path.Waypoints.Count + " waypoints";
 			} catch (Exception e) {
 				_status = e.Message;
-			}
-			
+			}	
 		}
 	}
 }
