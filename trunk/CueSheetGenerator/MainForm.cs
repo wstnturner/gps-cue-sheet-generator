@@ -12,7 +12,7 @@ namespace CueSheetGenerator {
 	public partial class MainForm : Form {
 		event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
 		event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
-		bool osx = false;
+		bool _osx = false;
 
 		PathfinderStrategy _ps = null;
 		internal PathfinderStrategy Strategy {
@@ -22,8 +22,8 @@ namespace CueSheetGenerator {
 		public MainForm() {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
-			osx = Environment.OSVersion.VersionString.Contains("OSX");
-			if (osx) openToolStripMenuItem.Enabled = false;
+			_osx = Environment.OSVersion.VersionString.Contains("OSX");
+			if (_osx) openToolStripMenuItem.Enabled = false;
 			updateRideMap();
 			_ps.finishedProcessing += updateDirections;
 			finishedProcessing += updateDirections;
@@ -80,7 +80,7 @@ namespace CueSheetGenerator {
 		}
 
 		public void reEnableControls() {
-			if (!osx) fileToolStripMenuItem.Enabled = true;
+			if (!_osx) fileToolStripMenuItem.Enabled = true;
 			viewToolStripMenuItem.Enabled = true;
 			deleteButton.Enabled = true;
 			backButton.Enabled = true;
