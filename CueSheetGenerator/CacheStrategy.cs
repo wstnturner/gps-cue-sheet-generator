@@ -21,11 +21,15 @@ namespace CueSheetGenerator {
 			get { return _cacheHit; }
 		}
 
+		bool _win = true;
+
 		public CacheStrategy() {
 			//initialize an array of caches
 			//read in the names of the cache files
 			//in the cache directory, if it does not exist, then create it
-			_cacheDir = System.Windows.Forms.Application.StartupPath + @"\cache\";
+			_win = Environment.OSVersion.VersionString.Contains("Windows");
+			if(_win) _cacheDir = System.Windows.Forms.Application.StartupPath + @"\cache\";
+			else _cacheDir = System.Windows.Forms.Application.StartupPath + @"/cache/";
 			_caches = new List<Cache>();
 			if (!Directory.Exists(_cacheDir))
 				Directory.CreateDirectory(_cacheDir);
@@ -35,18 +39,22 @@ namespace CueSheetGenerator {
 		}
 
 		Location _tempLocation = null;
+		Cache _currentCache = null;
 
 		public Location lookup(Waypoint wpt) {
 			_cacheHit = false;
 			//lookup the waypoint in a cache
 			//if it is not present, return null
-			foreach (Cache c in _caches) {
-				if (wpt.Zone == c.Name)
-					_tempLocation = (Location)c.read(wpt.Key);
-				if (_tempLocation != null) {
-					_cacheHit = true;
-					_tempLocation.GpxWaypoint = wpt;
+			if (wpt.Zone != _currentCache.Name) {
+				foreach (Cache c in _caches) {
+					if (wpt.Zone == c.Name)
+						_currentCache = c;
 				}
+			}
+			_tempLocation = (Location)_currentCache.read(wpt.Key);
+			if (_tempLocation != null) {
+				_cacheHit = true;
+				_tempLocation.GpxWaypoint = wpt;
 				return _tempLocation;
 			}
 			return null;
@@ -72,27 +80,25 @@ namespace CueSheetGenerator {
 		}
 
 		void readCachesFromFile() {
-			//may not be needed if we search all cache files
-			//sequentially (inefficient). But if we store the data in
-			//some kind of tree, (left leaning red black tree perhaps)
-			//then we will need this.
-			//we could use one tree per UTM zone
+			// using one tree per UTM zone
 			try {
-				foreach (string s in _cacheFileList) {
+				foreach (string s in _cacheFileList)
 					_caches.Add(readCache(s));
-				}
 			} catch (Exception e) {
 				_status = e.Message;
 			}
-
+			if (_caches.Count > 0)
+				_currentCache = _caches[0];
 		}
 
 		Cache readCache(string fileName) {
-			//what do we want to store?
-			//key, address, street name
+			//read index, street name, and full street address
 			StreamReader sr = new StreamReader(fileName);
 			Location loc = null;
-			Cache c = new Cache(fileName.Remove(0, fileName.LastIndexOf("\\")+1));
+			Cache c = null;
+			//use windows or unix file paths
+			if(_win) c = new Cache(fileName.Remove(0, fileName.LastIndexOf("\\")+1));
+			else c = new Cache(fileName.Remove(0, fileName.LastIndexOf("/") + 1));
 			string key, address, streetName, s;
 			while (!sr.EndOfStream) {
 				s = sr.ReadLine();
@@ -111,14 +117,14 @@ namespace CueSheetGenerator {
 		public void writeCachesToFile() {
 			//write the cache back out to the file system
 			//for each tree, write contents to a file
-			foreach (Cache c in _caches) {
-				//do some kind of IEnumerable post order traversal of the tree
-				//that way it will be written out preserving its internal structure
-				//but for now just do it in order (remove min)
+			foreach (Cache c in _caches)
 				writeCache(c);
-			}
 		}
 
+		/// <summary>
+		/// perform a pre-order tree traversal on the llrb tree, 
+		/// store the nodes in a list and then write them to a file
+		/// </summary>
 		private void writeCache(Cache c) {
 			List<LLRBTree.Node> locs = c.Tree.getPreOrederList();
 			StreamWriter sr = new StreamWriter(_cacheDir + c.Name);
@@ -132,42 +138,37 @@ namespace CueSheetGenerator {
 		}
 
 		class Cache {
-			//each cache could consist of a tree and a name (UTM zone)
-			//and maybe some helper functions
+			//each cache consists of a tree and a name (UTM zone)
+			//and maybe helper functions
 			LLRBTree _tree = null;
 
+			//the tree used to store data
 			public LLRBTree Tree {
 				get { return _tree; }
 				set { _tree = value; }
 			}
-			string _name = "";
 
+			//cache name, same as UTM zone name
+			string _name = "";
 			public string Name {
 				get { return _name; }
 				set { _name = value; }
 			}
+
+			//constructor
 			public Cache(string name) {
 				_name = name;
 				_tree = new LLRBTree();
 			}
 
+			//look for item in tree
 			public object read(long key) {
 				return _tree.find(key);
 			}
 
+			//add an item to tree
 			public void write(long key, object value) {
 				_tree.insert(key, value);
-			}
-
-			IComparable key = 0;
-			public object getMin() {
-				key = _tree.min();
-				return _tree.find(key);
-			}
-
-			public void removeMin() {
-				if(_tree.TreeSize > 0)
-				_tree.deleteMin();
 			}
 
 		}
