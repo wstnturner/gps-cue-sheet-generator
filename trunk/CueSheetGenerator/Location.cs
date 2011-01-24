@@ -10,9 +10,10 @@ namespace CueSheetGenerator {
 		//location class contains location information such as
 		//waypoint, address, and helper functions to parse the
 		//returned xml from google or geonames
-		string _status = "Ok";
 		public const string OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
 		public const string SERVERS_OVERLOADED = "GEONAMES_SERVERS_OVERLOADED";
+
+		string _status = "Ok";
 		public string Status {
 			get { return _status; }
 		}
@@ -24,47 +25,45 @@ namespace CueSheetGenerator {
 		}
 
 		Waypoint _gpxWaypoint = null;
-
-		int _waypointIndex = 0;
-
-		public int WaypointIndex {
-			get { return _waypointIndex; }
-			set { _waypointIndex = value; }
-		}
 		internal Waypoint GpxWaypoint {
 			get { return _gpxWaypoint; }
 			set { _gpxWaypoint = value; }
 		}
-		Waypoint _geoWaypoint = null;
 
+		Waypoint _geoWaypoint = null;
 		internal Waypoint GeoWaypoint {
 			get { return _geoWaypoint; }
 			set { _geoWaypoint = value; }
 		}
 
-		string _streetName = "";
 		string _address = "";
-
 		public string Address {
 			get { return _address; }
 			set { _address = value; }
 		}
- 
+
+		string _streetName = "";
 		public string StreetName {
 			get { return _streetName; }
 			set { _streetName = value; }
 		}
 
 		string _xml = "";
-		public string Xml { get { return _xml; } }
+		public string Xml { 
+			get { return _xml; }
+		}
 
-		//constructor
-		public Location(string doc, Waypoint gpxWpt, int index) {
+		//constructors
+		public Location(string doc, Waypoint gpxWpt) {
 			_xml = doc;
 			if (_xml.Contains("xml"))
 				parseDocument();
 			_gpxWaypoint = gpxWpt;
-			_waypointIndex = index;
+		}
+
+		public Location(string address, string streetName) {
+			_address = address;
+			_streetName = streetName;
 		}
 
 		void parseDocument() {

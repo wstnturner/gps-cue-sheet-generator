@@ -72,6 +72,7 @@
     <Compile Include="Datums.cs" />
     <Compile Include="DirectionsGenerator.cs" />
     <Compile Include="FiducialStrategy.cs" />
+    <Compile Include="LeftLeaningRedBlackTree.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +87,7 @@
       <DependentUpon>PathfinderAboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="PointOfInterest.cs" />
+    <Compile Include="TrackFileParser.cs" />
     <Compile Include="TrackPath.cs" />
     <Compile Include="PathfinderStrategy.cs" />
     <Compile Include="Point.cs" />

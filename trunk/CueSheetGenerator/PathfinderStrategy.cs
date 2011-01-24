@@ -31,7 +31,6 @@ namespace CueSheetGenerator {
 			get { return _web; } 
 		}
 
-		GpxParser _parser = null;
 		TrackPath _path = null;
 		internal TrackPath Path {
 			get { return _path; }
@@ -47,6 +46,13 @@ namespace CueSheetGenerator {
 			get { return _directions; } 
 		}
 
+		//should not be modified from outside this class
+		private int _currentTurn = 0;
+		public int CurrentTurn {
+			get { return _currentTurn; }
+		}
+
+
 		Image _image = null;
 		string _baseMapUrl = "http://maps.google.com/maps/api/staticmap?size=";
 		string _mapSize = "500x500&";
@@ -57,8 +63,6 @@ namespace CueSheetGenerator {
 		internal Waypoint WaypointFromMouse {
 			get { return _waypointFromMouse; }
 		}
-		//should not be modified from outside this class
-		private int _currentTurn = 0;
 
 		//class constructor
 		public PathfinderStrategy() {
@@ -67,6 +71,10 @@ namespace CueSheetGenerator {
 			_cache = new CacheStrategy();
 			_fidStrategy = new FiducialStrategy();
 			_directionsString = new StringBuilder();
+		}
+
+		~PathfinderStrategy() {
+			_cache.writeCachesToFile();
 		}
 
 		//returns the image for the ride map
@@ -88,11 +96,12 @@ namespace CueSheetGenerator {
 			TrackPath turnPath = new TrackPath();
 			turnPath.Round = false;
 			turnPath.Weight = 10;
+			turnPath.MapType = _path.MapType;
 			string mapSize = width.ToString() + "x" + height.ToString() + "&";
 			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count > _currentTurn) {
-				for(int i = _directions.Turns[_currentTurn].Locs[0].WaypointIndex;
-					i <= _directions.Turns[_currentTurn].Locs[2].WaypointIndex; i++)
+				for(int i = _directions.Turns[_currentTurn].Locs[0].GpxWaypoint.Index;
+					i <= _directions.Turns[_currentTurn].Locs[2].GpxWaypoint.Index; i++)
 					turnPath.Waypoints.Add(_path.Waypoints[i]);
 			}
 			// download web image
@@ -241,14 +250,17 @@ namespace CueSheetGenerator {
 		public void processInput(string fileName) {
 			_currentTurn = 0;
 			//parse the gpx file for waypoints
-			_parser = new GpxParser(fileName, ref _path);
-			_status = _parser.Status;
+			TrackFileParser parser;
+			if (fileName.EndsWith(".gpx")) {
+				parser = new GpxParser(fileName, ref _path);
+				_status = parser.Status;
+			}
 			_directions = new DirectionsGenerator(_path.Waypoints);
 			//if waypoints are within _waypointSeperation meters of eachother, remove one of them
 			for (int i = 0; i < _path.Waypoints.Count - 1; i++) {
 				if (Math.Abs(_path.Waypoints[i].Distance
 					- _path.Waypoints[i + 1].Distance) < _waypointSeperation) {
-					_path.Waypoints.RemoveAt(i + 1); 
+					_path.Waypoints.RemoveAt(i + 1);
 					i--;
 				}
 			}
@@ -260,7 +272,6 @@ namespace CueSheetGenerator {
 			t.Start();
 		}
 
-
 		bool _exceeded_query_limit = false;
 		string _fullGeoUrl = "";
 		Location _tempLoc = null;
@@ -269,9 +280,11 @@ namespace CueSheetGenerator {
 		//path waypoint list, invokes registered methods when done
 		void getLocations() {
 			for (int i = 0; i < _path.Waypoints.Count; i++) {
+				_path.Waypoints[i].Index = i;
 				if (i % 10 == 0) _exceeded_query_limit = false;
 				getLocation(_path.Waypoints[i], i);
-				Thread.Sleep(20);
+				if(!_cache.CacheHit)
+					Thread.Sleep(20);
 				if (processedWaypoint != null)
 					processedWaypoint.Invoke();
 			}
@@ -289,11 +302,12 @@ namespace CueSheetGenerator {
 		//google geocoding API, or geonames.org
 		void getLocation(Waypoint wpt, int i) {
 			//hit the cache first
-			//_tempLoc = _cache.lookup(wpt);
-			if (_tempLoc != null) _locations.Add(_tempLoc);
-			if (_tempLoc == null && !_exceeded_query_limit) {
+			_tempLoc = _cache.lookup(wpt);
+			if (_cache.CacheHit) {
+				_locations.Add(_tempLoc);
+			} else if (!_cache.CacheHit && !_exceeded_query_limit) {
 				_fullGeoUrl = _baseGeoUrl + wpt.Lat + "," + wpt.Lon + "&sensor=false";
-				_locations.Add(new Location(_web.downloadWebPage(_fullGeoUrl), wpt, i));
+				_locations.Add(new Location(_web.downloadWebPage(_fullGeoUrl), wpt));
 				if (_locations[i].Status == Location.OVER_QUERY_LIMIT) {
 					//_status = "Exceeded Google reverse geocoding API request quota";
 					_exceeded_query_limit = true;
@@ -305,16 +319,16 @@ namespace CueSheetGenerator {
 				if (_locations[_locations.Count - 1].Status == Location.OVER_QUERY_LIMIT)
 					_locations.RemoveAt(_locations.Count - 1);
 				_fullGeoUrl = "http://ws.geonames.org/findNearestAddress?lat=" + wpt.Lat + "&lng=" + wpt.Lon;
-				_locations.Add(new Location(_web.downloadWebPage(_fullGeoUrl), wpt, i));
+				_locations.Add(new Location(_web.downloadWebPage(_fullGeoUrl), wpt));
 				if (_locations[_locations.Count - 1].Status == Location.SERVERS_OVERLOADED) {
 					_locations.RemoveAt(_locations.Count - 1);
 					_exceeded_query_limit = false;
 					//try again
 					getLocation(wpt, i);
-
 				}
 			}
-			//_cache.addToCache(_locations[_locations.Count - 1]);
+			if (!_cache.CacheHit)
+				_cache.addToCache(_locations[_locations.Count - 1]);
 		}
 
 

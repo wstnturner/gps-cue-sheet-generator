@@ -91,7 +91,7 @@ namespace CueSheetGenerator {
 					temp.Add(_waypoints[(int)((double)i * divisor)]);
 				_waypoints = temp;
 			}
-			if (_sortedWaypoints.Count <= 3) {
+			if (_sortedWaypoints.Count <= 4) {
 				//sort the waypoint in order to add ballons
 				_sortedWaypoints.Clear();
 				foreach (Waypoint w in _waypoints)

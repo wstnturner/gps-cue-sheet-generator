@@ -42,7 +42,7 @@ namespace CueSheetGenerator {
 				}
 				csvFile.Append("End at " + locs[locs.Count - 1].Address
 					+ "\r\ntotal distance: " + getDistanceInUnits(locs[locs.Count - 1]
-					.GpxWaypoint.Distance, units) + units + "\r\n");
+					.GpxWaypoint.Distance, units) + " " + units + "\r\n");
 				StreamWriter sr = new StreamWriter(fileName);
 				sr.WriteLine(csvFile.ToString());
 				sr.Close();

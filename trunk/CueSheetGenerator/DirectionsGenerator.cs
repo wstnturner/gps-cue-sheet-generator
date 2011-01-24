@@ -57,7 +57,9 @@ namespace CueSheetGenerator {
 
 		//computes the average of a list of waypoints
 		public Waypoint averageWaypoints(List<Waypoint> list) {
-			double lat = 0.0, lon = 0.0, east = 0.0, north = 0.0, dist = 0.0, ele = 0.0;
+			double lat = 0.0, lon = 0.0, east = 0.0
+				, north = 0.0, dist = 0.0, ele = 0.0;
+			int index = 0;
 			foreach (Waypoint wpt in list) {
 				lat += wpt.Lat;
 				lon += wpt.Lon;
@@ -65,15 +67,17 @@ namespace CueSheetGenerator {
 				north += wpt.Northing;
 				dist += wpt.Distance;
 				ele += wpt.Elevation;
-
+				index += wpt.Index;
 			}
-			Waypoint temp = new Waypoint(lat /= list.Count, lon /= list.Count);
-			temp.Easting = east /= list.Count;
-			temp.Northing = north /= list.Count;
-			temp.Distance = dist /= list.Count;
-			temp.Elevation = ele /= list.Count;
-			if (list.Count > 0)
-				temp.Zone = list[0].Zone;
+			Waypoint temp = new Waypoint();
+			temp.Lat = lat / (double)(list.Count);
+			temp.Lon = lon / (double)(list.Count);
+			temp.Easting = east / (double)(list.Count);
+			temp.Northing = north / (double)(list.Count);
+			temp.Distance = dist / (double)(list.Count);
+			temp.Elevation = ele / (double)(list.Count);
+			temp.Index = (int)(Math.Round((double)index / (double)(list.Count)));
+			temp.Zone = list[0].Zone;
 			return temp;
 		}
 
