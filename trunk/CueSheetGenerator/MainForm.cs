@@ -22,7 +22,7 @@ namespace CueSheetGenerator {
 		public MainForm() {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
-			_osx = Environment.OSVersion.VersionString.Contains("OSX");
+			_osx = Environment.OSVersion.VersionString.Contains("Unix 10");
 			if (_osx) openToolStripMenuItem.Enabled = false;
 			updateRideMap();
 			_ps.finishedProcessing += updateDirections;

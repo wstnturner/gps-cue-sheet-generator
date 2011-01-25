@@ -45,6 +45,7 @@ namespace CueSheetGenerator {
 			_cacheHit = false;
 			//lookup the waypoint in a cache
 			//if it is not present, return null
+			if (_currentCache == null) return null;
 			if (wpt.Zone != _currentCache.Name) {
 				foreach (Cache c in _caches) {
 					if (wpt.Zone == c.Name)
