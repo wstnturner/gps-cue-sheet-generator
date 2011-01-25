@@ -54,6 +54,7 @@
 			this.points500ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.points750ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.points1000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.points2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.howDoIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,6 @@
 			this.editButton = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.turnPictureBox = new System.Windows.Forms.PictureBox();
-			this.points2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -335,30 +335,37 @@
 			this.points250ToolStripMenuItem.Checked = true;
 			this.points250ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.points250ToolStripMenuItem.Name = "points250ToolStripMenuItem";
-			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points250ToolStripMenuItem.Text = "250 Points";
 			this.points250ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points500ToolStripMenuItem
 			// 
 			this.points500ToolStripMenuItem.Name = "points500ToolStripMenuItem";
-			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points500ToolStripMenuItem.Text = "500 Points";
 			this.points500ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points750ToolStripMenuItem
 			// 
 			this.points750ToolStripMenuItem.Name = "points750ToolStripMenuItem";
-			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points750ToolStripMenuItem.Text = "750 Points";
 			this.points750ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points1000ToolStripMenuItem
 			// 
 			this.points1000ToolStripMenuItem.Name = "points1000ToolStripMenuItem";
-			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.points1000ToolStripMenuItem.Text = "1000 Points";
 			this.points1000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
+			// 
+			// points2000ToolStripMenuItem
+			// 
+			this.points2000ToolStripMenuItem.Name = "points2000ToolStripMenuItem";
+			this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.points2000ToolStripMenuItem.Text = "2000 Points";
+			this.points2000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -405,7 +412,7 @@
 			// lookupToolStripProgressBar
 			// 
 			this.lookupToolStripProgressBar.Name = "lookupToolStripProgressBar";
-			this.lookupToolStripProgressBar.Size = new System.Drawing.Size(200, 16);
+			this.lookupToolStripProgressBar.Size = new System.Drawing.Size(150, 16);
 			this.lookupToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			// 
 			// toolStripStatusLabel2
@@ -421,6 +428,7 @@
 			// 
 			// toolStripStatusLabel4
 			// 
+			this.toolStripStatusLabel4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
 			this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
 			this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 17);
 			// 
@@ -530,13 +538,6 @@
 			this.turnPictureBox.TabIndex = 0;
 			this.turnPictureBox.TabStop = false;
 			this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
-			// 
-			// points2000ToolStripMenuItem
-			// 
-			this.points2000ToolStripMenuItem.Name = "points2000ToolStripMenuItem";
-			this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.points2000ToolStripMenuItem.Text = "2000 Points";
-			this.points2000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
