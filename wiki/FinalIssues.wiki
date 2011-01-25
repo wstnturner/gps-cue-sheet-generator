@@ -6,21 +6,21 @@ Finish technical docs
 
   generate doxygen docs - Kurt/Weston
 
-    make sure all code is commented for good docs; file headers for each file, method headers for public methods - Weston?
+  * make sure all code is commented for good docs; file headers for each file, method headers for public methods - Weston?
 
 User docs
 
-* readme.txt - Hang
+  readme.txt - Hang
 
-* user manual - Hang
+  user manual - Hang
 
-* in-app help - Jungyul
+  in-app help - Jungyul
 
 Testing
 
-* gather collection of GPX files for testing
+  gather collection of GPX files for testing
 
-** good files:
+  * good files:
 
 *** short
 
