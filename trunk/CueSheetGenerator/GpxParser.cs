@@ -8,7 +8,7 @@ using System.Xml;
 namespace CueSheetGenerator {
 	class GpxParser : TrackFileParser {
 		//parses the input .gpx file, get lat, lon, and elevation
-		public GpxParser(string fileName, ref TrackPath path) {
+		public GpxParser(string fileName, TrackPath path) {
 			try {
 				StreamReader sr = new StreamReader(fileName);
 				string file = sr.ReadToEnd();

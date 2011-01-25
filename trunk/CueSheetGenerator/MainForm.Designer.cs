@@ -32,6 +32,7 @@
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.unitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +73,7 @@
 			this.editButton = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.turnPictureBox = new System.Windows.Forms.PictureBox();
-			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.points2000ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
 			this.groupBox2.SuspendLayout();
@@ -162,16 +163,23 @@
 			// openToolStripMenuItem
 			// 
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.openToolStripMenuItem.Text = "Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
 			// 
 			// saveToolStripMenuItem
 			// 
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
 			this.saveToolStripMenuItem.Text = "Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// viewToolStripMenuItem
 			// 
@@ -316,7 +324,8 @@
             this.points250ToolStripMenuItem,
             this.points500ToolStripMenuItem,
             this.points750ToolStripMenuItem,
-            this.points1000ToolStripMenuItem});
+            this.points1000ToolStripMenuItem,
+            this.points2000ToolStripMenuItem});
 			this.revGeoToolStripMenuItem.Name = "revGeoToolStripMenuItem";
 			this.revGeoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
 			this.revGeoToolStripMenuItem.Text = "Geocode Points";
@@ -326,28 +335,28 @@
 			this.points250ToolStripMenuItem.Checked = true;
 			this.points250ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.points250ToolStripMenuItem.Name = "points250ToolStripMenuItem";
-			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.points250ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.points250ToolStripMenuItem.Text = "250 Points";
 			this.points250ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points500ToolStripMenuItem
 			// 
 			this.points500ToolStripMenuItem.Name = "points500ToolStripMenuItem";
-			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.points500ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.points500ToolStripMenuItem.Text = "500 Points";
 			this.points500ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points750ToolStripMenuItem
 			// 
 			this.points750ToolStripMenuItem.Name = "points750ToolStripMenuItem";
-			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.points750ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.points750ToolStripMenuItem.Text = "750 Points";
 			this.points750ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// points1000ToolStripMenuItem
 			// 
 			this.points1000ToolStripMenuItem.Name = "points1000ToolStripMenuItem";
-			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.points1000ToolStripMenuItem.Text = "1000 Points";
 			this.points1000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
@@ -522,12 +531,12 @@
 			this.turnPictureBox.TabStop = false;
 			this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
 			// 
-			// exitToolStripMenuItem
+			// points2000ToolStripMenuItem
 			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.exitToolStripMenuItem.Text = "Exit";
-			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			this.points2000ToolStripMenuItem.Name = "points2000ToolStripMenuItem";
+			this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.points2000ToolStripMenuItem.Text = "2000 Points";
+			this.points2000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -613,6 +622,7 @@
 		private System.Windows.Forms.ToolStripMenuItem points1000ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem thirtyMToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem points2000ToolStripMenuItem;
 	}
 }
 

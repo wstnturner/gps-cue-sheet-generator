@@ -271,6 +271,7 @@ namespace CueSheetGenerator {
 			points500ToolStripMenuItem.Checked = false;
 			points750ToolStripMenuItem.Checked = false;
 			points1000ToolStripMenuItem.Checked = false;
+			points2000ToolStripMenuItem.Checked = false;
 			switch (sender.ToString()) {
 				case "250 Points":
 					points250ToolStripMenuItem.Checked = true;
@@ -287,6 +288,10 @@ namespace CueSheetGenerator {
 				case "1000 Points":
 					points1000ToolStripMenuItem.Checked = true;
 					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_1000;
+					break;
+				case "2000 Points":
+					points2000ToolStripMenuItem.Checked = true;
+					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_2000;
 					break;
 				default:
 					points250ToolStripMenuItem.Checked = true;
@@ -313,12 +318,14 @@ namespace CueSheetGenerator {
 
 		/*hightlight current direction text*/
 		public void highlight() {
-			string s = directionsTextBox.Text;
-			int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
-			directionsTextBox.Focus();
-			directionsTextBox.SelectionStart = i;
-			directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
-			directionsTextBox.ScrollToCaret();
+			if (_ps.Directions.Turns != null) {
+				string s = directionsTextBox.Text;
+				int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
+				directionsTextBox.Focus();
+				directionsTextBox.SelectionStart = i;
+				directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
+				directionsTextBox.ScrollToCaret();
+			}
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {

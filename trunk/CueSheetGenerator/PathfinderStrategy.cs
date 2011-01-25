@@ -137,6 +137,7 @@ namespace CueSheetGenerator {
 			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count != 0) {
 				_directions.Turns.RemoveAt(_currentTurn);
+				_directions.computeTurnDistances();
 				if (_currentTurn > _directions.Turns.Count - 1) 
 					_currentTurn = 0;
 			}
@@ -252,7 +253,7 @@ namespace CueSheetGenerator {
 			//parse the gpx file for waypoints
 			TrackFileParser parser;
 			if (fileName.EndsWith(".gpx")) {
-				parser = new GpxParser(fileName, ref _path);
+				parser = new GpxParser(fileName, _path);
 				_status = parser.Status;
 			}
 			_directions = new DirectionsGenerator(_path.Waypoints);

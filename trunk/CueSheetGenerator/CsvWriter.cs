@@ -26,8 +26,7 @@ namespace CueSheetGenerator {
 				+ ",UTM Zone,Northing,Easting\r\n");
 				string notes = "";
 				for (int i = 0; i < turns.Count; i++) {
-					notes = turns[i].Locs[0].Notes + "|"
-						+ turns[i].Locs[1].Notes + "|" + turns[i].Locs[2].Notes;
+					notes = turns[i].Locs[0].Notes + turns[i].Locs[1].Notes + turns[i].Locs[2].Notes;
 					csvFile.Append(getDistanceInUnits(turns[i].Distance, units)
 						+ "," + getDistanceInUnits(turns[i].Locs[1].GpxWaypoint.Distance, units)
 						+ "," + turns[i].TurnDirection

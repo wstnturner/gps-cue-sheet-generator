@@ -35,7 +35,7 @@ namespace CueSheetGenerator {
 		const int MAX_MAP_POINTS = 90;
 		
 		public const int REV_GEO_250 = 250, REV_GEO_500 = 500
-			, REV_GEO_750 = 750, REV_GEO_1000 = 1000;
+			, REV_GEO_750 = 750, REV_GEO_1000 = 1000, REV_GEO_2000 = 2000;
 		int _maxGpxPoints = REV_GEO_250;
 		public int MaxGpxPoints {
 			get { return _maxGpxPoints; }
