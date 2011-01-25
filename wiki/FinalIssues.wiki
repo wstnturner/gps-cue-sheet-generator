@@ -22,26 +22,26 @@ gather collection of GPX files for testing
 
 good files:
 
-* short
+  short
 
-* long
+  long
 
-* really long!
+  really long!
 
 bad files:
 
-* empty
+  empty
 
-* not XML data; just a text file
+  not XML data; just a text file
 
-* XML file but with no GPX tags
+  XML file but with no GPX tags
 
-* GPX file with corruption (unclosed tags)
+  GPX file with corruption (unclosed tags)
 
-* GPX file with bad data (alphanumeric rather than numeric lat/long data)
+  GPX file with bad data (alphanumeric rather than numeric lat/long data)
 
 list of UI elements to test ("click the File Open dialog box, select a file...")
 
-* this should be a comprehensive set of directions about how to test every feature of the program
+  this should be a comprehensive set of directions about how to test every feature of the program
 
 list of operating systems to test, with notes about differences (no file open dialog on Mac, for instance)
