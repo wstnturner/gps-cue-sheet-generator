@@ -1,47 +1,47 @@
 #summary Stuff for the final week
 
-Finish technical docs
+= Technical docs =
 
-  architecture doc - Kurt
+architecture doc - Kurt
 
-  generate doxygen docs - Kurt/Weston
+generate doxygen docs - Kurt/Weston
 
-  * make sure all code is commented for good docs; file headers for each file, method headers for public methods - Weston?
+  make sure all code is commented for good docs; file headers for each file, method headers for public methods - Weston?
 
-User docs
+= User docs =
 
-  readme.txt - Hang
+readme.txt - Hang
 
-  user manual - Hang
+user manual - Hang
 
-  in-app help - Jungyul
+in-app help - Jungyul
 
-Testing
+= Testing =
 
-  gather collection of GPX files for testing
+gather collection of GPX files for testing
 
-  good files:
+good files:
 
-   *** short
+* short
 
-   *** long
+* long
 
-   *** really long!
+* really long!
 
-  bad files:
+bad files:
 
-   *** empty
+* empty
 
-   *** not XML data; just a text file
+* not XML data; just a text file
 
-   *** XML file but with no GPX tags
+* XML file but with no GPX tags
 
-   *** GPX file with corruption (unclosed tags)
+* GPX file with corruption (unclosed tags)
 
-   *** GPX file with bad data (alphanumeric rather than numeric lat/long data)
+* GPX file with bad data (alphanumeric rather than numeric lat/long data)
 
-  list of UI elements to test ("click the File Open dialog box, select a file...")
+list of UI elements to test ("click the File Open dialog box, select a file...")
 
-  ** this should be a comprehensive set of directions about how to test every feature of the program
+* this should be a comprehensive set of directions about how to test every feature of the program
 
-  list of operating systems to test, with notes about differences (no file open dialog on Mac, for instance)
+list of operating systems to test, with notes about differences (no file open dialog on Mac, for instance)
