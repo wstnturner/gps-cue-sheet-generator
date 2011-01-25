@@ -2,11 +2,11 @@
 
 Finish technical docs
 
-* architecture doc - Kurt
+  architecture doc - Kurt
 
-* generate doxygen docs - Kurt/Weston
+  generate doxygen docs - Kurt/Weston
 
-** make sure all code is commented for good docs; file headers for each file, method headers for public methods - Weston?
+    make sure all code is commented for good docs; file headers for each file, method headers for public methods - Weston?
 
 User docs
 
