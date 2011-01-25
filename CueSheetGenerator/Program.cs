@@ -9,10 +9,12 @@ namespace CueSheetGenerator {
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main() {
+		static void Main(string[] args) {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			string s = null;
+			if (args.Length > 0) s = args[0];
+			Application.Run(new MainForm(s));
 		}
 	}
 }
