@@ -18,7 +18,7 @@ in-app help - Jungyul
 
 = Testing =
 
-gather collection of GPX files for testing
+gather collection of GPX files for testing - Ka Long
 
 good files:
 
@@ -40,8 +40,8 @@ bad files:
 
   GPX file with bad data (alphanumeric rather than numeric lat/long data)
 
-list of UI elements to test ("click the File Open dialog box, select a file...")
+list of UI elements to test ("click the File Open dialog box, select a file...") - Jungyul?
 
   this should be a comprehensive set of directions about how to test every feature of the program
 
-list of operating systems to test, with notes about differences (no file open dialog on Mac, for instance)
+list of operating systems to test, with notes about differences (no file open dialog on Mac, for instance) - Jungyul?
