@@ -19,17 +19,19 @@ namespace CueSheetGenerator {
 			get { return _ps; }
 		}
 
-		public MainForm() {
+		public MainForm(string fileName) {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
 			_osx = Environment.OSVersion.VersionString.Contains("Unix 10");
 			if (_osx) openToolStripMenuItem.Enabled = false;
 			updateRideMap();
 			_ps.finishedProcessing += updateDirections;
+			_ps.finishedProcessing += reEnableControls;
 			finishedProcessing += updateDirections;
 			finishedProcessing += reEnableControls;
 			_ps.processedWaypoint += updateProgressBar;
 			processedWaypoint += updateProgressBar;
+			if (fileName != null) openGpxFile(fileName);
 		}
 
 		void updateRideMap() {
@@ -40,11 +42,11 @@ namespace CueSheetGenerator {
 		}
 
 		void updateTurnMap() {
+			/*hightlight current direction text*/
 			highlight();
 			turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
 			if (turnPictureBox.Image == null) {
 				toolStripStatusLabel1.Text = _ps.Web.Status;
-				/*hightlight current direction text*/
 			}
 		}
 
@@ -72,34 +74,34 @@ namespace CueSheetGenerator {
 				lookupToolStripProgressBar.Value = 0;
 				updateTurnMap();
 				toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
-				/*hightlight current direction text*/
-				highlight();
 			}
-
-
 		}
 
 		public void reEnableControls() {
-			if (!_osx) fileToolStripMenuItem.Enabled = true;
-			viewToolStripMenuItem.Enabled = true;
-			deleteButton.Enabled = true;
-			backButton.Enabled = true;
-			nextButton.Enabled = true;
+			if (directionsTextBox.InvokeRequired) {
+				this.Invoke(finishedProcessing);
+			} else {
+				if (!_osx) fileToolStripMenuItem.Enabled = true;
+				viewToolStripMenuItem.Enabled = true;
+				deleteButton.Enabled = true;
+				backButton.Enabled = true;
+				nextButton.Enabled = true;
+			}
 		}
 
 		private void openGpxFile(string fileName) {
-			_ps.processInput(fileName);
-			turnPictureBox.Image = null;
-			directionsTextBox.Clear();
+			//initialize the progress bar
+			toolStripStatusLabel2.Text = "Processing,";
 			fileToolStripMenuItem.Enabled = false;
 			viewToolStripMenuItem.Enabled = false;
 			deleteButton.Enabled = false;
 			backButton.Enabled = false;
 			nextButton.Enabled = false;
-			updateRideMap();
-			//initialize the progress bar
+			turnPictureBox.Image = null;
+			directionsTextBox.Clear();
+			_ps.processInput(fileName);
 			lookupToolStripProgressBar.Maximum = _ps.Path.Waypoints.Count;
-			toolStripStatusLabel2.Text = "Processing,";
+			updateRideMap();
 		}
 
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
@@ -180,17 +182,12 @@ namespace CueSheetGenerator {
 			_ps.incrementTurn();
 			updateTurnMap();
 			toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
-            /*hightlight current direction text*/
-            highlight();
-            
         }
 
 		private void backButton_Click(object sender, EventArgs e) {
 			_ps.decrementTurn();
 			updateTurnMap();
 			toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
-            /*hightlight current direction text*/
-            highlight();
 		}
 
 		private void deleteButton_Click(object sender, EventArgs e) {
@@ -198,8 +195,6 @@ namespace CueSheetGenerator {
 			updateTurnMap();
 			if (_ps.Directions!= null && _ps.Directions.Turns != null)
 				updateDirections();
-            /*hightlight current direction text*/
-            highlight();
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
