@@ -146,17 +146,18 @@ namespace CueSheetGenerator {
 			y2 = _turns[i].Locs[2].GpxWaypoint.Northing;
 			theta2 = calculateTheta(x2 - x1, y2 - y1);
 			_turns[i].TurnMagnitude = Math.Abs(theta2 - theta1);
-			if (_turns[i].TurnMagnitude > 180.0) 
-				_turns[i].TurnMagnitude = 360.0 - _turns[i].TurnMagnitude;
-			if (theta2 - theta1 < 0.0 && Math.Abs(theta2 - theta1) >= 180.0)
-				_turns[i].TurnDirection = "left";
-			else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) >= 180.0)
-				_turns[i].TurnDirection = "right";
-			else if (theta2 - theta1 < 0.0 && Math.Abs(theta2 - theta1) < 180.0) 
-				_turns[i].TurnDirection = "right";
-			else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) < 180.0)
-				_turns[i].TurnDirection = "left";
-			else _turns[i].TurnDirection = "null";
+			if (_turns[i].TurnMagnitude > 5.0) {
+				if (_turns[i].TurnMagnitude > 180.0)
+					_turns[i].TurnMagnitude = 360.0 - _turns[i].TurnMagnitude;
+				if (theta2 - theta1 < 0.0 && Math.Abs(theta2 - theta1) >= 180.0)
+					_turns[i].TurnDirection = "left";
+				else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) >= 180.0)
+					_turns[i].TurnDirection = "right";
+				else if (theta2 - theta1 < 0.0 && Math.Abs(theta2 - theta1) < 180.0)
+					_turns[i].TurnDirection = "right";
+				else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) < 180.0)
+					_turns[i].TurnDirection = "left";
+			} else _turns[i].TurnDirection = "null";
 		}
 
 		//calculates the angles of the pre and post turn line segments

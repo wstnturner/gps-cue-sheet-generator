@@ -56,27 +56,33 @@ namespace CueSheetGenerator {
 			if (_tempLocation != null) {
 				_cacheHit = true;
 				_tempLocation.GpxWaypoint = wpt;
-				return _tempLocation;
 			}
-			return null;
+			return _tempLocation;
 		}
 
 		public void addToCache(Location loc) {
 			//if the location's zone matches a cache file name
 			//then store it in the cache
 			//else create a new cache
-			bool foundCache = false;
-			foreach (Cache c in _caches) {
-				if (loc.GpxWaypoint.Zone == c.Name) {
-					foundCache = true;
-					c.write(loc.GpxWaypoint.Key, loc);
+			if (_currentCache != null
+				&& loc.GpxWaypoint.Zone == _currentCache.Name)
+				_currentCache.write(loc.GpxWaypoint.Key, loc);
+			else {
+				bool foundCache = false;
+				foreach (Cache c in _caches) {
+					if (loc.GpxWaypoint.Zone == c.Name) {
+						_currentCache = c;
+						foundCache = true;
+						c.write(loc.GpxWaypoint.Key, loc);
+					}
 				}
-			}
-			//create the cache and store the location
-			if (!foundCache) {
-				Cache c = new Cache(loc.GpxWaypoint.Zone);
-				c.write(loc.GpxWaypoint.Key, loc);
-				_caches.Add(c);
+				//create the cache and store the location
+				if (!foundCache) {
+					Cache c = new Cache(loc.GpxWaypoint.Zone);
+					_currentCache = c;
+					c.write(loc.GpxWaypoint.Key, loc);
+					_caches.Add(c);
+				}
 			}
 		}
 
