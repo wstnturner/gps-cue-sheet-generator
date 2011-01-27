@@ -3,6 +3,7 @@
 = Technical docs =
 
 architecture doc - Kurt
+  requirements: how to build: Visual Studio, Monodevelop
 
 generate doxygen docs - Kurt/Weston
 
