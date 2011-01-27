@@ -327,6 +327,11 @@ namespace CueSheetGenerator {
 			Application.Exit();
 		}
 
+        private void ViewHelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://code.google.com/p/gps-cue-sheet-generator/w/list");
+        }
+
 
 	}
 
