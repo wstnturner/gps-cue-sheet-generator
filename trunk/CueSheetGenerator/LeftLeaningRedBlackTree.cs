@@ -67,7 +67,7 @@ namespace CueSheetGenerator {
 			}
 
 			//left and right child nodes
-			public Node _left, _right;
+			internal Node _left, _right;
 			internal Node Left {
 				get { return _left; }
 				set { _left = value; }

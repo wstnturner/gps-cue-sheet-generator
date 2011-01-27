@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace UtmConvert {
+	/// <summary>
+	///Converts radians to degrees and vice-versa, takes a viriaty of input formats
+	/// </summary>
     public static class ConvertDegRad {
 		//this class is really overkill for what we are trying to do
 		//all we need is a basic radian to degree converter and vice versa 

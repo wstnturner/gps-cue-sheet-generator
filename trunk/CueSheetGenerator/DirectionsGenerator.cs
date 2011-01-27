@@ -5,6 +5,9 @@ using System.Text;
 using UtmConvert;
 
 namespace CueSheetGenerator {
+	/// <summary>
+	///Generates a set of turn directions.
+	/// </summary>
 	class DirectionsGenerator {
 		List<Location> _locs = null;
 		List<Turn> _turns = null;
@@ -12,50 +15,8 @@ namespace CueSheetGenerator {
 			get { return _turns; }
 			set { _turns = value; }
 		}
-		ConvertLatLonUtm _utmConvert = null;
-		double _totalDistance = 0.0;
 
-		public double TotalDistance {
-			get { return _totalDistance; }
-			set { _totalDistance = value; }
-		}
-
-
-		List<Waypoint> _waypoints = null;
-
-		//initailize the waypoints with UTM data
-		//this seems like a reasonable place to put this but it seams
-		//to have caused some pain, it may be more appropriate to put this
-		//in the PathfinderStrategy class
-		public DirectionsGenerator(List<Waypoint> waypoints) {
-			if (waypoints.Count > 0) {
-				_waypoints = waypoints;
-				_utmConvert = new ConvertLatLonUtm();
-				double radLat = ConvertDegRad.getRadians(_waypoints[0].Lat);
-				double radLon = ConvertDegRad.getRadians(_waypoints[0].Lon);
-				_utmConvert.convertLatLonToUtm(radLat, radLon);
-				_waypoints[0].Easting = _utmConvert.Easting;
-				_waypoints[0].Northing = _utmConvert.Northing;
-				_waypoints[0].Zone = _utmConvert.Zone;
-				_waypoints[0].Distance = 0.0;
-				_waypoints[0].setKey();
-				for (int i = 1; i < _waypoints.Count; i++) {
-					radLat = ConvertDegRad.getRadians(_waypoints[i].Lat);
-					radLon = ConvertDegRad.getRadians(_waypoints[i].Lon);
-					_utmConvert.convertLatLonToUtm(radLat, radLon);
-					_waypoints[i].Easting = _utmConvert.Easting;
-					_waypoints[i].Northing = _utmConvert.Northing;
-					x1 = _waypoints[i - 1].Easting;
-					y1 = _waypoints[i - 1].Northing;
-					x2 = _waypoints[i].Easting;
-					y2 = _waypoints[i].Northing;
-					_waypoints[i].setKey();
-					_totalDistance += Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
-					_waypoints[i].Zone = _utmConvert.Zone;
-					_waypoints[i].Distance = _totalDistance;
-				}
-			}
-		}
+		public DirectionsGenerator() {}
 
 		//computes the average of a list of waypoints
 		public Waypoint averageWaypoints(List<Waypoint> list) {

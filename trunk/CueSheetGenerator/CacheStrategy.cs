@@ -5,12 +5,12 @@ using System.Text;
 using System.IO;
 
 namespace CueSheetGenerator {
+	/// <summary>
+	///Cache strategy class, used to look up previously reverse geocoded
+	///locations, and to store newly reverse geocoded locations for fast
+	///retrieval.
+	/// </summary>
 	class CacheStrategy {
-
-		//cache strategy class, used to look up previously reverse geocoded
-		//locations, and to store newly reverse geocoded locations for fast
-		//retrieval
-
 		List<Cache> _caches = null;
 		string _cacheDir = "";
 		string[] _cacheFileList = null;
@@ -144,6 +144,9 @@ namespace CueSheetGenerator {
 			sr.Close();
 		}
 
+		/// <summary>
+		///Cache class contains a left leaning red-black tree
+		/// </summary>
 		class Cache {
 			//each cache consists of a tree and a name (UTM zone)
 			//and maybe helper functions

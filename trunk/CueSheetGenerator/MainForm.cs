@@ -23,7 +23,10 @@ namespace CueSheetGenerator {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
 			_osx = Environment.OSVersion.VersionString.Contains("Unix 10");
-			if (_osx) openToolStripMenuItem.Enabled = false;
+			if (_osx) {
+				openToolStripMenuItem.Enabled = false;
+				toolStripStatusLabel4.Text = "Use drag and drop to open gpx files.";
+			}
 			updateRideMap();
 			_ps.finishedProcessing += updateDirections;
 			_ps.finishedProcessing += reEnableControls;
@@ -327,10 +330,9 @@ namespace CueSheetGenerator {
 			Application.Exit();
 		}
 
-        private void ViewHelpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://code.google.com/p/gps-cue-sheet-generator/w/list");
-        }
+		private void howDoIToolStripMenuItem_Click(object sender, EventArgs e) {
+			System.Diagnostics.Process.Start("http://analoglogic.net/projects/solar_charger/solar_charger_system_diagram.pdf");
+		}
 
 
 	}
