@@ -32,6 +32,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,6 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.turnPictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -93,7 +93,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(620, 476);
+            this.groupBox1.Size = new System.Drawing.Size(564, 569);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ride Map";
@@ -101,9 +101,9 @@
             // mapPictureBox
             // 
             this.mapPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapPictureBox.Location = new System.Drawing.Point(3, 17);
+            this.mapPictureBox.Location = new System.Drawing.Point(3, 16);
             this.mapPictureBox.Name = "mapPictureBox";
-            this.mapPictureBox.Size = new System.Drawing.Size(614, 456);
+            this.mapPictureBox.Size = new System.Drawing.Size(558, 550);
             this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.mapPictureBox.TabIndex = 0;
             this.mapPictureBox.TabStop = false;
@@ -119,7 +119,7 @@
             this.groupBox2.Controls.Add(this.directionsTextBox);
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(299, 198);
+            this.groupBox2.Size = new System.Drawing.Size(273, 268);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Directions";
@@ -130,12 +130,12 @@
             this.directionsTextBox.AcceptsTab = true;
             this.directionsTextBox.BackColor = System.Drawing.Color.White;
             this.directionsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.directionsTextBox.Location = new System.Drawing.Point(3, 17);
+            this.directionsTextBox.Location = new System.Drawing.Point(3, 16);
             this.directionsTextBox.Multiline = true;
             this.directionsTextBox.Name = "directionsTextBox";
             this.directionsTextBox.ReadOnly = true;
             this.directionsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.directionsTextBox.Size = new System.Drawing.Size(293, 178);
+            this.directionsTextBox.Size = new System.Drawing.Size(267, 249);
             this.directionsTextBox.TabIndex = 0;
             this.directionsTextBox.WordWrap = false;
             // 
@@ -147,8 +147,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(924, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(842, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -160,27 +159,32 @@
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(108, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -193,14 +197,14 @@
             this.pathResToolStripMenuItem,
             this.revGeoToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Enabled = false;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // unitsToolStripMenuItem
@@ -210,13 +214,13 @@
             this.kilometersToolStripMenuItem,
             this.milesToolStripMenuItem});
             this.unitsToolStripMenuItem.Name = "unitsToolStripMenuItem";
-            this.unitsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.unitsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.unitsToolStripMenuItem.Text = "Units";
             // 
             // metersToolStripMenuItem
             // 
             this.metersToolStripMenuItem.Name = "metersToolStripMenuItem";
-            this.metersToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.metersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.metersToolStripMenuItem.Tag = "Meters";
             this.metersToolStripMenuItem.Text = "Meters";
             this.metersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -224,7 +228,7 @@
             // kilometersToolStripMenuItem
             // 
             this.kilometersToolStripMenuItem.Name = "kilometersToolStripMenuItem";
-            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.kilometersToolStripMenuItem.Tag = "Kilometers";
             this.kilometersToolStripMenuItem.Text = "Kilometers";
             this.kilometersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -234,7 +238,7 @@
             this.milesToolStripMenuItem.Checked = true;
             this.milesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.milesToolStripMenuItem.Name = "milesToolStripMenuItem";
-            this.milesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.milesToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.milesToolStripMenuItem.Tag = "Miles";
             this.milesToolStripMenuItem.Text = "Miles";
             this.milesToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -247,7 +251,7 @@
             this.terrainToolStripMenuItem,
             this.hybridToolStripMenuItem});
             this.mapTypeToolStripMenuItem.Name = "mapTypeToolStripMenuItem";
-            this.mapTypeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.mapTypeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.mapTypeToolStripMenuItem.Text = "Map Type";
             // 
             // roadmapToolStripMenuItem
@@ -255,28 +259,28 @@
             this.roadmapToolStripMenuItem.Checked = true;
             this.roadmapToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.roadmapToolStripMenuItem.Name = "roadmapToolStripMenuItem";
-            this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.roadmapToolStripMenuItem.Text = "Roadmap";
             this.roadmapToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
             // satelliteToolStripMenuItem
             // 
             this.satelliteToolStripMenuItem.Name = "satelliteToolStripMenuItem";
-            this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.satelliteToolStripMenuItem.Text = "Satellite";
             this.satelliteToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
             // terrainToolStripMenuItem
             // 
             this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
-            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.terrainToolStripMenuItem.Text = "Terrain";
             this.terrainToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
             // hybridToolStripMenuItem
             // 
             this.hybridToolStripMenuItem.Name = "hybridToolStripMenuItem";
-            this.hybridToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.hybridToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.hybridToolStripMenuItem.Text = "Hybrid";
             this.hybridToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
@@ -288,27 +292,27 @@
             this.twentyMToolStripMenuItem,
             this.thirtyMToolStripMenuItem});
             this.pathResToolStripMenuItem.Name = "pathResToolStripMenuItem";
-            this.pathResToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.pathResToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.pathResToolStripMenuItem.Text = "Path Resolution";
             // 
             // tenMToolStripMenuItem
             // 
             this.tenMToolStripMenuItem.Name = "tenMToolStripMenuItem";
-            this.tenMToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.tenMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.tenMToolStripMenuItem.Text = "10m";
             this.tenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
             // fifteenMToolStripMenuItem
             // 
             this.fifteenMToolStripMenuItem.Name = "fifteenMToolStripMenuItem";
-            this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.fifteenMToolStripMenuItem.Text = "15m";
             this.fifteenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
             // twentyMToolStripMenuItem
             // 
             this.twentyMToolStripMenuItem.Name = "twentyMToolStripMenuItem";
-            this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.twentyMToolStripMenuItem.Text = "20m";
             this.twentyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
@@ -317,7 +321,7 @@
             this.thirtyMToolStripMenuItem.Checked = true;
             this.thirtyMToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.thirtyMToolStripMenuItem.Name = "thirtyMToolStripMenuItem";
-            this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.thirtyMToolStripMenuItem.Text = "30m";
             this.thirtyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
@@ -330,7 +334,7 @@
             this.points1000ToolStripMenuItem,
             this.points2000ToolStripMenuItem});
             this.revGeoToolStripMenuItem.Name = "revGeoToolStripMenuItem";
-            this.revGeoToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.revGeoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.revGeoToolStripMenuItem.Text = "Geocode Points";
             // 
             // points250ToolStripMenuItem
@@ -338,35 +342,35 @@
             this.points250ToolStripMenuItem.Checked = true;
             this.points250ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.points250ToolStripMenuItem.Name = "points250ToolStripMenuItem";
-            this.points250ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.points250ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points250ToolStripMenuItem.Text = "250 Points";
             this.points250ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points500ToolStripMenuItem
             // 
             this.points500ToolStripMenuItem.Name = "points500ToolStripMenuItem";
-            this.points500ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.points500ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points500ToolStripMenuItem.Text = "500 Points";
             this.points500ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points750ToolStripMenuItem
             // 
             this.points750ToolStripMenuItem.Name = "points750ToolStripMenuItem";
-            this.points750ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.points750ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points750ToolStripMenuItem.Text = "750 Points";
             this.points750ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points1000ToolStripMenuItem
             // 
             this.points1000ToolStripMenuItem.Name = "points1000ToolStripMenuItem";
-            this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points1000ToolStripMenuItem.Text = "1000 Points";
             this.points1000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points2000ToolStripMenuItem
             // 
             this.points2000ToolStripMenuItem.Name = "points2000ToolStripMenuItem";
-            this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points2000ToolStripMenuItem.Text = "2000 Points";
             this.points2000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
@@ -376,20 +380,20 @@
             this.ViewHelpToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // ViewHelpToolStripMenuItem
             // 
             this.ViewHelpToolStripMenuItem.Name = "ViewHelpToolStripMenuItem";
-            this.ViewHelpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ViewHelpToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.ViewHelpToolStripMenuItem.Text = "View Help";
             this.ViewHelpToolStripMenuItem.Click += new System.EventHandler(this.howDoIToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -401,41 +405,40 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 500);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 593);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(924, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(842, 23);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(22, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(20, 18);
             this.toolStripStatusLabel1.Text = "Ok";
             // 
             // lookupToolStripProgressBar
             // 
             this.lookupToolStripProgressBar.Name = "lookupToolStripProgressBar";
-            this.lookupToolStripProgressBar.Size = new System.Drawing.Size(175, 16);
+            this.lookupToolStripProgressBar.Size = new System.Drawing.Size(150, 17);
             this.lookupToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(0, 18);
             // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(28, 17);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 18);
             this.toolStripStatusLabel3.Text = "0, 0";
             // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 17);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 18);
             // 
             // openGpxFileDialog
             // 
@@ -469,18 +472,17 @@
             this.splitContainer1.Panel2.Controls.Add(this.deleteButton);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(924, 476);
-            this.splitContainer1.SplitterDistance = 620;
-            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.Size = new System.Drawing.Size(842, 569);
+            this.splitContainer1.SplitterDistance = 564;
             this.splitContainer1.TabIndex = 4;
             // 
             // nextButton
             // 
             this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.nextButton.Enabled = false;
-            this.nextButton.Location = new System.Drawing.Point(218, 452);
+            this.nextButton.Location = new System.Drawing.Point(204, 543);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(66, 21);
+            this.nextButton.Size = new System.Drawing.Size(57, 23);
             this.nextButton.TabIndex = 6;
             this.nextButton.Text = "Next >>";
             this.nextButton.UseVisualStyleBackColor = true;
@@ -490,9 +492,9 @@
             // 
             this.backButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.backButton.Enabled = false;
-            this.backButton.Location = new System.Drawing.Point(145, 452);
+            this.backButton.Location = new System.Drawing.Point(141, 543);
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(66, 21);
+            this.backButton.Size = new System.Drawing.Size(57, 23);
             this.backButton.TabIndex = 5;
             this.backButton.Text = "<< Back";
             this.backButton.UseVisualStyleBackColor = true;
@@ -502,9 +504,9 @@
             // 
             this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteButton.Enabled = false;
-            this.deleteButton.Location = new System.Drawing.Point(66, 452);
+            this.deleteButton.Location = new System.Drawing.Point(57, 543);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(66, 21);
+            this.deleteButton.Size = new System.Drawing.Size(57, 23);
             this.deleteButton.TabIndex = 4;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -515,9 +517,9 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.turnPictureBox);
-            this.groupBox3.Location = new System.Drawing.Point(3, 204);
+            this.groupBox3.Location = new System.Drawing.Point(3, 274);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(292, 243);
+            this.groupBox3.Size = new System.Drawing.Size(267, 263);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Turn Inspector";
@@ -525,25 +527,20 @@
             // turnPictureBox
             // 
             this.turnPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.turnPictureBox.Location = new System.Drawing.Point(3, 17);
+            this.turnPictureBox.Location = new System.Drawing.Point(3, 16);
             this.turnPictureBox.Name = "turnPictureBox";
-            this.turnPictureBox.Size = new System.Drawing.Size(286, 223);
+            this.turnPictureBox.Size = new System.Drawing.Size(261, 244);
             this.turnPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.turnPictureBox.TabIndex = 0;
             this.turnPictureBox.TabStop = false;
             this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 522);
+            this.ClientSize = new System.Drawing.Size(842, 616);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
