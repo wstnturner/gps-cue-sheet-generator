@@ -22,5 +22,17 @@ namespace CueSheetGenerator.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Product Name")]
+        public string Pathfinder {
+            get {
+                return ((string)(this["Pathfinder"]));
+            }
+            set {
+                this["Pathfinder"] = value;
+            }
+        }
     }
 }

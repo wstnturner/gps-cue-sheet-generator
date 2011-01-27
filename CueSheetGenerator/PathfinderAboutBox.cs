@@ -11,11 +11,11 @@ namespace CueSheetGenerator {
 		public PathfinderAboutBox() {
 			InitializeComponent();
 			this.Text = String.Format("About {0} {0}", AssemblyTitle);
-			this.labelProductName.Text = AssemblyProduct;
-			this.labelVersion.Text = String.Format("Version {0} {0}", AssemblyVersion);
-			this.labelCopyright.Text = AssemblyCopyright;
-			this.labelCompanyName.Text = AssemblyCompany;
-			this.textBoxDescription.Text = AssemblyDescription;
+			this.labelProductName.Text = "Product Name : Pathfinder";
+			this.labelVersion.Text = String.Format("Version : {0} {0}", AssemblyVersion);
+			this.labelCopyright.Text = "Copyright : CIS422 Pathfinder team";
+            this.labelCompanyName.Text = "Company Name : CIS422 Pathfinder team";
+			//this.textBoxDescription.Text = AssemblyDescription;
 		}
 
 		#region Assembly Attribute Accessors
@@ -83,5 +83,6 @@ namespace CueSheetGenerator {
 		private void okButton_Click(object sender, EventArgs e) {
 			this.Dispose();
 		}
+
 	}
 }
