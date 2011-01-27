@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UtmConvert;
 
 namespace CueSheetGenerator {
 	class TrackPath {
@@ -68,6 +69,14 @@ namespace CueSheetGenerator {
 			get { return _sortedWaypoints[0]; }
 		}
 
+		ConvertLatLonUtm _utmConvert = null;
+
+		double _totalDistance = 0.0;
+		public double TotalDistance {
+			get { return _totalDistance; }
+			set { _totalDistance = value; }
+		}
+
 		//constructor
 		public TrackPath() {
 			_waypoints = new List<Waypoint>();
@@ -79,6 +88,48 @@ namespace CueSheetGenerator {
 			_waypoints = new List<Waypoint>();
 			_pathWaypoints = new List<Waypoint>();
 			_sortedWaypoints = new List<Waypoint>();
+			_totalDistance = 0.0;
+		}
+
+		double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
+		public void processWaypoints(double distance) {
+			if (_waypoints != null && _waypoints.Count > 0) {
+				_utmConvert = new ConvertLatLonUtm();
+				double radLat = ConvertDegRad.getRadians(_waypoints[0].Lat);
+				double radLon = ConvertDegRad.getRadians(_waypoints[0].Lon);
+				_utmConvert.convertLatLonToUtm(radLat, radLon);
+				_waypoints[0].Easting = _utmConvert.Easting;
+				_waypoints[0].Northing = _utmConvert.Northing;
+				_waypoints[0].Zone = _utmConvert.Zone;
+				_waypoints[0].Distance = 0.0;
+				_waypoints[0].setKey();
+				for (int i = 1; i < _waypoints.Count; i++) {
+					radLat = ConvertDegRad.getRadians(_waypoints[i].Lat);
+					radLon = ConvertDegRad.getRadians(_waypoints[i].Lon);
+					_utmConvert.convertLatLonToUtm(radLat, radLon);
+					_waypoints[i].Easting = _utmConvert.Easting;
+					_waypoints[i].Northing = _utmConvert.Northing;
+					x1 = _waypoints[i - 1].Easting;
+					y1 = _waypoints[i - 1].Northing;
+					x2 = _waypoints[i].Easting;
+					y2 = _waypoints[i].Northing;
+					_waypoints[i].setKey();
+					_totalDistance += Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
+					_waypoints[i].Zone = _utmConvert.Zone;
+					_waypoints[i].Distance = _totalDistance;
+				}
+			}
+			//if waypoints are within _waypointSeperation meters of eachother, remove one of them
+			for (int i = 0; i < _waypoints.Count - 1; i++) {
+				if (Math.Abs(_waypoints[i].Distance
+					- _waypoints[i + 1].Distance) < distance) {
+					_waypoints.RemoveAt(i + 1);
+					i--;
+				}
+			}
+			//set the index of each waypoint
+			for (int i = 0; i < _waypoints.Count - 1; i++)
+				_waypoints[i].Index = i;
 		}
 
 		void preProcessPath() {

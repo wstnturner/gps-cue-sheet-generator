@@ -11,6 +11,9 @@ namespace UtmConvert {
 
 	//this is really intense, but thoroughly debugged, so dont bother trying to 
 	//figure out how it works, it converts lat lon to UTM and vice versa thats it
+	/// <summary>
+	///Converts lat lon to utm and vice versa.
+	/// </summary>
     public class ConvertLatLonUtm {
         Datum _datum;
         public Datum Datum {

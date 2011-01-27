@@ -6,26 +6,37 @@ using System.Drawing;
 using System.Threading;
 
 namespace CueSheetGenerator {
+	/// <summary>
+	/// Strategy class for the pathfinder application, aggregates and composes
+	/// all helper classes, and exposes functionality to a graphical user interface
+	/// </summary>
 	class PathfinderStrategy {
+
+		/// <summary>
+		/// Event handler for providing UI with status updates
+		/// </summary>
 		public delegate void updateStatusEventHandler();
 		public event updateStatusEventHandler finishedProcessing;
 		public event updateStatusEventHandler processedWaypoint;
 
 		string _status = "Ok";
+		public string Status {
+			get { return _status; }
+		}
+
 		public const double TEN_M = 10.0, FIFTEEN_M = 15.0
 			, TWENTY_M = 20.0, THIRTY_M = 30.0;
+		
 		double _waypointSeperation = THIRTY_M;
 		public double WaypointSeperation {
 			get { return _waypointSeperation; }
 			set { _waypointSeperation = value; }
 		}
 
-		public string Status {
-			get { return _status; }
-		}
-
 		StringBuilder _directionsString = null;
+		
 		public const double METERS_PER_MILE = 1609.344;
+		
 		WebInterface _web = null;
 		internal WebInterface Web { 
 			get { return _web; } 
@@ -52,13 +63,13 @@ namespace CueSheetGenerator {
 			get { return _currentTurn; }
 		}
 
-
 		Image _image = null;
 		string _baseMapUrl = "http://maps.google.com/maps/api/staticmap?size=";
 		string _mapSize = "500x500&";
 		string _baseGeoUrl = "http://maps.googleapis.com/maps/api/geocode/xml?latlng=";
 		CacheStrategy _cache = null;
 		FiducialStrategy _fidStrategy = null;
+		
 		Waypoint _waypointFromMouse = null;
 		internal Waypoint WaypointFromMouse {
 			get { return _waypointFromMouse; }
@@ -77,7 +88,9 @@ namespace CueSheetGenerator {
 			_cache.writeCachesToFile();
 		}
 
-		//returns the image for the ride map
+		/// <summary>
+		/// returns the image of the ride map
+		/// </summary>
 		public Image getRideMap(int height, int width) {
 			_mapSize = width.ToString() + "x" + height.ToString() + "&";
 			// download web image
@@ -90,7 +103,9 @@ namespace CueSheetGenerator {
 			return _image;
 		}
 
-		//returns the map image at index _currentTurn
+		/// <summary>
+		/// returns the map image at index _currentTurn
+		/// </summary>
 		public Image getTurnMap(int height, int width) {
 			Image image = null;
 			TrackPath turnPath = new TrackPath();
@@ -113,7 +128,9 @@ namespace CueSheetGenerator {
 			return image;
 		}
 
-		//increment the current turn index
+		/// <summary>
+		/// increment the current turn index
+		/// </summary>
 		public void incrementTurn() {
 			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count - 1 > _currentTurn)
@@ -121,7 +138,9 @@ namespace CueSheetGenerator {
 			else _currentTurn = 0;
 		}
 
-		//decriment the current turn index
+		/// <summary>
+		/// decriment the current turn index
+		/// </summary>
 		public void decrementTurn() {
 			if (_directions != null && _directions.Turns != null 
 				&& 0 < _currentTurn)
@@ -132,7 +151,9 @@ namespace CueSheetGenerator {
 			else _currentTurn = 0;
 		}
 
-		//removes the turn at index _currentTurn from the turns array
+		/// <summary>
+		/// removes the turn at index _currentTurn from the turns array
+		/// </summary>
 		public void deleteCurrentTurn() {
 			if (_directions != null && _directions.Turns != null 
 				&& _directions.Turns.Count != 0) {
@@ -143,8 +164,9 @@ namespace CueSheetGenerator {
 			}
 		}
 
-		//formats a string that represents the turn from and to streets
-		//at the index of _currentTurn
+		/// <summary>
+		/// at the index of _currentTurn
+		/// </summary>
 		public string getCurrentTurnString() {
 			string turnString = "";
 			if (_directions != null && _directions.Turns != null 
@@ -159,7 +181,7 @@ namespace CueSheetGenerator {
 			return turnString;
 		}
 
-		public Image drawWaypoints(Image image, TrackPath path) {
+		private Image drawWaypoints(Image image, TrackPath path) {
 			_fidStrategy.processImage((Bitmap)image);
 			//if the fiducial strategy class has located the balloons
 			//register the image to the UTM locations (UL, LR)
@@ -177,18 +199,24 @@ namespace CueSheetGenerator {
 			return image;
 		}
 
-		//if the map has been located i.e. registered, then 
-		//we can return a UTM point given a mouse location on the image
+		/// <summary>
+		/// if the map has been located i.e. registered, then 
+		/// we can return a UTM point given a mouse location on the image
+		/// </summary>
 		public void getWaypointFromMousePosition(Point pt) {
 			if (_fidStrategy.MapLocated)
 				_waypointFromMouse = _fidStrategy.getWaypoint(pt);
 		}
 
-		//stub for adding points of interest to the map
+		/// <summary>
+		/// stub for adding points of interest to the map
+		/// </summary>
 		public void addPointOfInterest(Point p) {}
 
-		//gets a string that represents the list of directions
-		//currently formatted using google maps directions as a model
+		/// <summary>
+		/// gets a string that represents the list of directions
+		/// currently formatted using google maps directions as a model
+		/// </summary>
 		public string getDirections(string units) {
 			//case for meters, kilometers, and miles
 			if (_locations == null) return "";
@@ -213,18 +241,19 @@ namespace CueSheetGenerator {
 						+ getDistanceInUnits(_directions.Turns[last].Locs[1].GpxWaypoint.Distance, units) 
 						+ "\r\n\r\n");
 				_directionsString.Append("End at " + _locations[_locations.Count - 1].Address
-					+ "\r\ntotal distance: " + getDistanceInUnits(_directions.TotalDistance, units));
+					+ "\r\ntotal distance: " + getDistanceInUnits(_path.TotalDistance, units));
 			} else if (_locations.Count > 0) {
 				_directionsString = new StringBuilder("1) Start at " + _locations[0].Address
 					+ "\r\n\r\nEnd at " + _locations[_locations.Count - 1].Address
-					+ "\r\ntotal distance: " + getDistanceInUnits(_directions.TotalDistance, units));
+					+ "\r\ntotal distance: " + getDistanceInUnits(_path.TotalDistance, units));
 			} else {
-				if (_directions.TotalDistance > 0)
+				if (_path.TotalDistance > 0)
 					_directionsString = new StringBuilder("No internet connection.\r\ntotal distance "
-						+ getDistanceInUnits(_directions.TotalDistance, units));
+						+ getDistanceInUnits(_path.TotalDistance, units));
 				else _directionsString = new StringBuilder("No locations, check your input .gpx file");
 			}
-			return _directionsString.ToString();
+			string temp = _directionsString.ToString().Replace("Turn null", "Go straight");
+			return temp;
 		}
 
 		private string getDistanceInUnits(double distance, string units) {
@@ -236,7 +265,9 @@ namespace CueSheetGenerator {
 			}
 		}
 
-		//write the list of directions out to the filesystem as a comma seperated value file
+		/// <summary>
+		/// write the list of directions out to the filesystem as a comma seperated value file
+		/// </summary>
 		public void writeCsvFile(string fileName, string units) {
 			CsvWriter cw = new CsvWriter();
 			if (_locations != null && _locations.Count > 0 && _directions.Turns != null)
@@ -245,9 +276,11 @@ namespace CueSheetGenerator {
 			_status = cw.Status;
 		}
 
-		//given an input gpx file, process the file and conver the 
-		//gps waypoints to locations using the google and geonames
-		//reverse geocoding services, then generate a set of directions
+		/// <summary>
+		/// given an input gpx file, process the file and conver the 
+		/// gps waypoints to locations using the google and geonames
+		/// reverse geocoding services, then generate a set of directions
+		/// </summary>
 		public void processInput(string fileName) {
 			_currentTurn = 0;
 			//parse the gpx file for waypoints
@@ -256,19 +289,14 @@ namespace CueSheetGenerator {
 				parser = new GpxParser(fileName, _path);
 				_status = parser.Status;
 			}
-			_directions = new DirectionsGenerator(_path.Waypoints);
-			//if waypoints are within _waypointSeperation meters of eachother, remove one of them
-			for (int i = 0; i < _path.Waypoints.Count - 1; i++) {
-				if (Math.Abs(_path.Waypoints[i].Distance
-					- _path.Waypoints[i + 1].Distance) < _waypointSeperation) {
-					_path.Waypoints.RemoveAt(i + 1);
-					i--;
-				}
-			}
+			//convert the lat lon coordinates to utm 
+			//and prine the path
+			_path.processWaypoints(_waypointSeperation);
 			//get the reverse geocoded locations
 			_locations = new List<Location>();
 			//iterate through the waypoints, look it up in the cache, if it is  
 			//found, the use it. if it is not then ask google or geonames
+			_directions = new DirectionsGenerator();
 			Thread t = new Thread(getLocations);
 			t.Start();
 		}
@@ -279,7 +307,7 @@ namespace CueSheetGenerator {
 
 		//this runs in its own thread, looks up the locations in the 
 		//path waypoint list, invokes registered methods when done
-		void getLocations() {
+		private void getLocations() {
 			for (int i = 0; i < _path.Waypoints.Count; i++) {
 				_path.Waypoints[i].Index = i;
 				if (i % 10 == 0) _exceeded_query_limit = false;
@@ -301,7 +329,7 @@ namespace CueSheetGenerator {
 
 		//retrieves the location from either the cache (not implemented),
 		//google geocoding API, or geonames.org
-		void getLocation(Waypoint wpt, int i) {
+		private void getLocation(Waypoint wpt, int i) {
 			//hit the cache first
 			_tempLoc = _cache.lookup(wpt);
 			if (_cache.CacheHit) {
