@@ -85,7 +85,7 @@ namespace CueSheetGenerator {
 				this.Invoke(finishedProcessing);
 			} else {
 				if (!_osx) fileToolStripMenuItem.Enabled = true;
-				viewToolStripMenuItem.Enabled = true;
+				optionsToolStripMenuItem.Enabled = true;
 				deleteButton.Enabled = true;
 				backButton.Enabled = true;
 				nextButton.Enabled = true;
@@ -96,7 +96,7 @@ namespace CueSheetGenerator {
 			//initialize the progress bar
 			toolStripStatusLabel2.Text = "Processing,";
 			fileToolStripMenuItem.Enabled = false;
-			viewToolStripMenuItem.Enabled = false;
+			optionsToolStripMenuItem.Enabled = false;
 			deleteButton.Enabled = false;
 			backButton.Enabled = false;
 			nextButton.Enabled = false;
