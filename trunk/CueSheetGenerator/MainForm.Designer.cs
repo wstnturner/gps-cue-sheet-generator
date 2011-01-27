@@ -34,7 +34,6 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,7 +142,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.viewToolStripMenuItem,
+            this.optionsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -188,23 +187,15 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // viewToolStripMenuItem
+            // optionsToolStripMenuItem
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem,
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.unitsToolStripMenuItem,
             this.mapTypeToolStripMenuItem,
             this.pathResToolStripMenuItem,
             this.revGeoToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Enabled = false;
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // unitsToolStripMenuItem
@@ -220,7 +211,7 @@
             // metersToolStripMenuItem
             // 
             this.metersToolStripMenuItem.Name = "metersToolStripMenuItem";
-            this.metersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.metersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.metersToolStripMenuItem.Tag = "Meters";
             this.metersToolStripMenuItem.Text = "Meters";
             this.metersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -228,7 +219,7 @@
             // kilometersToolStripMenuItem
             // 
             this.kilometersToolStripMenuItem.Name = "kilometersToolStripMenuItem";
-            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.kilometersToolStripMenuItem.Tag = "Kilometers";
             this.kilometersToolStripMenuItem.Text = "Kilometers";
             this.kilometersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -238,7 +229,7 @@
             this.milesToolStripMenuItem.Checked = true;
             this.milesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.milesToolStripMenuItem.Name = "milesToolStripMenuItem";
-            this.milesToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.milesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.milesToolStripMenuItem.Tag = "Miles";
             this.milesToolStripMenuItem.Text = "Miles";
             this.milesToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -582,8 +573,7 @@
 		private System.Windows.Forms.TextBox directionsTextBox;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ViewHelpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
