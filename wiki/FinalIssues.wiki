@@ -3,7 +3,7 @@
 = Technical docs =
 
 architecture doc - Kurt
-  requirements: how to build: Visual Studio, Monodevelop
+build support: how to build: Visual Studio, Monodevelop
 
 generate doxygen docs - Kurt/Weston
 
@@ -12,6 +12,7 @@ generate doxygen docs - Kurt/Weston
 = User docs =
 
 readme.txt - Hang
+  include directions for Linux/Mac with links to Monodevelop
 
 user manual - Hang
 
