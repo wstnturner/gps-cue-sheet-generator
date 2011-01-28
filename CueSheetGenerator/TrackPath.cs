@@ -5,6 +5,12 @@ using System.Text;
 using UtmConvert;
 
 namespace CueSheetGenerator {
+    /// <summary>
+    /// track path contains the waypoints from the GPX file
+    /// it also provids functions for generating Google static maps
+    /// URLs for drawing paths on maps
+    /// see: http://code.google.com/apis/maps/documentation/staticmaps/
+    /// </summary>
 	class TrackPath {
 		//path style
 		//path weight in pixels

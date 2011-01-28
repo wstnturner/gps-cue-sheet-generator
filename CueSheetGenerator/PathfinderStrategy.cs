@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace CueSheetGenerator {
 	/// <summary>
-	/// Strategy class for the pathfinder application, aggregates and composes
+	/// strategy class for the pathfinder application, aggregates and composes
 	/// all helper classes, and exposes functionality to a graphical user interface
 	/// </summary>
 	class PathfinderStrategy {
@@ -20,14 +20,24 @@ namespace CueSheetGenerator {
 		public event updateStatusEventHandler processedWaypoint;
 
 		string _status = "Ok";
+        /// <summary>
+        /// internal status of the pathfinder strategy class
+        /// </summary>
 		public string Status {
 			get { return _status; }
 		}
 
+        /// <summary>
+        /// path resolution constants
+        /// </summary>
 		public const double TEN_M = 10.0, FIFTEEN_M = 15.0
 			, TWENTY_M = 20.0, THIRTY_M = 30.0;
 		
+
 		double _waypointSeperation = THIRTY_M;
+        /// <summary>
+        /// path resolution waypoint seperation
+        /// </summary>
 		public double WaypointSeperation {
 			get { return _waypointSeperation; }
 			set { _waypointSeperation = value; }
@@ -38,32 +48,56 @@ namespace CueSheetGenerator {
 		public const double METERS_PER_MILE = 1609.344;
 		
 		WebInterface _web = null;
-		internal WebInterface Web { 
+        /// <summary>
+        /// web interface class instance
+        /// </summary>
+        public WebInterface Web { 
 			get { return _web; } 
 		}
 
 		TrackPath _path = null;
-		internal TrackPath Path {
+        /// <summary>
+        /// track path instance, contians waypoints and 
+        /// related methods for composing a path URL for 
+        /// Google static maps
+        /// </summary>
+		public TrackPath Path {
 			get { return _path; }
 		}
 
 		List<Location> _locations = null;
-		internal List<Location> Locations {
+        /// <summary>
+        /// instance of location class, contains addresses and waypoints 
+        /// for each address
+        /// </summary>
+		public List<Location> Locations {
 			get { return _locations; }
 		}
 		
 		DirectionsGenerator _directions = null;
-		internal DirectionsGenerator Directions {
+        /// <summary>
+        /// instance of directions generator class, contains a list of turns
+        /// and methods for generating a list of turns from locations
+        /// </summary>
+		public DirectionsGenerator Directions {
 			get { return _directions; } 
 		}
 
         CacheStrategy _cache = null;
+        /// <summary>
+        /// instance of cache strategy, contains a cache list, where each
+        /// cache contains a red-black tree, and has a name cooresponding 
+        /// to the UTM zone of the points it contians
+        /// </summary>
         public CacheStrategy Cache {
             get { return _cache; }
         }
 
 		//should not be modified from outside this class
 		private int _currentTurn = 0;
+        /// <summary>
+        /// the current turn the user is viewing
+        /// </summary>
 		public int CurrentTurn {
 			get { return _currentTurn; }
 		}
@@ -75,11 +109,17 @@ namespace CueSheetGenerator {
 		FiducialStrategy _fidStrategy = null;
 		
 		Waypoint _waypointFromMouse = null;
-		internal Waypoint WaypointFromMouse {
+        /// <summary>
+        /// the waypoint that cooresponds to the location of the 
+        /// mouse pointer on the ride map
+        /// </summary>
+		public Waypoint WaypointFromMouse {
 			get { return _waypointFromMouse; }
 		}
 
-		//class constructor
+        /// <summary>
+        /// constructor for pathfinder strategy
+        /// </summary>
 		public PathfinderStrategy() {
 			_path = new TrackPath();
 			_web = new WebInterface();
@@ -88,6 +128,10 @@ namespace CueSheetGenerator {
 			_directionsString = new StringBuilder();
 		}
 
+        /// <summary>
+        /// destructor, writes caches back out to the filesystem
+        /// when the application is closed
+        /// </summary>
 		~PathfinderStrategy() {
 			_cache.writeCachesToFile();
 		}
@@ -169,7 +213,7 @@ namespace CueSheetGenerator {
 		}
 
 		/// <summary>
-		/// at the index of _currentTurn
+		/// get turn string at the index of _currentTurn
 		/// </summary>
 		public string getCurrentTurnString() {
 			string turnString = "";

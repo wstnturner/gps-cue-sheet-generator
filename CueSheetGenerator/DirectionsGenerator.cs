@@ -6,7 +6,7 @@ using UtmConvert;
 
 namespace CueSheetGenerator {
 	/// <summary>
-	///Generates a set of turn directions.
+	/// generates a set of turn directions.
 	/// </summary>
 	class DirectionsGenerator {
 		List<Location> _locs = null;
@@ -16,9 +16,14 @@ namespace CueSheetGenerator {
 			set { _turns = value; }
 		}
 
+        /// <summary>
+        /// constructor for directions generator
+        /// </summary>
 		public DirectionsGenerator() {}
 
-		//computes the average of a list of waypoints
+        /// <summary>
+        ///computes the average of a list of waypoints
+        /// </summary>
 		public Waypoint averageWaypoints(List<Waypoint> list) {
 			double lat = 0.0, lon = 0.0, east = 0.0
 				, north = 0.0, dist = 0.0, ele = 0.0;
@@ -44,7 +49,9 @@ namespace CueSheetGenerator {
 			return temp;
 		}
 
-		//generates turn directions given a list of locations
+        /// <summary>
+        /// generates turn directions given a list of locations
+        /// </summary>
 		public void generateDirections(List<Location> locations) {
 			List<Waypoint> tempWpts = new List<Waypoint>();
 			_locs = locations;
@@ -85,7 +92,9 @@ namespace CueSheetGenerator {
 			for (int i = 0; i < _turns.Count; i++) computeTurn(i);
 		}
 
-		//computes the distance between each turn
+        /// <summary>
+        /// computes the distance between each turn
+        /// </summary>
 		public void computeTurnDistances() {
 			if (_turns.Count > 0)
 				_turns[0].Distance = _turns[0].Locs[1].GpxWaypoint.Distance;
@@ -138,29 +147,49 @@ namespace CueSheetGenerator {
 		}
 	}
 
-	//helper class Turn
+    /// <summary>
+    /// helper turn class
+    /// </summary>
 	class Turn {
-		Location[] _locs;
-		double _distance = 0.0;
 		string _turnDirection = "null";
+        /// <summary>
+        /// specifies whether the turn is a right tur nor a left turn
+        /// </summary>
 		public string TurnDirection {
 			get { return _turnDirection; }
 			set { _turnDirection = value; }
 		}
+
 		double _turnMagnitude = 0.0;
+        /// <summary>
+        /// the magnitude of the turn, 0 - 180 degrees
+        /// </summary>
 		public double TurnMagnitude {
 			get { return _turnMagnitude; }
 			set { _turnMagnitude = value; }
 		}
+
+        double _distance = 0.0;
+        /// <summary>
+        /// the distance of the turn, distance from this turn to the next one
+        /// </summary>
 		public double Distance {
 			get { return _distance; }
 			set { _distance = value; }
 		}
+
+        Location[] _locs;
+        /// <summary>
+        /// array of the locations in turn (3 locations per turn)
+        /// </summary>
 		public Location[] Locs {
 			get { return _locs; }
 			set { _locs = value; }
 		}
 
+        /// <summary>
+        /// constructor for the turn object
+        /// </summary>
 		public Turn(Location one,
 			Location two,
 			Location three) {

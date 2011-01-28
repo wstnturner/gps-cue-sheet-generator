@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Windows.Forms;
 
 namespace CueSheetGenerator {
+    /// <summary>
+    /// about box for pathfinder GUI
+    /// </summary>
 	partial class PathfinderAboutBox : Form {
 		public PathfinderAboutBox() {
 			InitializeComponent();

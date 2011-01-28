@@ -12,16 +12,22 @@ namespace UtmConvert {
 	//this is really intense, but thoroughly debugged, so dont bother trying to 
 	//figure out how it works, it converts lat lon to UTM and vice versa thats it
 	/// <summary>
-	///Converts lat lon to utm and vice versa.
+	/// converts lat lon to utm and vice versa.
 	/// </summary>
     public class ConvertLatLonUtm {
         Datum _datum;
+        /// <summary>
+        /// public datum object
+        /// </summary>
         public Datum Datum {
             get { return _datum; }
             set { _datum = value; }
         }
 
         double _easting = 491887;
+        /// <summary>
+        /// easting attribute, distance east from central meridian
+        /// </summary>
         public double Easting {
             get { return _easting; }
         }
@@ -31,6 +37,9 @@ namespace UtmConvert {
         }
 
         double _northing = 4876938;
+        /// <summary>
+        /// northing, distance north of the equator
+        /// </summary>
         public double Northing {
             get { return _northing; }
         }
@@ -40,25 +49,40 @@ namespace UtmConvert {
         }
 
         string _zone = "";
+        /// <summary>
+        /// UTM zone string
+        /// </summary>
         public string Zone {
             get { return _zone; }
         }
 
         int _centralMeridian = 0;
+        /// <summary>
+        /// the central meridian of the UTM zone
+        /// </summary>
         public int CentralMeridian { 
             get { return _centralMeridian; }
         }
 
         double _lat;
+        /// <summary>
+        /// latitude cooresponding to northing
+        /// </summary>
         public double Latitude {
             get { return _lat; }
         }
 
         double _lon;
+        /// <summary>
+        /// longitude cooresponding to easting
+        /// </summary>
         public double Longitude {
             get { return _lon; }
         }
 
+        /// <summary>
+        /// constructor for convert lat lon utm
+        /// </summary>
         public ConvertLatLonUtm() {
             _datum = new Datum();
             
@@ -67,6 +91,10 @@ namespace UtmConvert {
         const double k0 = 0.9996; //scale along long0 
         double e = 0.08; //approximately. This is the eccentricity of the earth's elliptical cross-section.
         double eTic = 0.007; //The quantity e' only occurs in even powers so it need only be calculated as e'^2.
+
+        /// <summary>
+        /// convert lat lon to UTM
+        /// </summary>
         public void convertLatLonToUtm(double lat, double lon) {
             calcCM(lon);
             e = Math.Sqrt(1.0 - (Math.Pow(_datum.b / _datum.a, 2)));
@@ -146,7 +174,9 @@ namespace UtmConvert {
             long0 = (double)_centralMeridian * (Math.PI / 180.0);
         }
 
-        
+        /// <summary>
+        /// convert UTM to lat lon
+        /// </summary>
         public void convertUtmToLatLon(double x, double y, string zone) {
             e = Math.Sqrt(1.0 - (Math.Pow(_datum.b / _datum.a, 2)));
             eTic = Math.Pow(e, 2) / (1.0 - Math.Pow(e, 2));
