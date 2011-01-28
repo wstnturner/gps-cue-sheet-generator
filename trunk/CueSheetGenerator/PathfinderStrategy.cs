@@ -57,6 +57,11 @@ namespace CueSheetGenerator {
 			get { return _directions; } 
 		}
 
+        CacheStrategy _cache = null;
+        public CacheStrategy Cache {
+            get { return _cache; }
+        }
+
 		//should not be modified from outside this class
 		private int _currentTurn = 0;
 		public int CurrentTurn {
@@ -67,7 +72,6 @@ namespace CueSheetGenerator {
 		string _baseMapUrl = "http://maps.google.com/maps/api/staticmap?size=";
 		string _mapSize = "500x500&";
 		string _baseGeoUrl = "http://maps.googleapis.com/maps/api/geocode/xml?latlng=";
-		CacheStrategy _cache = null;
 		FiducialStrategy _fidStrategy = null;
 		
 		Waypoint _waypointFromMouse = null;

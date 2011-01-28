@@ -92,20 +92,24 @@ namespace CueSheetGenerator {
 			}
 		}
 
-		private void openGpxFile(string fileName) {
-			//initialize the progress bar
-			toolStripStatusLabel2.Text = "Processing,";
-			fileToolStripMenuItem.Enabled = false;
-			optionsToolStripMenuItem.Enabled = false;
-			deleteButton.Enabled = false;
-			backButton.Enabled = false;
-			nextButton.Enabled = false;
-			turnPictureBox.Image = null;
-			directionsTextBox.Clear();
-			_ps.processInput(fileName);
-			lookupToolStripProgressBar.Maximum = _ps.Path.Waypoints.Count;
-			updateRideMap();
-		}
+        private void openGpxFile(string fileName) {
+            //display the file name in the main window text
+            if (_ps.Cache.Windows)
+                this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("\\") + 1);
+            else this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("/") + 1);
+            //initialize the progress bar
+            toolStripStatusLabel2.Text = "Processing,";
+            fileToolStripMenuItem.Enabled = false;
+            optionsToolStripMenuItem.Enabled = false;
+            deleteButton.Enabled = false;
+            backButton.Enabled = false;
+            nextButton.Enabled = false;
+            turnPictureBox.Image = null;
+            directionsTextBox.Clear();
+            _ps.processInput(fileName);
+            lookupToolStripProgressBar.Maximum = _ps.Path.MaxGpxPoints;
+            updateRideMap();
+        }
 
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
 			openGpxFile(openGpxFileDialog.FileName);
@@ -316,7 +320,7 @@ namespace CueSheetGenerator {
 
 		/*hightlight current direction text*/
 		public void highlight() {
-			if (_ps.Directions.Turns != null) {
+			if (_ps.Directions != null) {
 				string s = directionsTextBox.Text;
 				int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
 				directionsTextBox.Focus();
