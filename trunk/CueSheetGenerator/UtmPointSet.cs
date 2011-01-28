@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace UtmConvert {
+    /// <summary>
+    ///	a set of utm points
+    /// </summary>
     public class UtmPointSet {
         List<UtmPoint> _points;
         public List<UtmPoint> Points {

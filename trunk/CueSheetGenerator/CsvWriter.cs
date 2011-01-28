@@ -6,18 +6,25 @@ using System.IO;
 
 namespace CueSheetGenerator {
 	/// <summary>
-	///Writes a comma seperated value list of directions out to a file.
+	/// writes a comma seperated value list of directions out to a file.
 	/// </summary>
 	class CsvWriter {
 		string _status = "Ok";
-
+        /// <summary>
+        /// status string
+        /// </summary>
 		public string Status {
 			get { return _status; }
 		}
 
+        /// <summary>
+        /// constructor for CSV writer
+        /// </summary>
 		public CsvWriter() {}
 
-		//write the comma seperated value list of directions out to a file
+        /// <summary>
+        /// write the comma seperated value list of turns out to a file
+        /// </summary>
 		public void writeCsvFile(string fileName
 			, List<Location> locs, List<Turn> turns, string units) {
 			try {

@@ -5,6 +5,9 @@ using System.Text;
 using System.ComponentModel;
 
 namespace UtmConvert {
+    /// <summary>
+    /// class point, double precision point class
+    /// </summary>
     public class Point {
         double _x = 0;
 		//Summary:

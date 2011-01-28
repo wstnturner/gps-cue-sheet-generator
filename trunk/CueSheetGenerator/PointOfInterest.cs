@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 
 namespace CueSheetGenerator {
-	//stub class for adding points of interest to the
-	//set of turn directions
+    /// <summary>
+    /// stub class for adding points of interest to the
+    /// set of turn directions 
+    /// </summary>
 	class PointOfInterest {
 		//Location _loc;
 		//string _name;

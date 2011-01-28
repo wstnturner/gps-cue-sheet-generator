@@ -5,10 +5,14 @@ using System.Text;
 using System.ComponentModel;
 
 namespace UtmConvert {
+    /// <summary>
+    /// class utm point, helper class for the utm convert class
+    /// </summary>
     public class UtmPoint {
         Point _point;
-		//Summary:
-		//2D point in space
+        /// <summary>
+        /// 2D point in space
+        /// </summary>
 		[CategoryAttribute("UTM Settings")
 		, DescriptionAttribute("2D point in space")]
         public Point Point {
@@ -17,8 +21,9 @@ namespace UtmConvert {
         }
 
         string _zone = "T10";
-		//Summary:
-		//UTM zone, T10 for the northwest 
+        /// <summary>
+        /// UTM zone, T10 for the northwest 
+        /// </summary>
 		[CategoryAttribute("UTM Settings")
 		, DescriptionAttribute("UTM zone, T10 for the northwest")]
         public string Zone {
@@ -27,8 +32,9 @@ namespace UtmConvert {
         }
 
         string _note = "cone";
-		//Summary:
-		//either "cone" or "dummy"
+        /// <summary>
+        /// either "cone" or "dummy"
+        /// </summary>
 		[CategoryAttribute("Waypoint Settings")
 		, DescriptionAttribute("either cone or dummy")]
         public string Note {
@@ -37,8 +43,9 @@ namespace UtmConvert {
         }
 
         string _handle = "";
-		//Summary:
-		//just a string handle, unique identifier
+        /// <summary>
+        /// just a string handle, unique identifier
+        /// </summary>
 		[CategoryAttribute("Waypoint Settings")
 		, DescriptionAttribute("a string handle, unique identifier")]
         public string Handle {
@@ -46,10 +53,16 @@ namespace UtmConvert {
             set { _handle = value; }
         }
 
+        /// <summary>
+        /// default utm point constructor
+        /// </summary>
         public UtmPoint() {
             _point = new Point();
         }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
         public UtmPoint(Point point, string zone, string note, string handle) {
             _point = new Point();
             _point = point;

@@ -5,10 +5,12 @@ using System.Text;
 using System.Drawing;
 
 namespace CueSheetGenerator {
+    /// <summary>
+    /// searches the returned google map for two baloons
+    /// of a specific color, the colors are defined in the
+    /// track path class as: 0xff00ee and 0xff00dd, purple
+    /// </summary>
 	class FiducialStrategy {
-		//searches the returned google map for two baloons
-		//of a specific color, the colors are defined in the
-		//TrackPath class as: 0xff00ee and 0xff00dd, purple
 		const int BALLOON_OFFSET_Y = 12;
 		const int BALLOON_OFFSET_X = 2;
 		int _height = 0;
@@ -28,6 +30,10 @@ namespace CueSheetGenerator {
 		const int HORIZONTAL_ERROR = 10;
 
 		bool _mapLocated = false;
+        /// <summary>
+        /// flag showing whether the map has been located
+        /// properly by the image processor
+        /// </summary>
 		public bool MapLocated {
 			get { return _mapLocated; }
 		}
@@ -39,7 +45,9 @@ namespace CueSheetGenerator {
 		double _verticalOffset = 0.0;
 		double _horizontalOffset = 0.0;
 
-		//relates the pixels in the image to lat lon
+        /// <summary>
+        /// relates the pixels in the image to lat lon
+        /// </summary>
 		public FiducialStrategy() {
 			_col1 = Color.FromArgb(255, 0, 221);
 			_col2 = Color.FromArgb(255, 0, 238);
@@ -47,7 +55,9 @@ namespace CueSheetGenerator {
 			_col2s = new List<Point>();
 		}
 
-		//get pixels of two particular shades
+        /// <summary>
+        /// get pixels of two particular shades
+        /// </summary>
 		public void processImage(Bitmap b) {
 			if (b == null) {
 				_mapLocated = false;
@@ -96,7 +106,9 @@ namespace CueSheetGenerator {
 			return top;
 		}
 
-		//sets a correspondence between the image pixels and UTM coordinates
+        /// <summary>
+        /// sets a correspondence between the image pixels and UTM coordinates
+        /// </summary>
 		public void setCorrespondence(Waypoint wpt1, Waypoint wpt2) {
 			double dx1 = wpt2.Easting - wpt1.Easting;
 			double dy1 = wpt2.Northing - wpt1.Northing;
@@ -108,7 +120,10 @@ namespace CueSheetGenerator {
 			_verticalOffset = wpt1.Northing - _upperLeft.Y * _verticalScale;
 		}
 
-		//get a waypoint from a system.drawing point
+		
+        /// <summary>
+        /// get a waypoint from a system.drawing point
+        /// </summary>
 		public Waypoint getWaypoint(Point pt) {
 			Waypoint wpt = new Waypoint();
 			wpt.Easting = pt.X * _horizontalScale + _horizontalOffset;
@@ -116,7 +131,9 @@ namespace CueSheetGenerator {
 			return wpt;
 		}
 
-		//get a system.drawing point from a waypoint
+        /// <summary>
+        /// get a system.drawing point from a waypoint
+        /// </summary>
 		public Point getPoint(Waypoint wpt) {
 			Point pt = new Point();
 			pt.X = (int)((wpt.Easting - _horizontalOffset) / _horizontalScale);

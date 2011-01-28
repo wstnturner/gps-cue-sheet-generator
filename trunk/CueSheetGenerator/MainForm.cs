@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using System.Threading;
 
 namespace CueSheetGenerator {
+    /// <summary>
+    /// main form class, Pathfinder GUI
+    /// </summary>
 	public partial class MainForm : Form {
 		event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
 		event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
@@ -19,6 +22,15 @@ namespace CueSheetGenerator {
 			get { return _ps; }
 		}
 
+        /// <summary>
+        /// string constants for menu option case structures
+        /// </summary>
+        public const string METERS = "Meters", KM = "Kilometers", MILES = "Miles";
+        string _units = MILES;
+
+        /// <summary>
+        /// constructor for the main form
+        /// </summary>
 		public MainForm(string fileName) {
 			InitializeComponent();
 			_ps = new PathfinderStrategy();
@@ -66,7 +78,7 @@ namespace CueSheetGenerator {
 			}
 		}
 		
-		public void updateDirections() {
+		private void updateDirections() {
 			if (directionsTextBox.InvokeRequired) {
 				this.Invoke(finishedProcessing);
 			} else {
@@ -80,7 +92,7 @@ namespace CueSheetGenerator {
 			}
 		}
 
-		public void reEnableControls() {
+        private void reEnableControls() {
 			if (directionsTextBox.InvokeRequired) {
 				this.Invoke(finishedProcessing);
 			} else {
@@ -153,9 +165,6 @@ namespace CueSheetGenerator {
 			_ps.writeCsvFile(saveCsvFileDialog.FileName, _units);
 			toolStripStatusLabel1.Text = _ps.Status;
 		}
-
-		public const string METERS = "Meters", KM = "Kilometers", MILES = "Miles";
-		string _units = MILES;
 
 		private void unitsToolStripMenuItem_Click(object sender, EventArgs e) {
 			metersToolStripMenuItem.Checked = false;
@@ -319,7 +328,7 @@ namespace CueSheetGenerator {
 		}
 
 		/*hightlight current direction text*/
-		public void highlight() {
+		private void highlight() {
 			if (_ps.Directions != null) {
 				string s = directionsTextBox.Text;
 				int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UtmConvert {
 	/// <summary>
-	///Converts radians to degrees and vice-versa, takes a viriaty of input formats
+	/// converts radians to degrees and vice-versa, takes a viriaty of input formats
 	/// </summary>
     public static class ConvertDegRad {
 		//this class is really overkill for what we are trying to do
@@ -16,12 +16,17 @@ namespace UtmConvert {
 		public delegate void updateErrorEventHandler(Exception error);
 		public static event updateErrorEventHandler updateErrorEvent;
 
-        static string _status = "ok";
+        static string _status = "Ok";
+        /// <summary>
+        /// status string
+        /// </summary>
         public static string Status {
             get { return ConvertDegRad._status; }
         }
 		 
-        // for dd mm ss format
+        /// <summary>
+        /// for dd mm ss format
+        /// </summary>
         public static double getRadians(string degrees
             , string minutes, string seconds, char direction) {
             _status = "ok";
@@ -38,7 +43,10 @@ namespace UtmConvert {
                 return -1;
             }
         }
-        //for dd mm format
+
+        /// <summary>
+        /// for dd mm format
+        /// </summary>
         public static double getRadians(string degrees
 			, string minutes, char direction) {
             _status = "ok";
@@ -55,7 +63,10 @@ namespace UtmConvert {
                 return -1;
             }
         }
-        //for dd format
+
+        /// <summary>
+        /// for dd format
+        /// </summary>
 		public static double getRadians(string degrees, char direction) {
             _status = "ok";
             try {
@@ -70,15 +81,23 @@ namespace UtmConvert {
             }
         }
 
-		//general purpose degree to radian conversion
+        /// <summary>
+        /// general purpose degree to radian conversion
+        /// </summary>
 		public static double getRadians(double degrees) {
 			return (Math.PI / 180) * degrees;
 		}
 
+        /// <summary>
+        /// general purpose radian to degree conversion
+        /// </summary>
         public static double getDegrees(double rad) {
             return rad / (Math.PI / 180);
         }
 
+        /// <summary>
+        /// get degrees and minuts string
+        /// </summary>
         public static string getDegreesMin(double rad) {
             string dd_ff = (rad / (Math.PI / 180)).ToString();
             string mm_ff = (double.Parse(dd_ff.Substring(dd_ff.IndexOf(".")
@@ -87,6 +106,9 @@ namespace UtmConvert {
             return dd_ff + " " + mm_ff;
         }
 
+        /// <summary>
+        /// get degrees minutes and seconds string
+        /// </summary>
         public static string getDegreesMinSec(double rad) {
             string dd_ff = (rad / (Math.PI / 180)).ToString();
             string mm_ff = (double.Parse(dd_ff.Substring(dd_ff.IndexOf(".")

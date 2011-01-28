@@ -6,9 +6,9 @@ using System.IO;
 
 namespace CueSheetGenerator {
 	/// <summary>
-	///Cache strategy class, used to look up previously reverse geocoded
-	///locations, and to store newly reverse geocoded locations for fast
-	///retrieval.
+	/// cache strategy class, used to look up previously reverse geocoded
+	/// locations, and to store newly reverse geocoded locations for fast
+	/// retrieval
 	/// </summary>
 	class CacheStrategy {
 		List<Cache> _caches = null;
@@ -17,15 +17,24 @@ namespace CueSheetGenerator {
 		string _status = "Ok";
 
 		bool _cacheHit = false;
+        /// <summary>
+        /// returns whether the last cache lookup was a hit
+        /// </summary>
 		public bool CacheHit {
 			get { return _cacheHit; }
 		}
 
 		bool _win = true;
+        /// <summary>
+        /// returns whether the program is running on windows
+        /// </summary>
         public bool Windows {
             get { return _win; }
         }
 
+        /// <summary>
+        /// constructor for the cache strategy class
+        /// </summary>
 		public CacheStrategy() {
 			//initialize an array of caches
 			//read in the names of the cache files
@@ -44,6 +53,9 @@ namespace CueSheetGenerator {
 		Location _tempLocation = null;
 		Cache _currentCache = null;
 
+        /// <summary>
+        /// looks up a location in the cache given an input waypoint
+        /// </summary>
 		public Location lookup(Waypoint wpt) {
 			_cacheHit = false;
 			//lookup the waypoint in a cache
@@ -63,6 +75,9 @@ namespace CueSheetGenerator {
 			return _tempLocation;
 		}
 
+        /// <summary>
+        /// add a new location to the cache
+        /// </summary>
 		public void addToCache(Location loc) {
 			//if the location's zone matches a cache file name
 			//then store it in the cache
@@ -89,6 +104,10 @@ namespace CueSheetGenerator {
 			}
 		}
 
+        /// <summary>
+        /// reads the caches files from the filesystem into new 
+        /// cache instances
+        /// </summary>
 		void readCachesFromFile() {
 			// using one tree per UTM zone
 			try {
@@ -101,6 +120,9 @@ namespace CueSheetGenerator {
 				_currentCache = _caches[0];
 		}
 
+        /// <summary>
+        /// given a filename, return a chache from disk
+        /// </summary>
 		Cache readCache(string fileName) {
 			//read index, street name, and full street address
 			StreamReader sr = new StreamReader(fileName);
@@ -124,6 +146,10 @@ namespace CueSheetGenerator {
 			return c;
 		}
 
+        /// <summary>
+        /// writes all caches to file, called by 
+        /// pathfinder strategy destructor
+        /// </summary>
 		public void writeCachesToFile() {
 			//write the cache back out to the file system
 			//for each tree, write contents to a file

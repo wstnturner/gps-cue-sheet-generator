@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace UtmConvert {
+    /// <summary>
+    ///	class datum used by the utm convert class
+    /// </summary>
 	public class Datum {
 		string _name = "";
 

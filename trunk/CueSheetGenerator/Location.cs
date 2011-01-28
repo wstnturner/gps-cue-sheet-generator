@@ -6,54 +6,80 @@ using System.Xml;
 using System.Text.RegularExpressions;
 
 namespace CueSheetGenerator {
+    /// <summary>
+    /// class location, contains location information such as
+    /// waypoint, address, and helper functions to parse the
+    /// returned xml from google or geonames
+    /// </summary>
 	class Location {
-		//location class contains location information such as
-		//waypoint, address, and helper functions to parse the
-		//returned xml from google or geonames
+        /// <summary>
+        /// returned by google server if you exceed 2500 requests per 24 hours
+        /// or if you make too frequent of requests, set 20ms deleay between requests
+        /// </summary>
 		public const string OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
+        /// <summary>
+        /// returned by geonames.org if their servers are busy, simply try the request
+        /// again, geonames is slow to begin with, if this is being returned the lookup
+        /// will be slower still
+        /// </summary>
 		public const string SERVERS_OVERLOADED = "GEONAMES_SERVERS_OVERLOADED";
 
 		string _status = "Ok";
+        /// <summary>
+        /// status string for location class, can return over query limit
+        /// or servers overloaded
+        /// </summary>
 		public string Status {
 			get { return _status; }
 		}
 
 		string _notes = "";
+        /// stores any user definded notes, may use this field instead of
+        /// the point of interest class
 		public string Notes {
 			get { return _notes; }
 			set { _notes = value; }
 		}
 
 		Waypoint _gpxWaypoint = null;
-		internal Waypoint GpxWaypoint {
+        /// the waypoint parsed in from the GPX file
+		public Waypoint GpxWaypoint {
 			get { return _gpxWaypoint; }
 			set { _gpxWaypoint = value; }
 		}
 
 		Waypoint _geoWaypoint = null;
-		internal Waypoint GeoWaypoint {
+        /// waypoint parsed from the reverse geocoded xml
+        /// returned by google or geonames
+		public Waypoint GeoWaypoint {
 			get { return _geoWaypoint; }
 			set { _geoWaypoint = value; }
 		}
 
 		string _address = "";
+        /// the full street address of the reverse geocoded location
 		public string Address {
 			get { return _address; }
 			set { _address = value; }
 		}
 
 		string _streetName = "";
+        /// the street name for the location
 		public string StreetName {
 			get { return _streetName; }
 			set { _streetName = value; }
 		}
 
 		string _xml = "";
+        /// xml returned by google or geonames
 		public string Xml { 
 			get { return _xml; }
 		}
 
-		//constructors
+        /// <summary>
+        /// constructor called when a waypoint has been reverse geocoded
+        /// from a web service (not from the cache)
+        /// </summary>
 		public Location(string doc, Waypoint gpxWpt) {
 			_xml = doc;
 			if (_xml.Contains("xml"))
@@ -61,6 +87,10 @@ namespace CueSheetGenerator {
 			_gpxWaypoint = gpxWpt;
 		}
 
+        /// <summary>
+        /// called by the cache strategy class because there are no waypoints 
+        /// stored in the cache, just keys, street names, and addresses
+        /// </summary>
 		public Location(string address, string streetName) {
 			_address = address;
 			_streetName = streetName;

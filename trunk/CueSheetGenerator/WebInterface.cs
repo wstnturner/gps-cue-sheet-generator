@@ -7,12 +7,16 @@ using System.IO;
 using System.Drawing;
 
 namespace CueSheetGenerator {
-	//class through which to retrieve web pages (XML) and images (maps)
-	//from google mosly
+    /// <summary>
+    ///	web interface, retrieves web pages (XML) and images (maps)
+    /// </summary>
 	class WebInterface {
-		string _status = "Ok";
 
+		string _status = "Ok";
 		public string Status {
+            /// <summary>
+            /// status of web interface class instance
+            /// </summary>
 			get { return _status; }
 			set { _status = value; }
 		}
@@ -21,9 +25,9 @@ namespace CueSheetGenerator {
 		//C# Code Snippet - Download Image from URL
 		//http://www.digitalcoding.com/Code-Snippets/C-Sharp/C-Code-Snippet-Download-Image-from-URL.html
 		/// <summary>
-		/// Function to download Image from website
+		/// function to download an image from a website
 		/// </summary>
-		/// <param name="_URL">URL address to download image</param>
+		/// <param name="url">URL address to download image</param>
 		/// <returns>Image</returns>
 		public Image downloadImage(string url) {
 			Image tmpImage = null;
@@ -54,7 +58,7 @@ namespace CueSheetGenerator {
 		/// <summary>
 		/// Returns the content of a given web adress as string.
 		/// </summary>
-		/// <param name="Url">URL of the webpage</param>
+		/// <param name="url">URL of the webpage</param>
 		/// <returns>Website content</returns>
 		public string downloadWebPage(string url) {
 			try {

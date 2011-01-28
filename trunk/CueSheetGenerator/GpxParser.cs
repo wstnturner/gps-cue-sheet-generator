@@ -6,8 +6,11 @@ using System.IO;
 using System.Xml;
 
 namespace CueSheetGenerator {
+    /// <summary>
+    /// parses the input .gpx file, get lat, lon, and elevation
+    /// see: http://en.wikipedia.org/wiki/GPS_eXchange_Format
+    /// </summary>
 	class GpxParser : TrackFileParser {
-		//parses the input .gpx file, get lat, lon, and elevation
 		public GpxParser(string fileName, TrackPath path) {
 			try {
 				StreamReader sr = new StreamReader(fileName);
