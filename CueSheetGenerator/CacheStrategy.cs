@@ -22,6 +22,9 @@ namespace CueSheetGenerator {
 		}
 
 		bool _win = true;
+        public bool Windows {
+            get { return _win; }
+        }
 
 		public CacheStrategy() {
 			//initialize an array of caches

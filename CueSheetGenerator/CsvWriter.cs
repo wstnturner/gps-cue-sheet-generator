@@ -23,7 +23,7 @@ namespace CueSheetGenerator {
 			try {
 				StringBuilder csvFile = new StringBuilder();
 				//case for meters, kilometers, and miles
-				csvFile.Append("Start at " + locs[0].Address + "\r\n");
+                csvFile.Append("Start at " + locs[0].Address.Replace(",", "") + "\r\n");
 				csvFile.Append("Interval " + units + ",Total " + units + ",Turn"
 				+ ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
 				+ ",UTM Zone,Northing,Easting\r\n");
@@ -39,10 +39,10 @@ namespace CueSheetGenerator {
 						+ "," + turns[i].Locs[1].GpxWaypoint.Lon
 						+ "," + turns[i].Locs[1].GpxWaypoint.Elevation
 						+ "," + turns[i].Locs[1].GpxWaypoint.Zone
-						+ "," + turns[i].Locs[1].GpxWaypoint.Northing
-						+ "," + turns[i].Locs[1].GpxWaypoint.Easting + "\r\n");
+						+ "," + turns[i].Locs[1].GpxWaypoint.Easting
+						+ "," + turns[i].Locs[1].GpxWaypoint.Northing + "\r\n");
 				}
-				csvFile.Append("End at " + locs[locs.Count - 1].Address
+				csvFile.Append("End at " + locs[locs.Count - 1].Address.Replace(",", "")
 					+ "\r\ntotal distance: " + getDistanceInUnits(locs[locs.Count - 1]
 					.GpxWaypoint.Distance, units) + " " + units + "\r\n");
 				StreamWriter sr = new StreamWriter(fileName);

@@ -67,7 +67,6 @@
             this.openGpxFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.nextButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
@@ -78,21 +77,18 @@
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.turnPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.mapPictureBox);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Location = new System.Drawing.Point(3, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(564, 569);
+            this.groupBox1.Size = new System.Drawing.Size(606, 619);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ride Map";
@@ -102,7 +98,7 @@
             this.mapPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapPictureBox.Location = new System.Drawing.Point(3, 16);
             this.mapPictureBox.Name = "mapPictureBox";
-            this.mapPictureBox.Size = new System.Drawing.Size(558, 550);
+            this.mapPictureBox.Size = new System.Drawing.Size(600, 600);
             this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.mapPictureBox.TabIndex = 0;
             this.mapPictureBox.TabStop = false;
@@ -116,9 +112,9 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.directionsTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Location = new System.Drawing.Point(612, 24);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(273, 268);
+            this.groupBox2.Size = new System.Drawing.Size(277, 318);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Directions";
@@ -134,7 +130,7 @@
             this.directionsTextBox.Name = "directionsTextBox";
             this.directionsTextBox.ReadOnly = true;
             this.directionsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.directionsTextBox.Size = new System.Drawing.Size(267, 249);
+            this.directionsTextBox.Size = new System.Drawing.Size(271, 299);
             this.directionsTextBox.TabIndex = 0;
             this.directionsTextBox.WordWrap = false;
             // 
@@ -146,7 +142,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(842, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(892, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -211,7 +207,7 @@
             // metersToolStripMenuItem
             // 
             this.metersToolStripMenuItem.Name = "metersToolStripMenuItem";
-            this.metersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.metersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.metersToolStripMenuItem.Tag = "Meters";
             this.metersToolStripMenuItem.Text = "Meters";
             this.metersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -219,7 +215,7 @@
             // kilometersToolStripMenuItem
             // 
             this.kilometersToolStripMenuItem.Name = "kilometersToolStripMenuItem";
-            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.kilometersToolStripMenuItem.Tag = "Kilometers";
             this.kilometersToolStripMenuItem.Text = "Kilometers";
             this.kilometersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -229,7 +225,7 @@
             this.milesToolStripMenuItem.Checked = true;
             this.milesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.milesToolStripMenuItem.Name = "milesToolStripMenuItem";
-            this.milesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.milesToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.milesToolStripMenuItem.Tag = "Miles";
             this.milesToolStripMenuItem.Text = "Miles";
             this.milesToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -396,9 +392,9 @@
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel4});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 593);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 643);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(842, 23);
+            this.statusStrip1.Size = new System.Drawing.Size(892, 23);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -446,34 +442,13 @@
             // 
             this.printDialog1.UseEXDialog = true;
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.nextButton);
-            this.splitContainer1.Panel2.Controls.Add(this.backButton);
-            this.splitContainer1.Panel2.Controls.Add(this.deleteButton);
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(842, 569);
-            this.splitContainer1.SplitterDistance = 564;
-            this.splitContainer1.TabIndex = 4;
-            // 
             // nextButton
             // 
             this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.nextButton.Enabled = false;
-            this.nextButton.Location = new System.Drawing.Point(204, 543);
+            this.nextButton.Location = new System.Drawing.Point(797, 614);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(57, 23);
+            this.nextButton.Size = new System.Drawing.Size(83, 23);
             this.nextButton.TabIndex = 6;
             this.nextButton.Text = "Next >>";
             this.nextButton.UseVisualStyleBackColor = true;
@@ -483,9 +458,9 @@
             // 
             this.backButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.backButton.Enabled = false;
-            this.backButton.Location = new System.Drawing.Point(141, 543);
+            this.backButton.Location = new System.Drawing.Point(708, 614);
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(57, 23);
+            this.backButton.Size = new System.Drawing.Size(83, 23);
             this.backButton.TabIndex = 5;
             this.backButton.Text = "<< Back";
             this.backButton.UseVisualStyleBackColor = true;
@@ -493,11 +468,11 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteButton.Enabled = false;
-            this.deleteButton.Location = new System.Drawing.Point(57, 543);
+            this.deleteButton.Location = new System.Drawing.Point(620, 614);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(57, 23);
+            this.deleteButton.Size = new System.Drawing.Size(79, 23);
             this.deleteButton.TabIndex = 4;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -508,9 +483,9 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.turnPictureBox);
-            this.groupBox3.Location = new System.Drawing.Point(3, 274);
+            this.groupBox3.Location = new System.Drawing.Point(612, 348);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(267, 263);
+            this.groupBox3.Size = new System.Drawing.Size(277, 263);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Turn Inspector";
@@ -520,7 +495,7 @@
             this.turnPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.turnPictureBox.Location = new System.Drawing.Point(3, 16);
             this.turnPictureBox.Name = "turnPictureBox";
-            this.turnPictureBox.Size = new System.Drawing.Size(261, 244);
+            this.turnPictureBox.Size = new System.Drawing.Size(271, 244);
             this.turnPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.turnPictureBox.TabIndex = 0;
             this.turnPictureBox.TabStop = false;
@@ -531,13 +506,19 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(842, 616);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(892, 666);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.nextButton);
+            this.Controls.Add(this.deleteButton);
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.Tag = "Pathfinder";
             this.Text = "Pathfinder";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
@@ -549,10 +530,6 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.turnPictureBox)).EndInit();
             this.ResumeLayout(false);
@@ -576,8 +553,7 @@
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem ViewHelpToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripProgressBar lookupToolStripProgressBar;

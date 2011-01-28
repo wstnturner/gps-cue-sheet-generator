@@ -33,7 +33,10 @@ namespace CueSheetGenerator {
 		const string MarkersString1 = "&markers=color:0xff00ee|size:tiny|";
 		const string MarkersString2 = "&markers=color:0xff00dd|size:tiny|";
 
-		const int MAX_MAP_POINTS = 90;
+        const string StartMarkersString = "&markers=color:0x00ff18|label:S|";
+        const string StopMarkersString = "&markers=color:0x00f9ff|label:F|";
+
+		const int MAX_MAP_POINTS = 85;
 		
 		public const int REV_GEO_250 = 250, REV_GEO_500 = 500
 			, REV_GEO_750 = 750, REV_GEO_1000 = 1000, REV_GEO_2000 = 2000;
@@ -177,6 +180,12 @@ namespace CueSheetGenerator {
 				+ _sortedWaypoints[0].Lat + "," + _sortedWaypoints[0].Lon
 				+ MarkersString2 + _sortedWaypoints[_sortedWaypoints.Count-1].Lat 
 				+ "," + _sortedWaypoints[_sortedWaypoints.Count-1].Lon);
+            //add the start and end points
+            pathString.Append(StartMarkersString
+                + _pathWaypoints[0].Lat + "," + _pathWaypoints[0].Lon
+                + StopMarkersString + _pathWaypoints[_pathWaypoints.Count - 1].Lat
+                + "," + _pathWaypoints[_pathWaypoints.Count - 1].Lon);
+
 			return pathString.ToString();
 		}
 
