@@ -6,7 +6,7 @@ using System.IO;
 
 namespace CueSheetGenerator {
 	/// <summary>
-	/// writes a comma seperated value list of directions out to a file.
+    /// writes a comma separated value list of directions out to a file.
 	/// </summary>
 	class CsvWriter {
 		string _status = "Ok";
