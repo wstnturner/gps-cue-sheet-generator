@@ -38,7 +38,7 @@ namespace CueSheetGenerator {
 	
 		string _zone = "T10";
         /// <summary>
-        /// UTM zone of waypoint
+        /// utm zone of waypoint
         /// </summary>
 		public string Zone {
 			get { return _zone; }
