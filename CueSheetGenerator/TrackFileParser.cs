@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace CueSheetGenerator {
     /// <summary>
-    /// superclass, track file parser, inherrited by gpx parser
+    /// superclass, track file parser, inherited by gpx parser
     /// and soon to be, kml parser
     /// </summary>
 	abstract class TrackFileParser {

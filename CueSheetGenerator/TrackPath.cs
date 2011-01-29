@@ -7,7 +7,7 @@ using UtmConvert;
 namespace CueSheetGenerator {
     /// <summary>
     /// track path contains the waypoints from the GPX file
-    /// it also provids functions for generating Google static maps
+    /// it also provides functions for generating Google static maps
     /// URLs for drawing paths on maps
     /// see: http://code.google.com/apis/maps/documentation/staticmaps/
     /// </summary>
@@ -204,10 +204,12 @@ namespace CueSheetGenerator {
 			}
 			//use an even smaller number of waypoints in the set of  
 			//path waypoints to restrict URL size
-            divisor = _geocodeWaypoints.Count / (double)MAX_MAP_POINTS;
+            int pointsInPath = MAX_MAP_POINTS;
+            if(!_round) pointsInPath -= 50;
+            divisor = _geocodeWaypoints.Count / (double)pointsInPath;
 			if (divisor > 1) {
 				_pathWaypoints.Clear();
-				for (int i = 0; i < MAX_MAP_POINTS; i++)
+                for (int i = 0; i < pointsInPath; i++)
                     _pathWaypoints.Add(_geocodeWaypoints[(int)((double)i * divisor)]);
 			} else if (divisor < 1)
                 _pathWaypoints = _geocodeWaypoints;

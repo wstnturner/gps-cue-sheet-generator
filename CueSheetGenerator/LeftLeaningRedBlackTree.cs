@@ -44,7 +44,7 @@ namespace CueSheetGenerator {
 
         /// <summary>
         /// class composition, the node composes part
-        /// of the LeftLeaningRedBlackTree class
+        /// of the left leaning red black tree class
         /// </summary>
         public class Node {
             IComparable _key;

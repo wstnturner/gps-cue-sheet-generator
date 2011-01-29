@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace CueSheetGenerator {
     /// <summary>
-    /// searches the returned google map for two baloons
+    /// searches the returned google map for two balloons
     /// of a specific color, the colors are defined in the
     /// track path class as: 0xff00ee and 0xff00dd, purple
     /// </summary>

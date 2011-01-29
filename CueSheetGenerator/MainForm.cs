@@ -15,6 +15,7 @@ namespace CueSheetGenerator {
 	public partial class MainForm : Form {
 		event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
 		event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
+        event PathfinderStrategy.updateStatusEventHandler enableControlls;
 		bool _osx = false;
 
 		PathfinderStrategy _ps = null;
@@ -43,7 +44,7 @@ namespace CueSheetGenerator {
             _ps.finishedProcessing += updateDirections;
             finishedProcessing += updateDirections;
             _ps.finishedProcessing += reEnableControls;
-            finishedProcessing += reEnableControls;
+            enableControlls += reEnableControls;
             _ps.processedWaypoint += updateProgressBar;
             processedWaypoint += updateProgressBar;
             this.Show();
@@ -96,9 +97,9 @@ namespace CueSheetGenerator {
 
         private void reEnableControls() {
 			if (directionsTextBox.InvokeRequired) {
-				this.Invoke(finishedProcessing);
+                this.Invoke(enableControlls);
 			} else {
-				if (!_osx) fileToolStripMenuItem.Enabled = true;
+				fileToolStripMenuItem.Enabled = true;
 				optionsToolStripMenuItem.Enabled = true;
 				deleteButton.Enabled = true;
 				backButton.Enabled = true;

@@ -35,6 +35,8 @@ namespace CueSheetGenerator {
 				// Open a connection
 				HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
 				httpWebRequest.AllowWriteStreamBuffering = true;
+                //httpWebRequest.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)";  
+                //httpWebRequest.Referer = "http://www.google.com/";  
 				// set timeout for 5 seconds
 		        httpWebRequest.Timeout = 5000;  
 				// Request response:
