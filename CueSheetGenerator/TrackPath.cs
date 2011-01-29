@@ -143,6 +143,7 @@ namespace CueSheetGenerator {
         /// </summary>
 		public void processWaypoints(double distance) {
             _totalDistance = 0.0;
+            _geocodeWaypoints.Clear();
             if (_waypoints != null && _waypoints.Count > 0) {
                 _utmConvert = new ConvertLatLonUtm();
                 double radLat = ConvertDegRad.getRadians(_waypoints[0].Lat);

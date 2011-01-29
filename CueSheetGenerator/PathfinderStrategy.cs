@@ -336,6 +336,7 @@ namespace CueSheetGenerator {
 		/// </summary>
 		public void processInput(string fileName) {
 			_currentTurn = 0;
+            _path.resetPath();
 			//parse the gpx file for waypoints
 			TrackFileParser parser;
 			if (fileName.EndsWith(".gpx")) {
@@ -346,7 +347,6 @@ namespace CueSheetGenerator {
 		}
 
         public void reProcessInput() {
-            _path.GeocodeWaypoints.Clear();
             processWaypoints();
         }
 
