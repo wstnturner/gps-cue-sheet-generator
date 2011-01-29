@@ -22,7 +22,6 @@ namespace CueSheetGenerator {
         /// </summary>
 		public string Status {
 			get { return _status; }
-			set { _status = value; }
 		}
 	}
 }

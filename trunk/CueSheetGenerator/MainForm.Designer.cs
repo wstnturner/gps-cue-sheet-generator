@@ -1,28 +1,28 @@
 ﻿namespace CueSheetGenerator {
-	partial class MainForm {
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class MainForm {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing) {
-			if (disposing && (components != null)) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent() {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mapPictureBox = new System.Windows.Forms.PictureBox();
@@ -535,58 +535,58 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.PictureBox mapPictureBox;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.StatusStrip statusStrip1;
-		private System.Windows.Forms.OpenFileDialog openGpxFileDialog;
-		private System.Windows.Forms.SaveFileDialog saveCsvFileDialog;
-		private System.Windows.Forms.PrintDialog printDialog1;
-		private System.Windows.Forms.TextBox directionsTextBox;
-		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.PictureBox mapPictureBox;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.OpenFileDialog openGpxFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveCsvFileDialog;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.TextBox directionsTextBox;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem ViewHelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewHelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-		private System.Windows.Forms.ToolStripProgressBar lookupToolStripProgressBar;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-		private System.Windows.Forms.Button nextButton;
-		private System.Windows.Forms.Button backButton;
-		private System.Windows.Forms.Button deleteButton;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.PictureBox turnPictureBox;
-		private System.Windows.Forms.ToolStripMenuItem unitsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem metersToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem kilometersToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem milesToolStripMenuItem;
-		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
-		private System.Windows.Forms.ToolStripMenuItem mapTypeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem roadmapToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem satelliteToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem hybridToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pathResToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem tenMToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem fifteenMToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem twentyMToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem revGeoToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem points250ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem points500ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem points750ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem points1000ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem thirtyMToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem points2000ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripProgressBar lookupToolStripProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.Button nextButton;
+        private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.PictureBox turnPictureBox;
+        private System.Windows.Forms.ToolStripMenuItem unitsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem metersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kilometersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem milesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripMenuItem mapTypeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem roadmapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem satelliteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem terrainToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hybridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pathResToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tenMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fifteenMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem twentyMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem revGeoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem points250ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem points500ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem points750ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem points1000ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem thirtyMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem points2000ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-	}
+    }
 }
 

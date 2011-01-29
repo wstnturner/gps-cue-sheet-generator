@@ -7,17 +7,17 @@ using System.Text;
 /// classes for converting between lat lon and UTM coordinate systems
 /// </summary>
 namespace UtmConvert {
-	//references:
-	//Converting UTM to Latitude and Longitude (Or Vice Versa)
-	//Steven Dutch, Natural and Applied Sciences, University of Wisconsin - Green Bay
-	//http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
+    //references:
+    //Converting UTM to Latitude and Longitude (Or Vice Versa)
+    //Steven Dutch, Natural and Applied Sciences, University of Wisconsin - Green Bay
+    //http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
 
-	//this is really intense, but thoroughly debugged, so dont bother trying to 
-	//figure out how it works, it converts lat lon to UTM and vice versa thats it
-	/// <summary>
-	/// converts lat lon to utm and vice versa.
+    //this is really intense, but thoroughly debugged, so dont bother trying to 
+    //figure out how it works, it converts lat lon to UTM and vice versa thats it
+    /// <summary>
+    /// converts lat lon to utm and vice versa.
     /// see: http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
-	/// </summary>
+    /// </summary>
     public class ConvertLatLonUtm {
         Datum _datum;
         /// <summary>
@@ -64,7 +64,7 @@ namespace UtmConvert {
         /// <summary>
         /// the central meridian of the UTM zone
         /// </summary>
-        public int CentralMeridian { 
+        public int CentralMeridian {
             get { return _centralMeridian; }
         }
 
@@ -89,7 +89,7 @@ namespace UtmConvert {
         /// </summary>
         public ConvertLatLonUtm() {
             _datum = new Datum();
-            
+
         }
 
         const double k0 = 0.9996; //scale along long0 
@@ -113,14 +113,14 @@ namespace UtmConvert {
             //in radians (This differs from the treatment in the Army reference)
             double p = lon - long0;
             //=a*(1-n+(5*n*n/4)*(1-n)+(81*n^4/64)*(1-n))
-            double A0 = _datum.a * (1.0 - n + (5.0 * Math.Pow(n,2) / 4.0) * (1.0 - n) 
+            double A0 = _datum.a * (1.0 - n + (5.0 * Math.Pow(n, 2) / 4.0) * (1.0 - n)
                 + (81.0 * Math.Pow(n, 4) / 64.0) * (1.0 - n));
             //=(3*a*n/2)*(1-n-(7*n*n/8)*(1-n)+55*n^4/64)
-            double B0 = (3.0 * _datum.a * n / 2.0) * (1.0 - n - (7.0 * Math.Pow(n,2) / 8.0) 
+            double B0 = (3.0 * _datum.a * n / 2.0) * (1.0 - n - (7.0 * Math.Pow(n, 2) / 8.0)
                 * (1.0 - n) + 55.0 * Math.Pow(n, 4) / 64.0);
             //=(15*a*n*n/16)*(1-n+(3*n*n/4)*(1-n))
-            double C0 = (15.0 * _datum.a * Math.Pow(n,2) / 16.0) 
-                * (1.0 - n + (3.0 * Math.Pow(n,2) / 4.0) * (1.0 - n));
+            double C0 = (15.0 * _datum.a * Math.Pow(n, 2) / 16.0)
+                * (1.0 - n + (3.0 * Math.Pow(n, 2) / 4.0) * (1.0 - n));
             //=(35*a*n^3/48)*(1-n+11*n*n/16)
             double D0 = (35.0 * _datum.a * Math.Pow(n, 3) / 48.0) * (1.0 - n + 11.0 * Math.Pow(n, 2) / 16.0);
             //=(315*a*n^4/51)*(1-n)
@@ -154,7 +154,7 @@ namespace UtmConvert {
             //=(COS(lat))^3*(nu/6)*(1-TAN(lat)^2+e1sq*COS(lat)^2)*k0
             double K5 = Math.Pow(Math.Cos(lat), 3) * (nu / 6.0)
                 * (1 - Math.Pow(Math.Tan(lat), 2)
-                + eTic * Math.Pow(Math.Cos(lat), 2)) * k0;            
+                + eTic * Math.Pow(Math.Cos(lat), 2)) * k0;
             _easting = 500000.0 + (K4 * p + K5 * Math.Pow(p, 3));
             char c = 'N';
             //implicit casting is suppost to be going on here.
@@ -170,10 +170,10 @@ namespace UtmConvert {
         double long0 = -123; //central meridian of zone (radians) // maybe should be 123
         private void calcCM(double lon) {
             if (lon < 0)
-                _centralMeridian = (int)(((int)(Math.Abs(lon) 
+                _centralMeridian = (int)(((int)(Math.Abs(lon)
                     * (180.0 / Math.PI))) / 6) * -6 - 3;
             else
-                _centralMeridian = (int)(((int)(Math.Abs(lon) 
+                _centralMeridian = (int)(((int)(Math.Abs(lon)
                     * (180.0 / Math.PI))) / 6) * 6 + 3;
             long0 = (double)_centralMeridian * (Math.PI / 180.0);
         }
@@ -184,17 +184,17 @@ namespace UtmConvert {
         public void convertUtmToLatLon(double x, double y, string zone) {
             e = Math.Sqrt(1.0 - (Math.Pow(_datum.b / _datum.a, 2)));
             eTic = Math.Pow(e, 2) / (1.0 - Math.Pow(e, 2));
-            if(int.Parse(zone.Substring(0, zone.Length - 1)) > 30)
+            if (int.Parse(zone.Substring(0, zone.Length - 1)) > 30)
                 calcCM(ConvertDegRad.getRadians((((int.Parse(zone
-                    .Substring(0, zone.Length - 1))- 30) * 6) - 3).ToString(), 'E'));
+                    .Substring(0, zone.Length - 1)) - 30) * 6) - 3).ToString(), 'E'));
             else
                 calcCM(ConvertDegRad.getRadians(((180 - (int.Parse(zone.Substring
                     (0, zone.Length - 1)) * 6)) + 3).ToString(), 'W'));
             x = x - 500000.0; //subtract 500,000 from conventional UTM coordinate
             double M = y / k0;
-            double mu = M / (_datum.a * (1 - Math.Pow(e, 2) / 4.0 - 3.0 
+            double mu = M / (_datum.a * (1 - Math.Pow(e, 2) / 4.0 - 3.0
                 * Math.Pow(e, 4) / 64.0 - 5.0 * Math.Pow(e, 6) / 256.0));
-            double e1 = (1.0 - Math.Pow(1.0 - Math.Pow(e, 2), 0.5)) 
+            double e1 = (1.0 - Math.Pow(1.0 - Math.Pow(e, 2), 0.5))
                 / (1.0 + Math.Pow(1.0 - Math.Pow(e, 2), 0.5));
             //= (3 * e1 / 2 - 27 e1^3 / 32 ..)
             double J1 = 3.0 * e1 / 2.0 - 27.0 * Math.Pow(e1, 3) / 32.0;
@@ -212,7 +212,7 @@ namespace UtmConvert {
             //tan^2(fp)
             double T1 = Math.Pow(Math.Tan(fp), 2);
             //a(1 - e^2) / (1 - e^2 * sin^2(fp))^(3 / 2)
-            double R1 = _datum.a * (1.0 - Math.Pow(e, 2)) 
+            double R1 = _datum.a * (1.0 - Math.Pow(e, 2))
                 / Math.Pow(1.0 - Math.Pow(e, 2) * Math.Pow(Math.Sin(fp), 2), 3.0 / 2.0);
             //a / (1 - e^2 * sin^2(fp))^(1/2)
             double N1 = _datum.a / Math.Pow(1.0 - Math.Pow(e, 2) * Math.Pow(Math.Sin(fp), 2), 1.0 / 2.0);
@@ -223,18 +223,18 @@ namespace UtmConvert {
             //(D^2 / 2)
             double Q2 = Math.Pow(D, 2) / 2.0;
             //(5 + 3 * T1 + 10 * C1 - 4 * C1^2 - 9 * e'^2) * D^4 / 24
-            double Q3 = (5.0 + 3.0 * T1 + 10.0 * C1 - 4.0 * Math.Pow(C1,2) 
-                - 9.0 * Math.Pow(eTic,2)) * Math.Pow(D,4) / 24.0;
+            double Q3 = (5.0 + 3.0 * T1 + 10.0 * C1 - 4.0 * Math.Pow(C1, 2)
+                - 9.0 * Math.Pow(eTic, 2)) * Math.Pow(D, 4) / 24.0;
             //(61 + 90 * T1 + 298 * C1 + 45 * T1^2 - 3 * C1^2 - 252 * e'^2) * D^6 / 720
             double Q4 = (61.0 + 90.0 * T1 + 289.0 * C1 + 45.0 * Math.Pow(T1, 2)
                 - 3.0 * Math.Pow(C1, 2) - 252.0 * Math.Pow(eTic, 2)) * Math.Pow(D, 6) / 720.0;
             _lat = fp - Q1 * (Q2 - Q3 + Q4);
             double Q5 = D;
             //(1 + 2 * T1 + C1)D^3 / 6
-            double Q6 = (1.0 + 2.0 * T1 + C1) * Math.Pow(D,3) / 6.0;
+            double Q6 = (1.0 + 2.0 * T1 + C1) * Math.Pow(D, 3) / 6.0;
             //(5 - 2 * C1 + 28 * T1 - 3 * C1^2 + 8 * e'^2 + 24 * T1^2) * D^5 / 120
-            double Q7 = (5.0 - 2.0 * C1 + 28.0 * T1 - 3.0 * Math.Pow(C1,2) + 8.0 * Math.Pow(eTic,2)
-                + 24.0 * Math.Pow(T1,2)) * Math.Pow(D,5) / 120.0;
+            double Q7 = (5.0 - 2.0 * C1 + 28.0 * T1 - 3.0 * Math.Pow(C1, 2) + 8.0 * Math.Pow(eTic, 2)
+                + 24.0 * Math.Pow(T1, 2)) * Math.Pow(D, 5) / 120.0;
             //long0 + (Q5 - Q6 + Q7) / cos(fp)
             _lon = long0 + (Q5 - Q6 + Q7) / Math.Cos(fp);
         }

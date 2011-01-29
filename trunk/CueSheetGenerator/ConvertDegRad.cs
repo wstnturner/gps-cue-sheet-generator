@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 
 namespace UtmConvert {
-	/// <summary>
-	/// converts radians to degrees and vice-versa, takes a viriaty of input formats
-	/// </summary>
+    /// <summary>
+    /// converts radians to degrees and vice-versa, takes a viriaty of input formats
+    /// </summary>
     public static class ConvertDegRad {
-		//this class is really overkill for what we are trying to do
-		//all we need is a basic radian to degree converter and vice versa 
-		//but this is code I am reusing from another project that works with
-		//lots of strings, so what the hell.
+        //this class is really overkill for what we are trying to do
+        //all we need is a basic radian to degree converter and vice versa 
+        //but this is code I am reusing from another project that works with
+        //lots of strings, so what the hell.
 
-		public delegate void updateErrorEventHandler(Exception error);
-		public static event updateErrorEventHandler updateErrorEvent;
+        public delegate void updateErrorEventHandler(Exception error);
+        public static event updateErrorEventHandler updateErrorEvent;
 
         static string _status = "Ok";
         /// <summary>
@@ -23,7 +23,7 @@ namespace UtmConvert {
         public static string Status {
             get { return ConvertDegRad._status; }
         }
-		 
+
         /// <summary>
         /// for dd mm ss format
         /// </summary>
@@ -31,14 +31,14 @@ namespace UtmConvert {
             , string minutes, string seconds, char direction) {
             _status = "ok";
             try {
-				if (direction == 'S' || direction == 'W')
+                if (direction == 'S' || direction == 'W')
                     return -(Math.PI / 180) * (double.Parse(degrees)
                         + double.Parse(minutes) / 60 + double.Parse(seconds) / 3600);
                 return (Math.PI / 180) * (double.Parse(degrees)
                     + double.Parse(minutes) / 60 + double.Parse(seconds) / 3600);
             } catch (Exception e) {
-				if (updateErrorEvent != null)
-					updateErrorEvent.Invoke(e);
+                if (updateErrorEvent != null)
+                    updateErrorEvent.Invoke(e);
                 _status = "not a number: " + e.Message;
                 return -1;
             }
@@ -48,17 +48,17 @@ namespace UtmConvert {
         /// for dd mm format
         /// </summary>
         public static double getRadians(string degrees
-			, string minutes, char direction) {
+            , string minutes, char direction) {
             _status = "ok";
             try {
-				if (direction == 'S' || direction == 'W')
+                if (direction == 'S' || direction == 'W')
                     return -(Math.PI / 180) * (double.Parse(degrees)
                         + double.Parse(minutes) / 60);
-                return (Math.PI / 180)*(double.Parse(degrees)
+                return (Math.PI / 180) * (double.Parse(degrees)
                     + double.Parse(minutes) / 60);
             } catch (Exception e) {
-				if (updateErrorEvent != null)
-					updateErrorEvent.Invoke(e);
+                if (updateErrorEvent != null)
+                    updateErrorEvent.Invoke(e);
                 _status = "not a number: " + e.Message;
                 return -1;
             }
@@ -67,15 +67,15 @@ namespace UtmConvert {
         /// <summary>
         /// for dd format
         /// </summary>
-		public static double getRadians(string degrees, char direction) {
+        public static double getRadians(string degrees, char direction) {
             _status = "ok";
             try {
-				if (direction == 'S' || direction == 'W')
+                if (direction == 'S' || direction == 'W')
                     return -(Math.PI / 180) * (double.Parse(degrees));
-                return (Math.PI / 180)*(double.Parse(degrees));
+                return (Math.PI / 180) * (double.Parse(degrees));
             } catch (Exception e) {
-				if (updateErrorEvent != null)
-					updateErrorEvent.Invoke(e);
+                if (updateErrorEvent != null)
+                    updateErrorEvent.Invoke(e);
                 _status = "not a number: " + e.Message;
                 return -1;
             }
@@ -84,9 +84,9 @@ namespace UtmConvert {
         /// <summary>
         /// general purpose degree to radian conversion
         /// </summary>
-		public static double getRadians(double degrees) {
-			return (Math.PI / 180) * degrees;
-		}
+        public static double getRadians(double degrees) {
+            return (Math.PI / 180) * degrees;
+        }
 
         /// <summary>
         /// general purpose radian to degree conversion
