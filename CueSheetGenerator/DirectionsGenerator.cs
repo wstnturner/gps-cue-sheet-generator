@@ -153,7 +153,7 @@ namespace CueSheetGenerator {
 	class Turn {
 		string _turnDirection = "null";
         /// <summary>
-        /// specifies whether the turn is a right tur nor a left turn
+        /// specifies whether the turn is a right turn or a left turn
         /// </summary>
 		public string TurnDirection {
 			get { return _turnDirection; }

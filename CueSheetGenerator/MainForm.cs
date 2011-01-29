@@ -22,6 +22,7 @@ namespace CueSheetGenerator {
 			get { return _ps; }
 		}
 
+        private string _currentFileName = null;
         /// <summary>
         /// string constants for menu option case structures
         /// </summary>
@@ -46,7 +47,7 @@ namespace CueSheetGenerator {
 			finishedProcessing += reEnableControls;
 			_ps.processedWaypoint += updateProgressBar;
 			processedWaypoint += updateProgressBar;
-			if (fileName != null) openGpxFile(fileName);
+            if (fileName != null) openGpsFile(fileName);
 		}
 
 		void updateRideMap() {
@@ -104,27 +105,35 @@ namespace CueSheetGenerator {
 			}
 		}
 
-        private void openGpxFile(string fileName) {
+        private void openGpsFile(string fileName) {
+            _currentFileName = fileName;
             //display the file name in the main window text
             if (_ps.Cache.Windows)
                 this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("\\") + 1);
             else this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("/") + 1);
-            //initialize the progress bar
-            toolStripStatusLabel2.Text = "Processing,";
-            fileToolStripMenuItem.Enabled = false;
-            optionsToolStripMenuItem.Enabled = false;
-            deleteButton.Enabled = false;
-            backButton.Enabled = false;
-            nextButton.Enabled = false;
-            turnPictureBox.Image = null;
-            directionsTextBox.Clear();
-            _ps.processInput(fileName);
-            lookupToolStripProgressBar.Maximum = _ps.Path.MaxGpxPoints;
-            updateRideMap();
+            _ps.processInput(_currentFileName);
+            prepareToDisplayRoute();
+        }
+
+        private void prepareToDisplayRoute() {
+            if (_ps.Path.Waypoints.Count > 0) {
+                //initialize the progress bar
+                lookupToolStripProgressBar.Value = 0;
+                lookupToolStripProgressBar.Maximum = _ps.Path.MaxGpxPoints;
+                toolStripStatusLabel2.Text = "Processing,";
+                fileToolStripMenuItem.Enabled = false;
+                optionsToolStripMenuItem.Enabled = false;
+                deleteButton.Enabled = false;
+                backButton.Enabled = false;
+                nextButton.Enabled = false;
+                turnPictureBox.Image = null;
+                directionsTextBox.Clear();
+                updateRideMap();
+            }
         }
 
 		private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
-			openGpxFile(openGpxFileDialog.FileName);
+            openGpsFile(openGpxFileDialog.FileName);
 		}
 
 		private void openToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -246,6 +255,7 @@ namespace CueSheetGenerator {
 					break;
 			}
 			updateRideMap();
+            updateTurnMap();
 		}
 
 		private void pathResolutionToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -275,6 +285,8 @@ namespace CueSheetGenerator {
 					_ps.WaypointSeperation = PathfinderStrategy.THIRTY_M;
 					break;
 			}
+            _ps.reProcessInput();
+            prepareToDisplayRoute();
 		}
 
 		private void revGeoToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -309,6 +321,9 @@ namespace CueSheetGenerator {
 					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_250;
 					break;
 			}
+            _ps.reProcessInput();
+            prepareToDisplayRoute();
+            
 		}
 
 		private void MainForm_DragEnter(object sender, DragEventArgs e) {
@@ -319,12 +334,11 @@ namespace CueSheetGenerator {
 
 		private void MainForm_DragDrop(object sender, DragEventArgs e) {
 			Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
-			if (a != null) {
+			if (a != null && fileToolStripMenuItem.Enabled) {
 				string s = a.GetValue(0).ToString();
 				if (s.EndsWith(".gpx"))
-					openGpxFile(s);
+                    openGpsFile(s);
 			}
-
 		}
 
 		/*hightlight current direction text*/
@@ -332,10 +346,12 @@ namespace CueSheetGenerator {
 			if (_ps.Directions != null) {
 				string s = directionsTextBox.Text;
 				int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
-				directionsTextBox.Focus();
-				directionsTextBox.SelectionStart = i;
-				directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
-				directionsTextBox.ScrollToCaret();
+                if (i > -1) {
+                    directionsTextBox.Focus();
+                    directionsTextBox.SelectionStart = i;
+                    directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
+                    directionsTextBox.ScrollToCaret();
+                }
 			}
 		}
 
