@@ -32,23 +32,24 @@ namespace CueSheetGenerator {
         /// <summary>
         /// constructor for the main form
         /// </summary>
-		public MainForm(string fileName) {
-			InitializeComponent();
-			_ps = new PathfinderStrategy();
-			_osx = Environment.OSVersion.VersionString.Contains("Unix 10");
-			if (_osx) {
-				openToolStripMenuItem.Enabled = false;
-				toolStripStatusLabel4.Text = "Use drag and drop to open gpx files.";
-			}
-			updateRideMap();
-			_ps.finishedProcessing += updateDirections;
-			_ps.finishedProcessing += reEnableControls;
-			finishedProcessing += updateDirections;
-			finishedProcessing += reEnableControls;
-			_ps.processedWaypoint += updateProgressBar;
-			processedWaypoint += updateProgressBar;
+        public MainForm(string fileName) {
+            InitializeComponent();
+            _ps = new PathfinderStrategy();
+            _osx = Environment.OSVersion.VersionString.Contains("Unix 10");
+            if (_osx) {
+                openToolStripMenuItem.Enabled = false;
+                toolStripStatusLabel4.Text = "Use drag and drop to open gpx files.";
+            }
+            _ps.finishedProcessing += updateDirections;
+            finishedProcessing += updateDirections;
+            _ps.finishedProcessing += reEnableControls;
+            finishedProcessing += reEnableControls;
+            _ps.processedWaypoint += updateProgressBar;
+            processedWaypoint += updateProgressBar;
+            this.Show();
             if (fileName != null) openGpsFile(fileName);
-		}
+            else updateRideMap();
+        }
 
 		void updateRideMap() {
 			// show image in picturebox
@@ -129,6 +130,36 @@ namespace CueSheetGenerator {
                 turnPictureBox.Image = null;
                 directionsTextBox.Clear();
                 updateRideMap();
+            }
+        }
+
+        /*hightlight current direction text*/
+        private void highlight() {
+            if (_ps.Directions != null) {
+                string s = directionsTextBox.Text;
+                int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
+                if (i > -1) {
+                    directionsTextBox.Focus();
+                    directionsTextBox.SelectionStart = i;
+                    directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
+                    directionsTextBox.ScrollToCaret();
+                }
+            }
+        }
+
+        #region event_handlers
+        private void MainForm_DragEnter(object sender, DragEventArgs e) {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else e.Effect = DragDropEffects.None;
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e) {
+            Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
+            if (a != null && fileToolStripMenuItem.Enabled) {
+                string s = a.GetValue(0).ToString();
+                if (s.EndsWith(".gpx"))
+                    openGpsFile(s);
             }
         }
 
@@ -227,6 +258,14 @@ namespace CueSheetGenerator {
 			p.Show();
 		}
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+            Application.Exit();
+        }
+
+        private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Diagnostics.Process.Start("http://analoglogic.net/projects/solar_charger/solar_charger_system_diagram.pdf");
+        }
+
 		private void mapTypeToolStripMenuItem_Click(object sender, EventArgs e) {
 			roadmapToolStripMenuItem.Checked = false;
 			satelliteToolStripMenuItem.Checked = false;
@@ -285,8 +324,10 @@ namespace CueSheetGenerator {
 					_ps.WaypointSeperation = PathfinderStrategy.THIRTY_M;
 					break;
 			}
-            _ps.reProcessInput();
-            prepareToDisplayRoute();
+            if (_ps.Path.Waypoints.Count > 0) {
+                _ps.reProcessInput();
+                prepareToDisplayRoute();
+            }
 		}
 
 		private void revGeoToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -321,50 +362,13 @@ namespace CueSheetGenerator {
 					_ps.Path.MaxGpxPoints = TrackPath.REV_GEO_250;
 					break;
 			}
-            _ps.reProcessInput();
-            prepareToDisplayRoute();
-            
-		}
+            if (_ps.Path.Waypoints.Count > 0) {
+                _ps.reProcessInput();
+                prepareToDisplayRoute();
+            }
+        }
+        #endregion
 
-		private void MainForm_DragEnter(object sender, DragEventArgs e) {
-			if (e.Data.GetDataPresent(DataFormats.FileDrop))
-				e.Effect = DragDropEffects.Copy;
-			else e.Effect = DragDropEffects.None;
-		}
-
-		private void MainForm_DragDrop(object sender, DragEventArgs e) {
-			Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
-			if (a != null && fileToolStripMenuItem.Enabled) {
-				string s = a.GetValue(0).ToString();
-				if (s.EndsWith(".gpx"))
-                    openGpsFile(s);
-			}
-		}
-
-		/*hightlight current direction text*/
-		private void highlight() {
-			if (_ps.Directions != null) {
-				string s = directionsTextBox.Text;
-				int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
-                if (i > -1) {
-                    directionsTextBox.Focus();
-                    directionsTextBox.SelectionStart = i;
-                    directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
-                    directionsTextBox.ScrollToCaret();
-                }
-			}
-		}
-
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
-			Application.Exit();
-		}
-
-		private void howDoIToolStripMenuItem_Click(object sender, EventArgs e) {
-			System.Diagnostics.Process.Start("http://analoglogic.net/projects/solar_charger/solar_charger_system_diagram.pdf");
-		}
-
-
-	}
-
+    }
 
 }

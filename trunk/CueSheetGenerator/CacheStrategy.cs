@@ -174,7 +174,7 @@ namespace CueSheetGenerator {
 		}
 
 		/// <summary>
-		///Cache class contains a left leaning red-black tree
+		/// class cache contains a left leaning red-black tree
 		/// </summary>
 		class Cache {
 			//each cache consists of a tree and a name (UTM zone)

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+/// <summary>
+/// classes for converting between lat lon and UTM coordinate systems
+/// </summary>
 namespace UtmConvert {
 	//references:
 	//Converting UTM to Latitude and Longitude (Or Vice Versa)
@@ -13,6 +16,7 @@ namespace UtmConvert {
 	//figure out how it works, it converts lat lon to UTM and vice versa thats it
 	/// <summary>
 	/// converts lat lon to utm and vice versa.
+    /// see: http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
 	/// </summary>
     public class ConvertLatLonUtm {
         Datum _datum;

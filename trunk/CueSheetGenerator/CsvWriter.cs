@@ -33,7 +33,7 @@ namespace CueSheetGenerator {
                 csvFile.Append("Start at " + locs[0].Address.Replace(",", "") + "\r\n");
 				csvFile.Append("Interval " + units + ",Total " + units + ",Turn"
 				+ ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
-				+ ",UTM Zone,Northing,Easting\r\n");
+                + ",UTM Zone,Easting,Northing\r\n");
 				string notes = "";
 				for (int i = 0; i < turns.Count; i++) {
 					notes = turns[i].Locs[0].Notes + turns[i].Locs[1].Notes + turns[i].Locs[2].Notes;
