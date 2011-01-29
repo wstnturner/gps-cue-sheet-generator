@@ -99,7 +99,10 @@ namespace CueSheetGenerator {
         /// the current turn the user is viewing
         /// </summary>
 		public int CurrentTurn {
-			get { return _currentTurn; }
+			get {
+                if (_directions.Turns == null ||_currentTurn >= _directions.Turns.Count)
+                    _currentTurn = 0;
+                return _currentTurn; }
 		}
 
 		Image _image = null;
@@ -167,6 +170,7 @@ namespace CueSheetGenerator {
 					i <= _directions.Turns[_currentTurn].Locs[2].GpxWaypoint.Index; i++)
 					turnPath.Waypoints.Add(_path.Waypoints[i]);
 			}
+            turnPath.GeocodeWaypoints = turnPath.Waypoints;
 			// download web image
 			if (turnPath != null && turnPath.Waypoints.Count > 0) {
 				image = _web.downloadImage(_baseMapUrl + mapSize
@@ -239,8 +243,8 @@ namespace CueSheetGenerator {
 				Graphics g = Graphics.FromImage(image);
 				SolidBrush brush = new SolidBrush(Color.Green);
 				Point pt;
-				for (int i = 0; i < path.Waypoints.Count; i++) {
-					pt = _fidStrategy.getPoint(path.Waypoints[i]);
+				for (int i = 0; i < path.GeocodeWaypoints.Count; i++) {
+					pt = _fidStrategy.getPoint(path.GeocodeWaypoints[i]);
 					g.FillEllipse(brush, pt.X - 2, pt.Y - 2, 4, 4);
 				}
 			}
@@ -252,8 +256,9 @@ namespace CueSheetGenerator {
 		/// we can return a UTM point given a mouse location on the image
 		/// </summary>
 		public void getWaypointFromMousePosition(Point pt) {
-			if (_fidStrategy.MapLocated)
-				_waypointFromMouse = _fidStrategy.getWaypoint(pt);
+            if (_fidStrategy.MapLocated && _path.Waypoints.Count > 0)
+                _waypointFromMouse = _fidStrategy.getWaypoint(pt);
+            else _waypointFromMouse = null;
 		}
 
 		/// <summary>
@@ -337,17 +342,26 @@ namespace CueSheetGenerator {
 				parser = new GpxParser(fileName, _path);
 				_status = parser.Status;
 			}
-			//convert the lat lon coordinates to utm 
-			//and prine the path
-			_path.processWaypoints(_waypointSeperation);
-			//get the reverse geocoded locations
-			_locations = new List<Location>();
-			//iterate through the waypoints, look it up in the cache, if it is  
-			//found, the use it. if it is not then ask google or geonames
-			_directions = new DirectionsGenerator();
-			Thread t = new Thread(getLocations);
-			t.Start();
+            processWaypoints();
 		}
+
+        public void reProcessInput() {
+            _path.GeocodeWaypoints.Clear();
+            processWaypoints();
+        }
+
+        private void processWaypoints() {
+            //convert the lat lon coordinates to utm 
+            //and prine the path
+            _path.processWaypoints(_waypointSeperation);
+            //get the reverse geocoded locations
+            _locations = new List<Location>();
+            //iterate through the waypoints, look it up in the cache, if it is  
+            //found, the use it. if it is not then ask google or geonames
+            _directions = new DirectionsGenerator();
+            Thread t = new Thread(getLocations);
+            t.Start();
+        }
 
 		bool _exceeded_query_limit = false;
 		string _fullGeoUrl = "";
@@ -356,10 +370,9 @@ namespace CueSheetGenerator {
 		//this runs in its own thread, looks up the locations in the 
 		//path waypoint list, invokes registered methods when done
 		private void getLocations() {
-			for (int i = 0; i < _path.Waypoints.Count; i++) {
-				_path.Waypoints[i].Index = i;
+			for (int i = 0; i < _path.GeocodeWaypoints.Count; i++) {
 				if (i % 10 == 0) _exceeded_query_limit = false;
-				getLocation(_path.Waypoints[i], i);
+                getLocation(_path.GeocodeWaypoints[i], i);
 				if(!_cache.CacheHit)
 					Thread.Sleep(20);
 				if (processedWaypoint != null)
