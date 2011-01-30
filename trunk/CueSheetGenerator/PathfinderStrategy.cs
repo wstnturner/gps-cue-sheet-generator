@@ -362,6 +362,10 @@ namespace CueSheetGenerator {
             processWaypoints();
         }
 
+        /// <summary>
+        /// reprocess the waypoints initially read in from file,
+        /// called when the user changes the path resolution
+        /// </summary>
         public void reProcessInput() {
             processWaypoints();
         }
@@ -404,7 +408,7 @@ namespace CueSheetGenerator {
                 finishedProcessing.Invoke();
         }
 
-        //retrieves the location from either the cache (not implemented),
+        //retrieves the location from either the cache,
         //google geocoding API, or geonames.org
         private void getLocation(Waypoint wpt, int i) {
             //hit the cache first
