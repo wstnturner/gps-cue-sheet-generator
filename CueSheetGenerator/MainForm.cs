@@ -18,12 +18,9 @@ namespace CueSheetGenerator {
         event PathfinderStrategy.updateStatusEventHandler enableControlls;
         bool _osx = false;
 
+        //private instance of the pathfinder strategy class
         PathfinderStrategy _ps = null;
-        internal PathfinderStrategy Strategy {
-            get { return _ps; }
-        }
 
-        private string _currentFileName = null;
         /// <summary>
         /// string constants for menu option case structures
         /// </summary>
@@ -52,6 +49,7 @@ namespace CueSheetGenerator {
             else updateRideMap();
         }
 
+        /// update the main ride map
         void updateRideMap() {
             // show image in picturebox
             mapPictureBox.Image = _ps.getRideMap(mapPictureBox.Height, mapPictureBox.Width);
@@ -59,6 +57,7 @@ namespace CueSheetGenerator {
                 toolStripStatusLabel1.Text = _ps.Web.Status;
         }
 
+        /// update the turn ins[ector turn map
         void updateTurnMap() {
             /*hightlight current direction text*/
             highlight();
@@ -68,6 +67,7 @@ namespace CueSheetGenerator {
             }
         }
 
+        /// every time a waypoint is decoded update the progress bar
         void updateProgressBar() {
             //not ideal, i'd rather use logic to terminate the thread
             //rather than use error handling
@@ -81,6 +81,7 @@ namespace CueSheetGenerator {
             }
         }
 
+        /// when the directions have been generated update the directions display
         private void updateDirections() {
             if (directionsTextBox.InvokeRequired) {
                 this.Invoke(finishedProcessing);
@@ -95,6 +96,7 @@ namespace CueSheetGenerator {
             }
         }
 
+        /// the controlls are disabled during processing, re-enable them afterward
         private void reEnableControls() {
             if (directionsTextBox.InvokeRequired) {
                 this.Invoke(enableControlls);
@@ -107,16 +109,17 @@ namespace CueSheetGenerator {
             }
         }
 
+        /// open a GPS file form the filesystem (GPX or KML)
         private void openGpsFile(string fileName) {
-            _currentFileName = fileName;
             //display the file name in the main window text
             if (_ps.Cache.Windows)
                 this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("\\") + 1);
             else this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("/") + 1);
-            _ps.processInput(_currentFileName);
+            _ps.processInput(fileName);
             prepareToDisplayRoute();
         }
 
+        /// get the UI ready to display the route
         private void prepareToDisplayRoute() {
             if (_ps.Path.Waypoints.Count > 0) {
                 //initialize the progress bar
@@ -134,7 +137,7 @@ namespace CueSheetGenerator {
             }
         }
 
-        /*hightlight current direction text*/
+        //hightlight current direction text
         private void highlight() {
             if (_ps.Directions != null) {
                 string s = directionsTextBox.Text;
@@ -148,13 +151,16 @@ namespace CueSheetGenerator {
             }
         }
 
+        //all event handlers bolow here
         #region event_handlers
+        //user drags an object onto the program surface
         private void MainForm_DragEnter(object sender, DragEventArgs e) {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
             else e.Effect = DragDropEffects.None;
         }
 
+        //user drops an object onto the program surface
         private void MainForm_DragDrop(object sender, DragEventArgs e) {
             Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
             if (a != null && fileToolStripMenuItem.Enabled) {
@@ -164,26 +170,27 @@ namespace CueSheetGenerator {
             }
         }
 
+        //user opens a GPX file (clicks OK)
         private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
             openGpsFile(openGpxFileDialog.FileName);
         }
 
+        //user clicks the File->Open menu control 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e) {
             openGpxFileDialog.ShowDialog();
         }
 
+        //user clicks the File->Save menu control
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
             saveCsvFileDialog.ShowDialog();
         }
 
-        private void unitsToolStripComboBox_Click(object sender, EventArgs e) {
-            if (_ps.Directions != null && _ps.Directions.Turns != null) updateDirections();
-        }
-
+        //user changes the size of the map
         private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
             if (_ps != null) updateRideMap();
         }
 
+        //user moves the mouse over the ride map
         private void mapPictureBox_MouseMove(object sender, MouseEventArgs e) {
             if (_ps != null) {
                 Point pt = new Point(e.X, e.Y);
@@ -196,17 +203,20 @@ namespace CueSheetGenerator {
             }
         }
 
+        //user clicks on the ride map, used to add points of interest
         private void mapPictureBox_MouseClick(object sender, MouseEventArgs e) {
             //use this event to add notes to locations on the map
             //the note will appear in the csv file output by the program
             _ps.addPointOfInterest(new Point(e.X, e.Y));
         }
 
+        //user saves a CSV file (clicks save in the dialogue)
         private void saveCsvFileDialog_FileOk(object sender, CancelEventArgs e) {
             _ps.writeCsvFile(saveCsvFileDialog.FileName, _units);
             toolStripStatusLabel1.Text = _ps.Status;
         }
 
+        //user changes the units option (Meters, Kilometers, Miles)
         private void unitsToolStripMenuItem_Click(object sender, EventArgs e) {
             metersToolStripMenuItem.Checked = false;
             kilometersToolStripMenuItem.Checked = false;
@@ -231,22 +241,26 @@ namespace CueSheetGenerator {
             updateDirections();
         }
 
+        //user changes the size of the turn map picture box
         private void turnPictureBox_SizeChanged(object sender, EventArgs e) {
             if (_ps != null) updateTurnMap();
         }
 
+        //user clicked the next button
         private void nextButton_Click(object sender, EventArgs e) {
             _ps.incrementTurn();
             updateTurnMap();
             toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
         }
 
+        //user clicked the back button
         private void backButton_Click(object sender, EventArgs e) {
             _ps.decrementTurn();
             updateTurnMap();
             toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
         }
 
+        //user clicked the delete button
         private void deleteButton_Click(object sender, EventArgs e) {
             _ps.deleteCurrentTurn();
             updateTurnMap();
@@ -254,19 +268,23 @@ namespace CueSheetGenerator {
                 updateDirections();
         }
 
+        //user clicked the Help->About menu item
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
             PathfinderAboutBox p = new PathfinderAboutBox();
             p.Show();
         }
 
+        //user clicked the File->Exit menu item
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
             Application.Exit();
         }
 
+        //user clicked the Help->View Help menu item
         private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start("http://analoglogic.net/projects/solar_charger/solar_charger_system_diagram.pdf");
+            System.Diagnostics.Process.Start("http://dl.dropbox.com/u/18878030/pathfinder_v1/user_documentation/PathfinderUserManual.pdf");
         }
 
+        //user changed the Options->Map Type menu item
         private void mapTypeToolStripMenuItem_Click(object sender, EventArgs e) {
             roadmapToolStripMenuItem.Checked = false;
             satelliteToolStripMenuItem.Checked = false;
@@ -298,6 +316,7 @@ namespace CueSheetGenerator {
             updateTurnMap();
         }
 
+        //user changed the Options->Path Resolution menu item
         private void pathResolutionToolStripMenuItem_Click(object sender, EventArgs e) {
             tenMToolStripMenuItem.Checked = false;
             fifteenMToolStripMenuItem.Checked = false;
@@ -331,6 +350,7 @@ namespace CueSheetGenerator {
             }
         }
 
+        //user changed the Options->Geocode Points menu item
         private void revGeoToolStripMenuItem_Click(object sender, EventArgs e) {
             points250ToolStripMenuItem.Checked = false;
             points500ToolStripMenuItem.Checked = false;
