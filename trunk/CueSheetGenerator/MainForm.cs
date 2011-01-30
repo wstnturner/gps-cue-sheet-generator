@@ -281,7 +281,7 @@ namespace CueSheetGenerator {
 
         //user clicked the Help->View Help menu item
         private void viewHelpToolStripMenuItem_Click(object sender, EventArgs e) {
-            System.Diagnostics.Process.Start("http://dl.dropbox.com/u/18878030/pathfinder_v1/user_documentation/PathfinderUserManual.pdf");
+            System.Diagnostics.Process.Start("http://gps-cue-sheet-generator.googlecode.com/files/Pathfinder1UserManual.pdf");
         }
 
         //user changed the Options->Map Type menu item

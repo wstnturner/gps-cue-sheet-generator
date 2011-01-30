@@ -242,19 +242,18 @@ namespace CueSheetGenerator {
                 _fidStrategy.setCorrespondence(path.UpperLeft, path.LowerRight);
                 image = new Bitmap(new Bitmap(image));
                 Graphics g = Graphics.FromImage(image);
-                SolidBrush sb = null;
+                SolidBrush sb = new SolidBrush(Color.Blue);
                 Font f = new Font(FontFamily.GenericMonospace, 12, FontStyle.Bold);
                 Point pt;
+                for (int i = 1; i < path.GeocodeWaypoints.Count - 1; i++) {
+                    pt = _fidStrategy.getPoint(path.GeocodeWaypoints[i]);
+                    g.FillEllipse(sb, pt.X - 2, pt.Y - 2, 4, 4);
+                }
                 if (path.GeocodeWaypoints.Count > 0) {
                     sb = new SolidBrush(Color.Lime);
                     pt = _fidStrategy.getPoint(path.GeocodeWaypoints[0]);
                     g.FillEllipse(sb, pt.X - 5, pt.Y - 5, 10, 10);
                     g.DrawString("S", f, sb, pt);
-                }
-                sb = new SolidBrush(Color.Blue);
-                for (int i = 1; i < path.GeocodeWaypoints.Count - 1; i++) {
-                    pt = _fidStrategy.getPoint(path.GeocodeWaypoints[i]);
-                    g.FillEllipse(sb, pt.X - 2, pt.Y - 2, 4, 4);
                 }
                 if (path.GeocodeWaypoints.Count > 0) {
                     int i = path.GeocodeWaypoints.Count - 1;
