@@ -211,8 +211,11 @@ namespace CueSheetGenerator {
                 _pathWaypoints.Clear();
                 for (int i = 0; i < pointsInPath; i++)
                     _pathWaypoints.Add(_geocodeWaypoints[(int)((double)i * divisor)]);
-            } else if (divisor <= 1)
-                _pathWaypoints = _geocodeWaypoints;
+            } else if (divisor <= 1) {
+                _pathWaypoints.Clear();
+                foreach(Waypoint w in _geocodeWaypoints)
+                _pathWaypoints.Add(w);
+            }
         }
 
 
