@@ -26,6 +26,7 @@ namespace CueSheetGenerator {
         /// </summary>
         public const string METERS = "Meters", KM = "Kilometers", MILES = "Miles";
         string _units = MILES;
+        string _currentFileName = null;
 
         /// <summary>
         /// constructor for the main form
@@ -111,6 +112,7 @@ namespace CueSheetGenerator {
 
         /// open a GPS file form the filesystem (GPX or KML)
         private void openGpsFile(string fileName) {
+            _currentFileName = fileName;
             //display the file name in the main window text
             if (_ps.Cache.Windows)
                 this.Text = this.Tag + ": " + fileName.Remove(0, fileName.LastIndexOf("\\") + 1);
@@ -182,7 +184,14 @@ namespace CueSheetGenerator {
 
         //user clicks the File->Save menu control
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            saveCsvFileDialog.ShowDialog();
+            if (!_osx) saveCsvFileDialog.ShowDialog();
+            else {
+                //mono on osx does not support the file save or file open dialogues
+                string s = _currentFileName + ".csv";
+                _ps.writeCsvFile(s, _units);
+                if (s.Contains("/")) s = s.Remove(0, s.LastIndexOf("/"));
+                toolStripStatusLabel4.Text = "saved: " + s; 
+            }
         }
 
         //user changes the size of the map
