@@ -16,7 +16,6 @@ namespace CueSheetGenerator {
         event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
         event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
         event PathfinderStrategy.updateStatusEventHandler enableControlls;
-        bool _osx = false;
 
         //private instance of the pathfinder strategy class
         PathfinderStrategy _ps = null;
@@ -34,11 +33,6 @@ namespace CueSheetGenerator {
         public MainForm(string fileName) {
             InitializeComponent();
             _ps = new PathfinderStrategy();
-            _osx = Environment.OSVersion.VersionString.Contains("Unix 10");
-            if (_osx) {
-                openToolStripMenuItem.Enabled = false;
-                toolStripStatusLabel4.Text = "Use drag and drop to open gpx files.";
-            }
             _ps.finishedProcessing += updateDirections;
             finishedProcessing += updateDirections;
             _ps.finishedProcessing += reEnableControls;
@@ -184,14 +178,7 @@ namespace CueSheetGenerator {
 
         //user clicks the File->Save menu control
         private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (!_osx) saveCsvFileDialog.ShowDialog();
-            else {
-                //mono on osx does not support the file save or file open dialogues
-                string s = _currentFileName + ".csv";
-                _ps.writeCsvFile(s, _units);
-                if (s.Contains("/")) s = s.Remove(0, s.LastIndexOf("/"));
-                toolStripStatusLabel4.Text = "saved: " + s; 
-            }
+            saveCsvFileDialog.ShowDialog();
         }
 
         //user changes the size of the map
