@@ -55,7 +55,6 @@ namespace CueSheetGenerator {
         /// update the turn ins[ector turn map
         void updateTurnMap() {
             /*hightlight current direction text*/
-            highlight();
             turnPictureBox.Image = _ps.getTurnMap(turnPictureBox.Height, turnPictureBox.Width);
             if (turnPictureBox.Image == null) {
                 toolStripStatusLabel1.Text = _ps.Web.Status;
@@ -67,7 +66,7 @@ namespace CueSheetGenerator {
             //not ideal, i'd rather use logic to terminate the thread
             //rather than use error handling
             try {
-                if (directionsTextBox.InvokeRequired)
+                if (startTextBox.InvokeRequired)
                     this.Invoke(processedWaypoint);
                 else
                     lookupToolStripProgressBar.Value = _ps.Locations.Count;
@@ -78,22 +77,50 @@ namespace CueSheetGenerator {
 
         /// when the directions have been generated update the directions display
         private void updateDirections() {
-            if (directionsTextBox.InvokeRequired) {
+            if (startTextBox.InvokeRequired) {
                 this.Invoke(finishedProcessing);
             } else {
-                directionsTextBox.Clear();
-                directionsTextBox.Text = _ps.getDirections(_units);
                 toolStripStatusLabel1.Text = _ps.Status;
                 toolStripStatusLabel2.Text = "Done,";
                 lookupToolStripProgressBar.Value = 0;
                 updateTurnMap();
                 toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+                // update startTextBox
+                startTextBox.Text = "Start at " + _ps.Locations[0].Address;
+                // update the cue sheet ListView
+                updateListView();
+                // update endTextBox
+                endTextBox.Text = "End at " + _ps.Locations[_ps.Locations.Count - 1].Address
+                    + "\r\nTotal distance: "
+                    + _ps.getDistanceInUnits(_ps.Path.TotalDistance, _units);
             }
         }
+		
+        // set the contents of the cue sheet ListView control
+		private void updateListView() {
+			//clear the list view
+			cueSheetListView.Clear();
+			//add necessary columns to list view
+			cueSheetListView.Columns.Add("#", 22);
+			cueSheetListView.Columns.Add("Distance");
+			cueSheetListView.Columns.Add("Turn", 45);
+			cueSheetListView.Columns.Add("Street Name", -2);
+			for (int i = 0; i < _ps.Directions.Turns.Count; i++) {
+				Turn t = _ps.Directions.Turns[i];
+				ListViewItem lvi = new ListViewItem((i + 1).ToString());
+				lvi.SubItems.Add(_ps.getDistanceInUnits(t.Locs[1].GpxWaypoint.Distance, _units));
+				lvi.SubItems.Add(t.TurnDirection);
+				lvi.SubItems.Add(t.Locs[2].StreetName);
+				cueSheetListView.Items.Add(lvi);
+			}
+            // highlight the first turn in the display
+            if (_ps.Directions.Turns.Count > 0)
+                cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
+		}
 
         /// the controlls are disabled during processing, re-enable them afterward
         private void reEnableControls() {
-            if (directionsTextBox.InvokeRequired) {
+            if (startTextBox.InvokeRequired) {
                 this.Invoke(enableControlls);
             } else {
                 fileToolStripMenuItem.Enabled = true;
@@ -128,22 +155,7 @@ namespace CueSheetGenerator {
                 backButton.Enabled = false;
                 nextButton.Enabled = false;
                 turnPictureBox.Image = null;
-                directionsTextBox.Clear();
                 updateRideMap();
-            }
-        }
-
-        //hightlight current direction text
-        private void highlight() {
-            if (_ps.Directions != null) {
-                string s = directionsTextBox.Text;
-                int i = s.IndexOf((_ps.CurrentTurn + 1).ToString() + ")");
-                if (i > -1) {
-                    directionsTextBox.Focus();
-                    directionsTextBox.SelectionStart = i;
-                    directionsTextBox.SelectionLength = s.IndexOf("\r\n\r\n", i) - i;
-                    directionsTextBox.ScrollToCaret();
-                }
             }
         }
 
@@ -245,6 +257,7 @@ namespace CueSheetGenerator {
         //user clicked the next button
         private void nextButton_Click(object sender, EventArgs e) {
             _ps.incrementTurn();
+            cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
             updateTurnMap();
             toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
         }
@@ -252,6 +265,23 @@ namespace CueSheetGenerator {
         //user clicked the back button
         private void backButton_Click(object sender, EventArgs e) {
             _ps.decrementTurn();
+            // KURT: todo: could also scroll cuesheet automatically; right now if the list of turns
+            // in the cue sheet is longer than one screen (i.e. has a vertical scroll bar) and
+            // you click next, eventually the highlighted turn in the cue sheet ListView is not
+            // visible. Maybe there's a way to scroll the ListView as needed to keep the highlighted
+            // turn visible.
+            cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
+            updateTurnMap();
+            toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+        }
+
+        //user clicked a turn in the cue sheet ListView
+        private void cueSheetListView_Click(object sender, EventArgs e)
+        {
+            ListView myListView = (ListView)sender;
+            int index = myListView.SelectedIndices[0];
+            //endTextBox.Text = "selected: " + index;
+            _ps.CurrentTurn = index;
             updateTurnMap();
             toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
         }
@@ -385,7 +415,6 @@ namespace CueSheetGenerator {
             }
         }
         #endregion
-
     }
 
 }
