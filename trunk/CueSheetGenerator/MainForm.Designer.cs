@@ -27,7 +27,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mapPictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.directionsTextBox = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +72,11 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.turnPictureBox = new System.Windows.Forms.PictureBox();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.endTextBox = new System.Windows.Forms.TextBox();
+            this.startTextBox = new System.Windows.Forms.TextBox();
+            this.cueSheetListView = new System.Windows.Forms.ListView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -111,7 +116,10 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.directionsTextBox);
+            this.groupBox2.Controls.Add(this.endTextBox);
+            this.groupBox2.Controls.Add(this.startTextBox);
+            this.groupBox2.Controls.Add(this.cueSheetListView);
+            this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Location = new System.Drawing.Point(612, 24);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(277, 318);
@@ -119,20 +127,18 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Directions";
             // 
-            // directionsTextBox
+            // textBox1
             // 
-            this.directionsTextBox.AcceptsReturn = true;
-            this.directionsTextBox.AcceptsTab = true;
-            this.directionsTextBox.BackColor = System.Drawing.Color.White;
-            this.directionsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.directionsTextBox.Location = new System.Drawing.Point(3, 16);
-            this.directionsTextBox.Multiline = true;
-            this.directionsTextBox.Name = "directionsTextBox";
-            this.directionsTextBox.ReadOnly = true;
-            this.directionsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.directionsTextBox.Size = new System.Drawing.Size(271, 299);
-            this.directionsTextBox.TabIndex = 0;
-            this.directionsTextBox.WordWrap = false;
+            this.textBox1.AcceptsReturn = true;
+            this.textBox1.AcceptsTab = true;
+            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.Location = new System.Drawing.Point(3, 16);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(271, 299);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.WordWrap = false;
             // 
             // menuStrip1
             // 
@@ -373,14 +379,14 @@
             // ViewHelpToolStripMenuItem
             // 
             this.ViewHelpToolStripMenuItem.Name = "ViewHelpToolStripMenuItem";
-            this.ViewHelpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ViewHelpToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.ViewHelpToolStripMenuItem.Text = "View Help";
             this.ViewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -501,6 +507,40 @@
             this.turnPictureBox.TabStop = false;
             this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
             // 
+            // endTextBox
+            // 
+            this.endTextBox.Location = new System.Drawing.Point(3, 281);
+            this.endTextBox.Multiline = true;
+            this.endTextBox.Name = "endTextBox";
+            this.endTextBox.ReadOnly = true;
+            this.endTextBox.Size = new System.Drawing.Size(271, 34);
+            this.endTextBox.TabIndex = 6;
+            // 
+            // startTextBox
+            // 
+            this.startTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.startTextBox.Location = new System.Drawing.Point(3, 16);
+            this.startTextBox.Multiline = true;
+            this.startTextBox.Name = "startTextBox";
+            this.startTextBox.ReadOnly = true;
+            this.startTextBox.Size = new System.Drawing.Size(271, 34);
+            this.startTextBox.TabIndex = 5;
+            // 
+            // cueSheetListView
+            // 
+            this.cueSheetListView.FullRowSelect = true;
+            this.cueSheetListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.cueSheetListView.HideSelection = false;
+            this.cueSheetListView.Location = new System.Drawing.Point(3, 49);
+            this.cueSheetListView.MultiSelect = false;
+            this.cueSheetListView.Name = "cueSheetListView";
+            this.cueSheetListView.Size = new System.Drawing.Size(271, 234);
+            this.cueSheetListView.TabIndex = 4;
+            this.cueSheetListView.UseCompatibleStateImageBehavior = false;
+            this.cueSheetListView.View = System.Windows.Forms.View.Details;
+            this.cueSheetListView.Click += new System.EventHandler(this.cueSheetListView_Click);
+
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -547,7 +587,6 @@
         private System.Windows.Forms.OpenFileDialog openGpxFileDialog;
         private System.Windows.Forms.SaveFileDialog saveCsvFileDialog;
         private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Windows.Forms.TextBox directionsTextBox;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -587,6 +626,12 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem points2000ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox endTextBox;
+        private System.Windows.Forms.TextBox startTextBox;
+        private System.Windows.Forms.ListView cueSheetListView;
     }
 }
 
