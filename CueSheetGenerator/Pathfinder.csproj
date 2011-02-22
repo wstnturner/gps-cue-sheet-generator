@@ -132,6 +132,9 @@
     <Compile Include="UtmPointSet.cs" />
     <Compile Include="Waypoint.cs" />
     <Compile Include="WebInterface.cs" />
+    <Compile Include="ListViewOwnerDraw.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="system-log-out_1.ico" />

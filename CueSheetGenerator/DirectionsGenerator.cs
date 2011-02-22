@@ -151,7 +151,7 @@ namespace CueSheetGenerator {
     /// helper turn class
     /// </summary>
     class Turn {
-        string _turnDirection = "null";
+        string _turnDirection = "straight";
         /// <summary>
         /// specifies whether the turn is a right turn or a left turn
         /// </summary>

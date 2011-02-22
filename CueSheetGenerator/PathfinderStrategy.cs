@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace CueSheetGenerator {
     /// <summary>
@@ -94,6 +95,8 @@ namespace CueSheetGenerator {
         }
 
         //should not be modified from outside this class
+        // KURT: now needs to be modified by MainForm in response to user
+        // clicking on an item in the cue sheet ListView
         private int _currentTurn = 0;
         /// <summary>
         /// the current turn the user is viewing
@@ -104,6 +107,7 @@ namespace CueSheetGenerator {
                     _currentTurn = 0;
                 return _currentTurn;
             }
+            set { _currentTurn = value; }
         }
 
         Image _image = null;
@@ -324,10 +328,10 @@ namespace CueSheetGenerator {
             return temp;
         }
 
-        private string getDistanceInUnits(double distance, string units) {
+        public string getDistanceInUnits(double distance, string units) {
             switch (units) {
                 case "Meters": return Math.Round(distance, 1).ToString() + " meters";
-                case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString() + " kilometers";
+                case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString() + " km";
                 case "Miles": return Math.Round(distance / METERS_PER_MILE, 1).ToString() + " miles";
                 default: return null;
             }
