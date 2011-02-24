@@ -109,7 +109,7 @@ namespace CueSheetGenerator {
         /// <summary>
         /// sets a correspondence between the image pixels and UTM coordinates
         /// </summary>
-        public void setCorrespondence(Waypoint wpt1, Waypoint wpt2) {
+        public void setCorrespondence(Location wpt1, Location wpt2) {
             double dx1 = wpt2.Easting - wpt1.Easting;
             double dy1 = wpt2.Northing - wpt1.Northing;
             double dx2 = _lowerRight.X - _upperLeft.X;
@@ -124,8 +124,8 @@ namespace CueSheetGenerator {
         /// <summary>
         /// get a waypoint from a system.drawing point
         /// </summary>
-        public Waypoint getWaypoint(Point pt) {
-            Waypoint wpt = new Waypoint();
+        public Location getWaypoint(Point pt) {
+            Location wpt = new Location();
             wpt.Easting = pt.X * _horizontalScale + _horizontalOffset;
             wpt.Northing = pt.Y * _verticalScale + _verticalOffset;
             return wpt;
@@ -134,7 +134,7 @@ namespace CueSheetGenerator {
         /// <summary>
         /// get a system.drawing point from a waypoint
         /// </summary>
-        public Point getPoint(Waypoint wpt) {
+        public Point getPoint(Location wpt) {
             Point pt = new Point();
             pt.X = (int)((wpt.Easting - _horizontalOffset) / _horizontalScale);
             pt.Y = (int)((wpt.Northing - _verticalOffset) / _verticalScale);

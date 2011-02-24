@@ -27,32 +27,32 @@ namespace CueSheetGenerator {
         /// write the comma seperated value list of turns out to a file
         /// </summary>
         public void writeCsvFile(string fileName
-            , List<Location> locs, List<Turn> turns, string units) {
+            , List<Address> locs, List<Turn> turns, string units) {
             try {
                 StringBuilder csvFile = new StringBuilder();
                 //case for meters, kilometers, and miles
-                csvFile.Append("Start at " + locs[0].Address.Replace(",", "") + "\r\n");
+                csvFile.Append("Start at " + locs[0].AddressString.Replace(",", "") + "\r\n");
                 csvFile.Append("Interval " + units + ",Total " + units + ",Turn"
                 + ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
                 + ",UTM Zone,Easting,Northing\r\n");
                 string notes = "";
                 for (int i = 0; i < turns.Count; i++) {
-                    notes = turns[i].Locs[0].Notes + turns[i].Locs[1].Notes + turns[i].Locs[2].Notes;
+                    notes = turns[i].Notes;
                     csvFile.Append(getDistanceInUnits(turns[i].Distance, units)
-                        + "," + getDistanceInUnits(turns[i].Locs[1].GpxWaypoint.Distance, units)
+                        + "," + getDistanceInUnits(turns[i].Locs[1].GpxLocation.Distance, units)
                         + "," + turns[i].TurnDirection
                         + "," + Math.Round(turns[i].TurnMagnitude)
                         + "," + turns[i].Locs[2].StreetName + "," + notes
-                        + "," + turns[i].Locs[1].GpxWaypoint.Lat
-                        + "," + turns[i].Locs[1].GpxWaypoint.Lon
-                        + "," + turns[i].Locs[1].GpxWaypoint.Elevation
-                        + "," + turns[i].Locs[1].GpxWaypoint.Zone
-                        + "," + turns[i].Locs[1].GpxWaypoint.Easting
-                        + "," + turns[i].Locs[1].GpxWaypoint.Northing + "\r\n");
+                        + "," + turns[i].Locs[1].GpxLocation.Lat
+                        + "," + turns[i].Locs[1].GpxLocation.Lon
+                        + "," + turns[i].Locs[1].GpxLocation.Elevation
+                        + "," + turns[i].Locs[1].GpxLocation.Zone
+                        + "," + turns[i].Locs[1].GpxLocation.Easting
+                        + "," + turns[i].Locs[1].GpxLocation.Northing + "\r\n");
                 }
-                csvFile.Append("End at " + locs[locs.Count - 1].Address.Replace(",", "")
+                csvFile.Append("End at " + locs[locs.Count - 1].AddressString.Replace(",", "")
                     + "\r\ntotal distance: " + getDistanceInUnits(locs[locs.Count - 1]
-                    .GpxWaypoint.Distance, units) + " " + units + "\r\n");
+                    .GpxLocation.Distance, units) + " " + units + "\r\n");
                 StreamWriter sr = new StreamWriter(fileName);
                 sr.WriteLine(csvFile.ToString());
                 sr.Close();
@@ -66,7 +66,7 @@ namespace CueSheetGenerator {
                 case "Meters": return Math.Round(distance, 1).ToString();
                 case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString();
                 case "Miles": return Math.Round(distance
-                    / PathfinderStrategy.METERS_PER_MILE, 1).ToString();
+                    / DirectionsPrinter.METERS_PER_MILE, 1).ToString();
                 default: return null;
             }
         }

@@ -57,13 +57,13 @@ namespace CueSheetGenerator {
             readCachesFromFile();
         }
 
-        Location _tempLocation = null;
+        Address _tempLocation = null;
         Cache _currentCache = null;
 
         /// <summary>
         /// looks up a location in the cache given an input waypoint
         /// </summary>
-        public Location lookup(Waypoint wpt) {
+        public Address lookup(Location wpt) {
             _cacheHit = false;
             //lookup the waypoint in a cache
             //if it is not present, return null
@@ -74,10 +74,10 @@ namespace CueSheetGenerator {
                         _currentCache = c;
                 }
             }
-            _tempLocation = (Location)_currentCache.read(wpt.Key);
+            _tempLocation = (Address)_currentCache.read(wpt.Key);
             if (_tempLocation != null) {
                 _cacheHit = true;
-                _tempLocation.GpxWaypoint = wpt;
+                _tempLocation.GpxLocation = wpt;
             }
             return _tempLocation;
         }
@@ -85,27 +85,27 @@ namespace CueSheetGenerator {
         /// <summary>
         /// add a new location to the cache
         /// </summary>
-        public void addToCache(Location loc) {
+        public void addToCache(Address loc) {
             //if the location's zone matches a cache file name
             //then store it in the cache
             //else create a new cache
             if (_currentCache != null
-                && loc.GpxWaypoint.Zone == _currentCache.Name)
-                _currentCache.write(loc.GpxWaypoint.Key, loc);
+                && loc.GpxLocation.Zone == _currentCache.Name)
+                _currentCache.write(loc.GpxLocation.Key, loc);
             else {
                 bool foundCache = false;
                 foreach (Cache c in _caches) {
-                    if (loc.GpxWaypoint.Zone == c.Name) {
+                    if (loc.GpxLocation.Zone == c.Name) {
                         _currentCache = c;
                         foundCache = true;
-                        c.write(loc.GpxWaypoint.Key, loc);
+                        c.write(loc.GpxLocation.Key, loc);
                     }
                 }
                 //create the cache and store the location
                 if (!foundCache) {
-                    Cache c = new Cache(loc.GpxWaypoint.Zone);
+                    Cache c = new Cache(loc.GpxLocation.Zone);
                     _currentCache = c;
-                    c.write(loc.GpxWaypoint.Key, loc);
+                    c.write(loc.GpxLocation.Key, loc);
                     _caches.Add(c);
                 }
             }
@@ -133,7 +133,7 @@ namespace CueSheetGenerator {
         Cache readCache(string fileName) {
             //read index, street name, and full street address
             StreamReader sr = new StreamReader(fileName);
-            Location loc = null;
+            Address loc = null;
             Cache c = null;
             //use windows or unix file paths
             if (_win) c = new Cache(fileName.Remove(0, fileName.LastIndexOf("\\") + 1));
@@ -146,7 +146,7 @@ namespace CueSheetGenerator {
                 streetName = s.Substring(0, s.IndexOf("\t"));
                 s = s.Remove(0, s.IndexOf("\t") + 1);
                 address = s;
-                loc = new Location(address, streetName);
+                loc = new Address(address, streetName);
                 c.Tree.insert(long.Parse(key), loc);
             }
             sr.Close();
@@ -171,11 +171,11 @@ namespace CueSheetGenerator {
         private void writeCache(Cache c) {
             List<LLRBTree.Node> locs = c.Tree.getPreOrederList();
             StreamWriter sr = new StreamWriter(_cacheDir + c.Name);
-            Location loc = null;
+            Address loc = null;
             foreach (LLRBTree.Node n in locs) {
-                loc = (Location)(n.getValue());
+                loc = (Address)(n.getValue());
                 sr.WriteLine(n.getKey().ToString() + "\t" + loc.StreetName
-                    + "\t" + loc.Address);
+                    + "\t" + loc.AddressString);
             }
             sr.Close();
         }

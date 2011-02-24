@@ -67,31 +67,32 @@ namespace CueSheetGenerator {
             set { _round = value; }
         }
 
-        List<Waypoint> _waypoints = null;
+        List<Location> _waypoints = null;
         /// <summary>
         /// list of waypoints read in from the gpx file
         /// </summary>
-        public List<Waypoint> Waypoints {
+        public List<Location> Waypoints {
             get { return _waypoints; }
             set { _waypoints = value; }
         }
 
-        List<Waypoint> _geocodeWaypoints = null;
+        List<Location> _geocodeWaypoints = null;
         /// <summary>
         /// list of waypoints to reverse geocode
         /// </summary>
-        public List<Waypoint> GeocodeWaypoints {
+        public List<Location> GeocodeWaypoints {
             get { return _geocodeWaypoints; }
             set { _geocodeWaypoints = value; }
         }
 
-        List<Waypoint> _pathWaypoints = null;
-        List<Waypoint> _sortedWaypoints = null;
+        List<Location> _pathWaypoints = null;
+        List<Location> _sortedWaypoints = null;
+        List<Location> _spacedOutPoints = null;
 
         /// <summary>
         /// 1st locating UTM point
         /// </summary>
-        public Waypoint UpperLeft {
+        public Location UpperLeft {
             get { return _sortedWaypoints[_sortedWaypoints.Count - 1]; }
         }
 
@@ -99,7 +100,7 @@ namespace CueSheetGenerator {
         /// <summary>
         /// 2nd locating UTM point
         /// </summary>
-        public Waypoint LowerRight {
+        public Location LowerRight {
             get { return _sortedWaypoints[0]; }
         }
 
@@ -118,10 +119,11 @@ namespace CueSheetGenerator {
         /// constructor
         /// </summary>
         public TrackPath() {
-            _waypoints = new List<Waypoint>();
-            _geocodeWaypoints = new List<Waypoint>();
-            _pathWaypoints = new List<Waypoint>();
-            _sortedWaypoints = new List<Waypoint>();
+            _waypoints = new List<Location>();
+            _geocodeWaypoints = new List<Location>();
+            _pathWaypoints = new List<Location>();
+            _sortedWaypoints = new List<Location>();
+            _spacedOutPoints = new List<Location>();
         }
 
         /// <summary>
@@ -143,7 +145,6 @@ namespace CueSheetGenerator {
         /// </summary>
         public void processWaypoints(double distance) {
             _totalDistance = 0.0;
-            _geocodeWaypoints.Clear();
             if (_waypoints != null && _waypoints.Count > 0) {
                 _utmConvert = new ConvertLatLonUtm();
                 double radLat = ConvertDegRad.getRadians(_waypoints[0].Lat);
@@ -174,15 +175,147 @@ namespace CueSheetGenerator {
                     _waypoints[i].Index = i;
                 //if waypoints are within _waypointSeperation meters of eachother, remove one of them
                 int current = 0;
-                _geocodeWaypoints.Add(_waypoints[current]);
+                _spacedOutPoints.Clear();
+                _spacedOutPoints.Add(_waypoints[current]);
                 for (int i = 1; i < _waypoints.Count; i++) {
                     if (Math.Abs(_waypoints[current].Distance
                         - _waypoints[i].Distance) > distance) {
-                        _geocodeWaypoints.Add(_waypoints[i]);
+                        _spacedOutPoints.Add(_waypoints[i]);
                         current = i;
                     }
                 }
+
+                //clear out the list of waypoints to geocode
+                _geocodeWaypoints.Clear();
+                //call douglass reduction
+                List<Location> temp = DouglasReduction(_waypoints, 4.0);
+                List<int> waypointsToKeep = new List<int>();
+                waypointsToKeep.Add(0);
+                int j = 0;
+                for (int i = 1; i < temp.Count - 1; i++) {
+                    j = findSecondPrevious(temp[i]);
+                    if (j >= temp[i - 1].Index)
+                        waypointsToKeep.Add(j);
+                    waypointsToKeep.Add(findFirstPrevious(temp[i]));
+                    if (j < temp[i - 1].Index)
+                        waypointsToKeep.Add(temp[i].Index);
+                    waypointsToKeep.Add(findFirstNext(temp[i]));
+                    j = findSecondNext(temp[i]);
+                    if (j < temp[i + 1].Index) 
+                        waypointsToKeep.Add(j);
+                    j = findFirstNext(temp[i]);
+                    while (i < temp.Count && temp[i].Index < j) i++;
+                }
+                waypointsToKeep.Add(temp[temp.Count - 1].Index);
+                int k = 0;
+                while (k < waypointsToKeep.Count - 1) {
+                    if (waypointsToKeep[k] >= waypointsToKeep[k + 1])
+                        waypointsToKeep.RemoveAt(k + 1);
+                    else 
+                        k++;
+                }
+                    
+                for (int i = 0; i < waypointsToKeep.Count; i++) {
+                    _geocodeWaypoints.Add(_waypoints[waypointsToKeep[i]]);
+                }
             }
+        }
+
+        int findFirstPrevious(Location loc) {
+            int i = 1;
+            while (loc.Index > _spacedOutPoints[i].Index) i++;
+            return _spacedOutPoints[i-1].Index;
+        }
+
+        int findSecondPrevious(Location loc) {
+            int i = 2;
+            while (loc.Index > _spacedOutPoints[i].Index) i++;
+            return _spacedOutPoints[i - 2].Index;
+        }
+
+        int findFirstNext(Location loc) {
+            int i = _spacedOutPoints.Count-2;
+            while (loc.Index < _spacedOutPoints[i].Index) i--;
+            return _spacedOutPoints[i+1].Index;
+        }
+
+        int findSecondNext(Location loc) {
+            int i = _spacedOutPoints.Count - 3;
+            while (loc.Index < _spacedOutPoints[i].Index) i--;
+            return _spacedOutPoints[i + 2].Index;
+        }
+
+        /// <summary>
+        /// Uses the Douglas Peucker algorithm to reduce the number of points.
+        /// </summary>
+        /// <param name="Points">The points.</param>
+        /// <param name="epsilon">The epsilon.</param> vv
+        /// <returns></returns>
+        public static List<Location> DouglasReduction(List<Location> Points, Double epsilon) {
+            if (Points == null || Points.Count < 3)
+                return Points;
+            Int32 firstPoint = 0;
+            Int32 lastPoint = Points.Count - 1;
+            List<Int32> pointIndexsToKeep = new List<Int32>();
+            //Add the first and last index to the keepers
+            pointIndexsToKeep.Add(firstPoint);
+            pointIndexsToKeep.Add(lastPoint);
+            //The first and the last point cannot be the same
+            while (Points[firstPoint].Equals(Points[lastPoint])) {
+                lastPoint--;
+            }
+
+            DouglasReduction(Points, firstPoint, lastPoint, epsilon, ref pointIndexsToKeep);
+            List<Location> returnPoints = new List<Location>();
+            pointIndexsToKeep.Sort();
+            foreach (Int32 index in pointIndexsToKeep) {
+                returnPoints.Add(Points[index]);
+            }
+            return returnPoints;
+        }
+
+        /// <summary>
+        /// Douglases the peucker reduction.
+        /// </summary>
+        /// <param name="points">The points.</param>
+        /// <param name="firstPoint">The first point.</param>
+        /// <param name="lastPoint">The last point.</param>
+        /// <param name="epsilon">The epsilon.</param>
+        /// <param name="pointIndexsToKeep">The point index to keep.</param>
+        private static void DouglasReduction(List<Location> points, Int32 firstPoint, Int32 lastPoint, Double epsilon,
+           ref List<Int32> pointIndexsToKeep) {
+            Double maxDistance = 0;
+            Int32 indexFarthest = 0;
+            for (Int32 index = firstPoint; index < lastPoint; index++) {
+                Double distance = PerpendicularDistance(points[firstPoint], points[lastPoint], points[index]);
+                if (distance > maxDistance) {
+                    maxDistance = distance;
+                    indexFarthest = index;
+                }
+            }
+            if (maxDistance > epsilon && indexFarthest != 0) {
+                //Add the largest point that exceeds the tolerance
+                pointIndexsToKeep.Add(indexFarthest);
+                DouglasReduction(points, firstPoint, indexFarthest, epsilon, ref pointIndexsToKeep);
+                DouglasReduction(points, indexFarthest, lastPoint, epsilon, ref pointIndexsToKeep);
+            }
+        }
+
+        /// <summary>
+        /// The distance of a point from a line made from point1 and point2.
+        /// </summary>
+        /// <param name="pt1">The PT1.</param>
+        /// <param name="pt2">The PT2.</param>
+        /// <param name="p">The p.</param>
+        /// <returns></returns>
+        public static Double PerpendicularDistance(Location Point1, Location Point2, Location Point) {
+            Double area = Math.Abs(.5 * (Point1.Easting * Point2.Northing + Point2.Easting *
+            Point.Northing + Point.Easting * Point1.Northing - Point2.Easting * Point1.Northing - Point.Easting *
+            Point2.Northing - Point1.Easting * Point.Northing));
+            Double bottom = Math.Sqrt(Math.Pow(Point1.Easting - Point2.Easting, 2) +
+            Math.Pow(Point1.Northing - Point2.Northing, 2));
+            Double height = area / bottom * 2;
+            return height;
         }
 
         void preProcessPath() {
@@ -190,7 +323,7 @@ namespace CueSheetGenerator {
             //of input waypoints and the _maxGpxPoints
             double divisor = _geocodeWaypoints.Count / (double)_maxGpxPoints;
             if (divisor > 1) {
-                List<Waypoint> temp = new List<Waypoint>();
+                List<Location> temp = new List<Location>();
                 for (int i = 0; i < _maxGpxPoints; i++)
                     temp.Add(_geocodeWaypoints[(int)((double)i * divisor)]);
                 _geocodeWaypoints = temp;
@@ -198,7 +331,7 @@ namespace CueSheetGenerator {
             if (_sortedWaypoints.Count <= 4) {
                 //sort the waypoint in order to add ballons
                 _sortedWaypoints.Clear();
-                foreach (Waypoint w in _waypoints)
+                foreach (Location w in _waypoints)
                     _sortedWaypoints.Add(w);
                 _sortedWaypoints.Sort();
             }
@@ -213,7 +346,7 @@ namespace CueSheetGenerator {
                     _pathWaypoints.Add(_geocodeWaypoints[(int)((double)i * divisor)]);
             } else if (divisor <= 1) {
                 _pathWaypoints.Clear();
-                foreach(Waypoint w in _geocodeWaypoints)
+                foreach (Location w in _geocodeWaypoints)
                 _pathWaypoints.Add(w);
             }
         }
@@ -222,16 +355,16 @@ namespace CueSheetGenerator {
         /// <summary>
         /// returns a string that represents the URL of the google static maps path
         /// </summary>
-        public string getPathString() {
+        public string getPathUrlString() {
             preProcessPath();
             StringBuilder pathString = new StringBuilder();
             pathString.Append("path=" + "color:" + _color + "|weight:" + _weight);
             if (_round) {
-                foreach (Waypoint wpt in _pathWaypoints)
+                foreach (Location wpt in _pathWaypoints)
                     pathString.Append("|" + Math.Round(wpt.Lat, 4)
                         + "," + Math.Round(wpt.Lon, 4));
             } else {
-                foreach (Waypoint wpt in _pathWaypoints)
+                foreach (Location wpt in _pathWaypoints)
                     pathString.Append("|" + wpt.Lat + "," + wpt.Lon);
             }
             pathString.Append("&maptype=" + _mapType);
@@ -240,11 +373,6 @@ namespace CueSheetGenerator {
                 + _sortedWaypoints[0].Lat + "," + _sortedWaypoints[0].Lon
                 + MarkersString2 + _sortedWaypoints[_sortedWaypoints.Count - 1].Lat
                 + "," + _sortedWaypoints[_sortedWaypoints.Count - 1].Lon);
-            ////add the start and end points
-            //pathString.Append(StartMarkersString
-            //    + _pathWaypoints[0].Lat + "," + _pathWaypoints[0].Lon
-            //    + StopMarkersString + _pathWaypoints[_pathWaypoints.Count - 1].Lat
-            //    + "," + _pathWaypoints[_pathWaypoints.Count - 1].Lon);
             return pathString.ToString();
         }
 

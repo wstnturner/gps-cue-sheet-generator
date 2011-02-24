@@ -9,7 +9,7 @@ namespace CueSheetGenerator {
     /// generates a set of turn directions.
     /// </summary>
     class DirectionsGenerator {
-        List<Location> _locs = null;
+        List<Address> _locs = null;
         List<Turn> _turns = null;
         public List<Turn> Turns {
             get { return _turns; }
@@ -24,11 +24,11 @@ namespace CueSheetGenerator {
         /// <summary>
         ///computes the average of a list of waypoints
         /// </summary>
-        public Waypoint averageWaypoints(List<Waypoint> list) {
+        public Location averageWaypoints(List<Location> list) {
             double lat = 0.0, lon = 0.0, east = 0.0
                 , north = 0.0, dist = 0.0, ele = 0.0;
             int index = 0;
-            foreach (Waypoint wpt in list) {
+            foreach (Location wpt in list) {
                 lat += wpt.Lat;
                 lon += wpt.Lon;
                 east += wpt.Easting;
@@ -37,7 +37,7 @@ namespace CueSheetGenerator {
                 ele += wpt.Elevation;
                 index += wpt.Index;
             }
-            Waypoint temp = new Waypoint();
+            Location temp = new Location();
             temp.Lat = lat / (double)(list.Count);
             temp.Lon = lon / (double)(list.Count);
             temp.Easting = east / (double)(list.Count);
@@ -52,8 +52,8 @@ namespace CueSheetGenerator {
         /// <summary>
         /// generates turn directions given a list of locations
         /// </summary>
-        public void generateDirections(List<Location> locations) {
-            List<Waypoint> tempWpts = new List<Waypoint>();
+        public void generateDirections(List<Address> locations) {
+            List<Location> tempWpts = new List<Location>();
             _locs = locations;
             _turns = new List<Turn>();
             string prevStreet = _locs[0].StreetName;
@@ -69,10 +69,10 @@ namespace CueSheetGenerator {
                     if (i < _locs.Count - 1) {
                         if (i > 1 && _locs[i - 1].StreetName == _locs[i - 2].StreetName) {
                             tempWpts.Clear();
-                            tempWpts.Add(_locs[i - 1].GpxWaypoint);
-                            tempWpts.Add(_locs[i].GpxWaypoint);
+                            tempWpts.Add(_locs[i - 1].GpxLocation);
+                            tempWpts.Add(_locs[i].GpxLocation);
                             //average the two middle points
-                            _locs[i].GpxWaypoint = averageWaypoints(tempWpts);
+                            _locs[i].GpxLocation = averageWaypoints(tempWpts);
                             _turns.Add(new Turn(_locs[i - 2], _locs[i], _locs[i + 1]));
                         } else _turns.Add(new Turn(_locs[i - 1], _locs[i], _locs[i + 1]));
                         prevStreet = _locs[i].StreetName;
@@ -97,25 +97,25 @@ namespace CueSheetGenerator {
         /// </summary>
         public void computeTurnDistances() {
             if (_turns.Count > 0)
-                _turns[0].Distance = _turns[0].Locs[1].GpxWaypoint.Distance;
+                _turns[0].Distance = _turns[0].Locs[1].GpxLocation.Distance;
             for (int i = 1; i < _turns.Count; i++)
-                _turns[i].Distance = _turns[i].Locs[1].GpxWaypoint.Distance
-                    - _turns[i - 1].Locs[1].GpxWaypoint.Distance;
+                _turns[i].Distance = _turns[i].Locs[1].GpxLocation.Distance
+                    - _turns[i - 1].Locs[1].GpxLocation.Distance;
         }
 
         //compute present heading, future heading, and theta
         double theta1 = 0.0, theta2 = 0.0;
         double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
         void computeTurn(int i) {
-            x1 = _turns[i].Locs[0].GpxWaypoint.Easting;
-            x2 = _turns[i].Locs[1].GpxWaypoint.Easting;
-            y1 = _turns[i].Locs[0].GpxWaypoint.Northing;
-            y2 = _turns[i].Locs[1].GpxWaypoint.Northing;
+            x1 = _turns[i].Locs[0].GpxLocation.Easting;
+            x2 = _turns[i].Locs[1].GpxLocation.Easting;
+            y1 = _turns[i].Locs[0].GpxLocation.Northing;
+            y2 = _turns[i].Locs[1].GpxLocation.Northing;
             theta1 = calculateTheta(x2 - x1, y2 - y1);
-            x1 = _turns[i].Locs[1].GpxWaypoint.Easting;
-            x2 = _turns[i].Locs[2].GpxWaypoint.Easting;
-            y1 = _turns[i].Locs[1].GpxWaypoint.Northing;
-            y2 = _turns[i].Locs[2].GpxWaypoint.Northing;
+            x1 = _turns[i].Locs[1].GpxLocation.Easting;
+            x2 = _turns[i].Locs[2].GpxLocation.Easting;
+            y1 = _turns[i].Locs[1].GpxLocation.Northing;
+            y2 = _turns[i].Locs[2].GpxLocation.Northing;
             theta2 = calculateTheta(x2 - x1, y2 - y1);
             _turns[i].TurnMagnitude = Math.Abs(theta2 - theta1);
             if (_turns[i].TurnMagnitude > 5.0) {
@@ -144,59 +144,6 @@ namespace CueSheetGenerator {
                 else if (xDelta > 0.0 && yDelta < 0.0) theta = 360.0 + theta;
             }
             return theta;
-        }
-    }
-
-    /// <summary>
-    /// helper turn class
-    /// </summary>
-    class Turn {
-        string _turnDirection = "straight";
-        /// <summary>
-        /// specifies whether the turn is a right turn or a left turn
-        /// </summary>
-        public string TurnDirection {
-            get { return _turnDirection; }
-            set { _turnDirection = value; }
-        }
-
-        double _turnMagnitude = 0.0;
-        /// <summary>
-        /// the magnitude of the turn, 0 - 180 degrees
-        /// </summary>
-        public double TurnMagnitude {
-            get { return _turnMagnitude; }
-            set { _turnMagnitude = value; }
-        }
-
-        double _distance = 0.0;
-        /// <summary>
-        /// the distance of the turn, distance from this turn to the next one
-        /// </summary>
-        public double Distance {
-            get { return _distance; }
-            set { _distance = value; }
-        }
-
-        Location[] _locs;
-        /// <summary>
-        /// array of the locations in turn (3 locations per turn)
-        /// </summary>
-        public Location[] Locs {
-            get { return _locs; }
-            set { _locs = value; }
-        }
-
-        /// <summary>
-        /// constructor for the turn object
-        /// </summary>
-        public Turn(Location one,
-            Location two,
-            Location three) {
-            _locs = new Location[3];
-            _locs[0] = one;
-            _locs[1] = two;
-            _locs[2] = three;
         }
     }
 }

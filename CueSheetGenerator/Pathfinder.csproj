@@ -77,8 +77,10 @@
     <Compile Include="Datum.cs" />
     <Compile Include="Datums.cs" />
     <Compile Include="DirectionsGenerator.cs" />
+    <Compile Include="DirectionsPrinter.cs" />
     <Compile Include="FiducialStrategy.cs" />
     <Compile Include="LeftLeaningRedBlackTree.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +88,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GpxParser.cs" />
+    <Compile Include="MapPainter.cs" />
     <Compile Include="PathfinderAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +102,7 @@
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="left.ico" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -117,6 +121,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="right.ico" />
+    <EmbeddedResource Include="straight.ico" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,14 +133,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Location.cs" />
+    <Compile Include="Address.cs" />
+    <Compile Include="Turn.cs" />
     <Compile Include="UtmPoint.cs" />
     <Compile Include="UtmPointSet.cs" />
-    <Compile Include="Waypoint.cs" />
     <Compile Include="WebInterface.cs" />
-    <Compile Include="ListViewOwnerDraw.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="system-log-out_1.ico" />

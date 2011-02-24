@@ -32,6 +32,18 @@ namespace CueSheetGenerator {
         /// </summary>
         public MainForm(string fileName) {
             InitializeComponent();
+            cueSheetListView.SmallImageList = new ImageList();
+            //use reflection to add the images in the assembly to the image list
+            System.Reflection.Assembly thisExe;
+            thisExe = System.Reflection.Assembly.GetExecutingAssembly();
+            string[] resources = thisExe.GetManifestResourceNames();
+            System.IO.Stream file = thisExe.GetManifestResourceStream("CueSheetGenerator.left.ico");
+            cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
+            file = thisExe.GetManifestResourceStream("CueSheetGenerator.right.ico");
+            cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
+            file = thisExe.GetManifestResourceStream("CueSheetGenerator.straight.ico");
+            cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
+
             _ps = new PathfinderStrategy();
             _ps.finishedProcessing += updateDirections;
             finishedProcessing += updateDirections;
@@ -41,13 +53,13 @@ namespace CueSheetGenerator {
             processedWaypoint += updateProgressBar;
             this.Show();
             if (fileName != null) openGpsFile(fileName);
-            else updateRideMap();
+            else updateRideMap(true);
         }
 
         /// update the main ride map
-        void updateRideMap() {
+        void updateRideMap(bool downloadNew) {
             // show image in picturebox
-            mapPictureBox.Image = _ps.getRideMap(mapPictureBox.Height, mapPictureBox.Width);
+            mapPictureBox.Image = _ps.getRideMap(downloadNew, mapPictureBox.Height, mapPictureBox.Width);
             if (mapPictureBox.Image == null)
                 toolStripStatusLabel1.Text = _ps.Web.Status;
         }
@@ -84,39 +96,46 @@ namespace CueSheetGenerator {
                 toolStripStatusLabel2.Text = "Done,";
                 lookupToolStripProgressBar.Value = 0;
                 updateTurnMap();
-                toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+                updateRideMap(false);
+                currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
                 // update startTextBox
-                startTextBox.Text = "Start at " + _ps.Locations[0].Address;
+                startTextBox.Text = "Start at " + _ps.Locations[0].AddressString;
                 // update the cue sheet ListView
                 updateListView();
                 // update endTextBox
-                endTextBox.Text = "End at " + _ps.Locations[_ps.Locations.Count - 1].Address
+                endTextBox.Text = "End at " + _ps.Locations[_ps.Locations.Count - 1].AddressString
                     + "\r\nTotal distance: "
-                    + _ps.getDistanceInUnits(_ps.Path.TotalDistance, _units);
+                    + DirectionsPrinter.getDistanceInUnits(_ps.Path.TotalDistance, _units);
             }
         }
-		
+
+
         // set the contents of the cue sheet ListView control
-		private void updateListView() {
-			//clear the list view
-			cueSheetListView.Clear();
-			//add necessary columns to list view
-			cueSheetListView.Columns.Add("#", 22);
-			cueSheetListView.Columns.Add("Distance");
-			cueSheetListView.Columns.Add("Turn", 45);
-			cueSheetListView.Columns.Add("Street Name", -2);
-			for (int i = 0; i < _ps.Directions.Turns.Count; i++) {
-				Turn t = _ps.Directions.Turns[i];
-				ListViewItem lvi = new ListViewItem((i + 1).ToString());
-				lvi.SubItems.Add(_ps.getDistanceInUnits(t.Locs[1].GpxWaypoint.Distance, _units));
-				lvi.SubItems.Add(t.TurnDirection);
-				lvi.SubItems.Add(t.Locs[2].StreetName);
-				cueSheetListView.Items.Add(lvi);
-			}
+        private void updateListView() {
+            //clear the list view
+            cueSheetListView.Clear();
+            //add necessary columns to list view
+            cueSheetListView.Columns.Add("Turn #", 50);
+            cueSheetListView.Columns.Add("Distance", 65);
+            cueSheetListView.Columns.Add("Turn", 48);
+            cueSheetListView.Columns.Add("Street Name", -2);
+            for (int i = 0; i < _ps.Directions.Turns.Count; i++) {
+                Turn t = _ps.Directions.Turns[i];
+                ListViewItem lvi = null;
+                if (t.TurnDirection == "left")
+                    lvi = new ListViewItem((i + 1).ToString(), 0);
+                else if (t.TurnDirection == "right")
+                    lvi = new ListViewItem((i + 1).ToString(), 1);
+                else lvi = new ListViewItem((i + 1).ToString(), 2);
+                lvi.SubItems.Add(DirectionsPrinter.getDistanceInUnits(t.Locs[1].GpxLocation.Distance, _units));
+                lvi.SubItems.Add(t.TurnDirection);
+                lvi.SubItems.Add(t.Locs[2].StreetName);
+                cueSheetListView.Items.Add(lvi);
+            }
             // highlight the first turn in the display
             if (_ps.Directions.Turns.Count > 0)
-                cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
-		}
+                highlightCurrentTurn();
+        }
 
         /// the controlls are disabled during processing, re-enable them afterward
         private void reEnableControls() {
@@ -147,7 +166,7 @@ namespace CueSheetGenerator {
             if (_ps.Path.Waypoints.Count > 0) {
                 //initialize the progress bar
                 lookupToolStripProgressBar.Value = 0;
-                lookupToolStripProgressBar.Maximum = _ps.Path.MaxGpxPoints;
+                lookupToolStripProgressBar.Maximum = _ps.Path.GeocodeWaypoints.Count;
                 toolStripStatusLabel2.Text = "Processing,";
                 fileToolStripMenuItem.Enabled = false;
                 optionsToolStripMenuItem.Enabled = false;
@@ -155,8 +174,15 @@ namespace CueSheetGenerator {
                 backButton.Enabled = false;
                 nextButton.Enabled = false;
                 turnPictureBox.Image = null;
-                updateRideMap();
+                updateRideMap(true);
             }
+        }
+
+        ////hightlight current direction text
+        private void highlightCurrentTurn() {
+            cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
+            cueSheetListView.EnsureVisible(_ps.CurrentTurn);
+            cueSheetListView.Focus();
         }
 
         //all event handlers bolow here
@@ -195,7 +221,7 @@ namespace CueSheetGenerator {
 
         //user changes the size of the map
         private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
-            if (_ps != null) updateRideMap();
+            if (_ps != null) updateRideMap(true);
         }
 
         //user moves the mouse over the ride map
@@ -257,9 +283,8 @@ namespace CueSheetGenerator {
         //user clicked the next button
         private void nextButton_Click(object sender, EventArgs e) {
             _ps.incrementTurn();
-            cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
-            updateTurnMap();
-            toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+            highlightCurrentTurn();
+            currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
         }
 
         //user clicked the back button
@@ -270,26 +295,27 @@ namespace CueSheetGenerator {
             // you click next, eventually the highlighted turn in the cue sheet ListView is not
             // visible. Maybe there's a way to scroll the ListView as needed to keep the highlighted
             // turn visible.
-            cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
-            updateTurnMap();
-            toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+            highlightCurrentTurn();
+            currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
         }
 
         //user clicked a turn in the cue sheet ListView
-        private void cueSheetListView_Click(object sender, EventArgs e)
-        {
+        private void cueSheetListView_SelectedIndexChanged(object sender, EventArgs e) {
             ListView myListView = (ListView)sender;
-            int index = myListView.SelectedIndices[0];
-            //endTextBox.Text = "selected: " + index;
-            _ps.CurrentTurn = index;
-            updateTurnMap();
-            toolStripStatusLabel4.Text = _ps.getCurrentTurnString();
+            if (myListView.SelectedIndices.Count > 0) {
+                int index = myListView.SelectedIndices[0];
+                //endTextBox.Text = "selected: " + index;
+                _ps.CurrentTurn = index;
+                updateTurnMap();
+                updateRideMap(false);
+                currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
+            }
         }
-
         //user clicked the delete button
         private void deleteButton_Click(object sender, EventArgs e) {
             _ps.deleteCurrentTurn();
             updateTurnMap();
+            updateRideMap(false);
             if (_ps.Directions != null && _ps.Directions.Turns != null)
                 updateDirections();
         }
@@ -338,7 +364,7 @@ namespace CueSheetGenerator {
                     _ps.Path.MapType = TrackPath.ROADMAP;
                     break;
             }
-            updateRideMap();
+            updateRideMap(true);
             updateTurnMap();
         }
 
@@ -415,6 +441,26 @@ namespace CueSheetGenerator {
             }
         }
         #endregion
+
+        //private void copyToClipboardButton_Click(object sender, EventArgs e) {
+        //    StringBuilder buffer = new StringBuilder();
+        //    for (int i = 0; i < listView1.Columns.Count; i++) {
+        //        buffer.Append(listView1.Columns[i].Text);
+        //        buffer.Append("\t");
+        //    }
+        //    buffer.Append("\n");
+        //    for (int i = 0; i < listView1.Items.Count; i++) {
+        //        for (int j = 0; j < listView1.Columns.Count; j++) {
+        //            buffer.Append(listView1.Items[i].SubItems[j].Text);
+        //            buffer.Append("\t");
+        //        }
+        //        buffer.Append("\n");
+        //    }
+        //    Clipboard.SetText(buffer.ToString());
+        //}
+
     }
+
+
 
 }
