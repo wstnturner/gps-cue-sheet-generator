@@ -2,177 +2,127 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.Text.RegularExpressions;
 
 namespace CueSheetGenerator {
     /// <summary>
-    /// class location, contains location information such as
-    /// waypoint, address, and helper functions to parse the
-    /// returned xml from google or geonames
+    /// class location, contains lat lon, UTM point and key
     /// </summary>
-    class Location {
+    class Location : IComparable {
+		double _lat = 0;
         /// <summary>
-        /// returned by google server if you exceed 2500 requests per 24 hours
-        /// or if you make too frequent of requests, set 20ms deleay between requests
+        /// latitude of waypoint
         /// </summary>
-        public const string OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
+		public double Lat {
+			get { return _lat; }
+			set { _lat = value; }
+		}
+
+		double _lon = 0;
         /// <summary>
-        /// returned by geonames.org if their servers are busy, simply try the request
-        /// again, geonames is slow to begin with, if this is being returned the lookup
-        /// will be slower still
+        /// longitude of waypoint
         /// </summary>
-        public const string SERVERS_OVERLOADED = "GEONAMES_SERVERS_OVERLOADED";
+		public double Lon {
+			get { return _lon; }
+			set { _lon = value; }
+		}
 
-        string _status = "Ok";
+		private double _elevation = 0.0;
         /// <summary>
-        /// status string for location class, can return over query limit
-        /// or servers overloaded
+        /// elevation of waypoint
         /// </summary>
-        public string Status {
-            get { return _status; }
-        }
+		public double Elevation {
+			get { return _elevation; }
+			set { _elevation = value; }
+		}
+	
+		string _zone = "T10";
+        /// <summary>
+        /// utm zone of waypoint
+        /// </summary>
+		public string Zone {
+			get { return _zone; }
+			set { _zone = value; }
+		}
 
-        string _notes = "";
-        /// stores any user definded notes, may use this field instead of
-        /// the point of interest class
-        public string Notes {
-            get { return _notes; }
-            set { _notes = value; }
-        }
+		double _northing = 0;
+        /// <summary>
+        /// northing of waypoint
+        /// </summary>
+		public double Northing {
+			get { return _northing; }
+			set { _northing = value; }
+		}
 
-        Waypoint _gpxWaypoint = null;
-        /// the waypoint parsed in from the GPX file
-        public Waypoint GpxWaypoint {
-            get { return _gpxWaypoint; }
-            set { _gpxWaypoint = value; }
-        }
+		double _easting = 0;
+        /// <summary>
+        /// easting of waypoint
+        /// </summary>
+		public double Easting {
+			get { return _easting; }
+			set { _easting = value; }
+		}
 
-        Waypoint _geoWaypoint = null;
-        /// waypoint parsed from the reverse geocoded xml
-        /// returned by google or geonames
-        public Waypoint GeoWaypoint {
-            get { return _geoWaypoint; }
-            set { _geoWaypoint = value; }
-        }
+		double _distance = 0.0;
+        /// <summary>
+        /// distance of waypoint from the start of the path
+        /// </summary>
+		public double Distance {
+			get { return _distance; }
+			set { _distance = value; }
+		}
 
-        string _address = "";
-        /// the full street address of the reverse geocoded location
-        public string Address {
-            get { return _address; }
-            set { _address = value; }
-        }
+		private long _key = 0;
+        /// <summary>
+        /// key, composed of northing and easting, each divided by 10
+        /// implicit fuzzy cacheing because waypoints looked up by this
+        /// key will be rounded to the nearest 10 meters
+        /// </summary>
+		public long Key {
+			get { return _key; }
+		}
 
-        string _streetName = "";
-        /// the street name for the location
-        public string StreetName {
-            get { return _streetName; }
-            set { _streetName = value; }
-        }
-
-        string _xml = "";
-        /// xml returned by google or geonames
-        public string Xml {
-            get { return _xml; }
-        }
+		int _index = 0;
+        /// <summary>
+        /// index of waypoint in waypoint list, this is used because
+        /// not all waypoints get reverse geocoded (the set of locations 
+        /// is not onto the set of waypoints) so when drawing turns, the 
+        /// all waypoints will be used to construct the path
+        /// </summary>
+		public int Index {
+			get { return _index; }
+			set { _index = value; }
+		}
 
         /// <summary>
-        /// constructor called when a waypoint has been reverse geocoded
-        /// from a web service (not from the cache)
+        /// default constructor
         /// </summary>
-        public Location(string doc, Waypoint gpxWpt) {
-            _xml = doc;
-            if (_xml.Contains("xml"))
-                parseDocument();
-            _gpxWaypoint = gpxWpt;
-        }
+		public Location() { }
 
         /// <summary>
-        /// called by the cache strategy class because there are no waypoints 
-        /// stored in the cache, just keys, street names, and addresses
+        /// overloaded constructor
         /// </summary>
-        public Location(string address, string streetName) {
-            _address = address;
-            _streetName = streetName;
-        }
+		public Location(double lat, double lon) {
+			_lat = lat;
+			_lon = lon;
+		}
 
-        void parseDocument() {
-            XmlDocument doc = new XmlDocument();
-            //deal with web authentication issues 
-            //i.e. have internet connection but not logged in. 
-            try {
-                doc.LoadXml(_xml);
-                //decide xml source
-                XmlNode node = doc.ChildNodes[0];
-                foreach (XmlNode n in doc.ChildNodes) {
-                    if (n.Name == "GeocodeResponse") {
-                        parseGoogleDocument(n); break;
-                    } else if (n.Name == "geonames") {
-                        parseGeoNamesDocument(n); break;
-                    }
-                }
-            } catch (Exception e) {
-                _status = e.Message;
-            }
-        }
+        /// <summary>
+        /// set the key which to sort the waypoints by
+        /// </summary>
+		public void setKey() {
+			_key = long.Parse(((int)(_northing / 10.0)).ToString() 
+				+ ((int)(_easting / 10.0)).ToString());
+		}
 
-        void parseGoogleDocument(XmlNode node) {
-            foreach (XmlNode n in node) {
-                if (n.Name == "result") { node = n; break; } else if (n.InnerText == OVER_QUERY_LIMIT) {
-                    _status = OVER_QUERY_LIMIT; return;
-                }
-            }
-            //get the address
-            foreach (XmlNode n in node.ChildNodes) {
-                if (n.Name == "formatted_address") {
-                    _address = n.FirstChild.InnerText;
-                    string s = _address;
-                    //this may not work for foreign addresses
-                    if (Regex.IsMatch(s.Substring(0, s.IndexOf(" ")), "[0-9]")) {
-                        int i = s.IndexOf(" ");
-                        s = s.Substring(i + 1, s.IndexOf(",") - i - 1);
-                    } else
-                        s = s.Substring(0, s.IndexOf(","));
-                    _streetName = s;
-                    break;
-                }
-            }
-            //get the lat lon
-            _geoWaypoint = new Waypoint();
-            foreach (XmlNode n in node.ChildNodes) {
-                if (n.Name == "geometry") { node = n; break; }
-            }
-            foreach (XmlNode n in node) {
-                if (n.Name == "location") { node = n; break; }
-            }
-            foreach (XmlNode n in node.ChildNodes) {
-                if (n.Name == "lat")
-                    _geoWaypoint.Lat = double.Parse(n.InnerText);
-                if (n.Name == "lng")
-                    _geoWaypoint.Lon = double.Parse(n.InnerText);
-            }
-        }
-
-        void parseGeoNamesDocument(XmlNode node) {
-            //get the address
-            foreach (XmlNode n in node.ChildNodes) {
-                if (n.Name == "address") { node = n; break; } else if (n.Name == "status") {
-                    _status = SERVERS_OVERLOADED;
-                    return;
-                }
-            }
-            //get the lat lon
-            _geoWaypoint = new Waypoint();
-            foreach (XmlNode n in node.ChildNodes) {
-                if (n.Name == "street")
-                    _streetName = n.InnerText;
-                if (n.Name == "streetNumber")
-                    _address = n.InnerText + " " + _streetName;
-                if (n.Name == "lat")
-                    _geoWaypoint.Lat = double.Parse(n.InnerText);
-                if (n.Name == "lng")
-                    _geoWaypoint.Lon = double.Parse(n.InnerText);
-            }
-        }
+        /// <summary>
+        /// implements IComparable
+        /// </summary> 
+		public int CompareTo(object obj) {
+            Location otherwaypoint = obj as Location;
+			if (otherwaypoint != null)
+				return this.Key.CompareTo(otherwaypoint.Key);
+			else
+				throw new ArgumentException("Object is not a Waypoint");
+		}
     }
 }

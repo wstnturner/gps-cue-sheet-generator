@@ -27,7 +27,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mapPictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.endTextBox = new System.Windows.Forms.TextBox();
+            this.cueSheetListView = new System.Windows.Forms.ListView();
+            this.startTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +65,7 @@
             this.lookupToolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.currentTurnStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.openGpxFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
@@ -72,11 +74,6 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.turnPictureBox = new System.Windows.Forms.PictureBox();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.endTextBox = new System.Windows.Forms.TextBox();
-            this.startTextBox = new System.Windows.Forms.TextBox();
-            this.cueSheetListView = new System.Windows.Forms.ListView();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -117,28 +114,57 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.endTextBox);
-            this.groupBox2.Controls.Add(this.startTextBox);
             this.groupBox2.Controls.Add(this.cueSheetListView);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.startTextBox);
             this.groupBox2.Location = new System.Drawing.Point(612, 24);
+            this.groupBox2.MinimumSize = new System.Drawing.Size(277, 318);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(277, 318);
+            this.groupBox2.Size = new System.Drawing.Size(277, 319);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Directions";
             // 
-            // textBox1
+            // endTextBox
             // 
-            this.textBox1.AcceptsReturn = true;
-            this.textBox1.AcceptsTab = true;
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(3, 16);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(271, 299);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.WordWrap = false;
+            this.endTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.endTextBox.Location = new System.Drawing.Point(3, 282);
+            this.endTextBox.Multiline = true;
+            this.endTextBox.Name = "endTextBox";
+            this.endTextBox.ReadOnly = true;
+            this.endTextBox.Size = new System.Drawing.Size(271, 34);
+            this.endTextBox.TabIndex = 6;
+            // 
+            // cueSheetListView
+            // 
+            this.cueSheetListView.AllowColumnReorder = true;
+            this.cueSheetListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.cueSheetListView.FullRowSelect = true;
+            this.cueSheetListView.GridLines = true;
+            this.cueSheetListView.HideSelection = false;
+            this.cueSheetListView.LabelEdit = true;
+            this.cueSheetListView.Location = new System.Drawing.Point(3, 50);
+            this.cueSheetListView.MultiSelect = false;
+            this.cueSheetListView.Name = "cueSheetListView";
+            this.cueSheetListView.Size = new System.Drawing.Size(271, 232);
+            this.cueSheetListView.TabIndex = 4;
+            this.cueSheetListView.UseCompatibleStateImageBehavior = false;
+            this.cueSheetListView.View = System.Windows.Forms.View.Details;
+            this.cueSheetListView.SelectedIndexChanged += new System.EventHandler(this.cueSheetListView_SelectedIndexChanged);
+            // 
+            // startTextBox
+            // 
+            this.startTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.startTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.startTextBox.Location = new System.Drawing.Point(3, 16);
+            this.startTextBox.Multiline = true;
+            this.startTextBox.Name = "startTextBox";
+            this.startTextBox.ReadOnly = true;
+            this.startTextBox.Size = new System.Drawing.Size(271, 34);
+            this.startTextBox.TabIndex = 5;
             // 
             // menuStrip1
             // 
@@ -397,7 +423,7 @@
             this.lookupToolStripProgressBar,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel3,
-            this.toolStripStatusLabel4});
+            this.currentTurnStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 643);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(892, 23);
@@ -427,11 +453,11 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 18);
             this.toolStripStatusLabel3.Text = "0, 0";
             // 
-            // toolStripStatusLabel4
+            // currentTurnStatusLabel
             // 
-            this.toolStripStatusLabel4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(0, 18);
+            this.currentTurnStatusLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.currentTurnStatusLabel.Name = "currentTurnStatusLabel";
+            this.currentTurnStatusLabel.Size = new System.Drawing.Size(0, 18);
             // 
             // openGpxFileDialog
             // 
@@ -490,6 +516,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.turnPictureBox);
             this.groupBox3.Location = new System.Drawing.Point(612, 348);
+            this.groupBox3.MinimumSize = new System.Drawing.Size(277, 263);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(277, 263);
             this.groupBox3.TabIndex = 2;
@@ -507,40 +534,6 @@
             this.turnPictureBox.TabStop = false;
             this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
             // 
-            // endTextBox
-            // 
-            this.endTextBox.Location = new System.Drawing.Point(3, 281);
-            this.endTextBox.Multiline = true;
-            this.endTextBox.Name = "endTextBox";
-            this.endTextBox.ReadOnly = true;
-            this.endTextBox.Size = new System.Drawing.Size(271, 34);
-            this.endTextBox.TabIndex = 6;
-            // 
-            // startTextBox
-            // 
-            this.startTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.startTextBox.Location = new System.Drawing.Point(3, 16);
-            this.startTextBox.Multiline = true;
-            this.startTextBox.Name = "startTextBox";
-            this.startTextBox.ReadOnly = true;
-            this.startTextBox.Size = new System.Drawing.Size(271, 34);
-            this.startTextBox.TabIndex = 5;
-            // 
-            // cueSheetListView
-            // 
-            this.cueSheetListView.FullRowSelect = true;
-            this.cueSheetListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.cueSheetListView.HideSelection = false;
-            this.cueSheetListView.Location = new System.Drawing.Point(3, 49);
-            this.cueSheetListView.MultiSelect = false;
-            this.cueSheetListView.Name = "cueSheetListView";
-            this.cueSheetListView.Size = new System.Drawing.Size(271, 234);
-            this.cueSheetListView.TabIndex = 4;
-            this.cueSheetListView.UseCompatibleStateImageBehavior = false;
-            this.cueSheetListView.View = System.Windows.Forms.View.Details;
-            this.cueSheetListView.Click += new System.EventHandler(this.cueSheetListView_Click);
-
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -557,6 +550,7 @@
             this.Controls.Add(this.groupBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(900, 700);
             this.Name = "MainForm";
             this.Tag = "Pathfinder";
             this.Text = "Pathfinder";
@@ -607,7 +601,7 @@
         private System.Windows.Forms.ToolStripMenuItem metersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem kilometersToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem milesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripStatusLabel currentTurnStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem mapTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem roadmapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem satelliteToolStripMenuItem;
@@ -626,9 +620,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem points2000ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox endTextBox;
         private System.Windows.Forms.TextBox startTextBox;
         private System.Windows.Forms.ListView cueSheetListView;
