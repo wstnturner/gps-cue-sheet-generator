@@ -77,6 +77,8 @@ namespace CueSheetGenerator {
             if (_xml.Contains("xml"))
                 parseDocument();
             _gpxLocation = gpxLoc;
+            Easting = gpxLoc.Easting;
+            Northing = gpxLoc.Northing;
         }
 
         /// <summary>
@@ -86,6 +88,18 @@ namespace CueSheetGenerator {
         public Address(string address, string streetName) {
             _address = address;
             _streetName = streetName;
+        }
+
+        /// <summary>
+        /// constructor called when a deep copy is required
+        /// </summary>
+        public Address(Address a) {
+            _address = a._address;
+            _geocodedLocation = a._geocodedLocation;
+            _gpxLocation = a._gpxLocation;
+            _status = a._status;
+            _streetName = a._streetName;
+            _xml = a._xml;
         }
 
         void parseDocument() {

@@ -8,23 +8,16 @@ namespace CueSheetGenerator {
     /// <summary>
     /// generates a set of turn directions.
     /// </summary>
-    class DirectionsGenerator {
-        List<Address> _locs = null;
-        List<Turn> _turns = null;
-        public List<Turn> Turns {
-            get { return _turns; }
-            set { _turns = value; }
-        }
+    static class DirectionsGenerator {
 
         /// <summary>
         /// constructor for directions generator
         /// </summary>
-        public DirectionsGenerator() { }
 
         /// <summary>
         ///computes the average of a list of waypoints
         /// </summary>
-        public Location averageWaypoints(List<Location> list) {
+        public static Location averageWaypoints(List<Location> list) {
             double lat = 0.0, lon = 0.0, east = 0.0
                 , north = 0.0, dist = 0.0, ele = 0.0;
             int index = 0;
@@ -52,33 +45,32 @@ namespace CueSheetGenerator {
         /// <summary>
         /// generates turn directions given a list of locations
         /// </summary>
-        public void generateDirections(List<Address> locations) {
+        public static List<Turn> generateDirections(List<Address> locs) {
             List<Location> tempWpts = new List<Location>();
-            _locs = locations;
-            _turns = new List<Turn>();
-            string prevStreet = _locs[0].StreetName;
-            for (int i = 1; i < _locs.Count; i++) {
+            List<Turn> turns = new List<Turn>();
+            string prevStreet = locs[0].StreetName;
+            for (int i = 1; i < locs.Count; i++) {
                 //reject false street changes from intersections
-                if (i < _locs.Count - 2 && _locs[i - 1].StreetName != _locs[i].StreetName
-                    && (_locs[i - 1].StreetName == _locs[i + 1].StreetName
-                    || _locs[i - 1].StreetName == _locs[i + 2].StreetName)) {
-                    _locs[i].StreetName = _locs[i - 1].StreetName;
-                    _locs[i + 1].StreetName = _locs[i].StreetName;
+                if (i < locs.Count - 2 && locs[i - 1].StreetName != locs[i].StreetName
+                    && (locs[i - 1].StreetName == locs[i + 1].StreetName
+                    || locs[i - 1].StreetName == locs[i + 2].StreetName)) {
+                    locs[i].StreetName = locs[i - 1].StreetName;
+                    locs[i + 1].StreetName = locs[i].StreetName;
                 }
-                if (prevStreet != _locs[i].StreetName) {
-                    if (i < _locs.Count - 1) {
-                        if (i > 1 && _locs[i - 1].StreetName == _locs[i - 2].StreetName) {
+                if (prevStreet != locs[i].StreetName) {
+                    if (i < locs.Count - 1) {
+                        if (i > 1 && locs[i - 1].StreetName == locs[i - 2].StreetName) {
                             tempWpts.Clear();
-                            tempWpts.Add(_locs[i - 1].GpxLocation);
-                            tempWpts.Add(_locs[i].GpxLocation);
+                            tempWpts.Add(locs[i - 1].GpxLocation);
+                            tempWpts.Add(locs[i].GpxLocation);
                             //average the two middle points
-                            _locs[i].GpxLocation = averageWaypoints(tempWpts);
-                            _turns.Add(new Turn(_locs[i - 2], _locs[i], _locs[i + 1]));
-                        } else _turns.Add(new Turn(_locs[i - 1], _locs[i], _locs[i + 1]));
-                        prevStreet = _locs[i].StreetName;
+                            locs[i].GpxLocation = averageWaypoints(tempWpts);
+                            turns.Add(new Turn(locs[i - 2], locs[i], locs[i + 1]));
+                        } else turns.Add(new Turn(locs[i - 1], locs[i], locs[i + 1]));
+                        prevStreet = locs[i].StreetName;
                     } else {
                         //if the very last street name differs from the previous one
-                        _turns.Add(new Turn(_locs[i - 2], _locs[i - 1], _locs[i]));
+                        turns.Add(new Turn(locs[i - 2], locs[i - 1], locs[i]));
                     }
                 }
             }
@@ -88,52 +80,54 @@ namespace CueSheetGenerator {
             //one and two is converted from rectangular to polar as is the line between 
             //two and three. The two angles are examined and a turn direction is determined
             //compute turn directions and distances between turns 
-            computeTurnDistances();
-            for (int i = 0; i < _turns.Count; i++) computeTurn(i);
+            computeTurnDistances(turns);
+            for (int i = 0; i < turns.Count; i++) computeTurn(turns[i]);
+            return turns;
         }
 
         /// <summary>
         /// computes the distance between each turn
         /// </summary>
-        public void computeTurnDistances() {
-            if (_turns.Count > 0)
-                _turns[0].Distance = _turns[0].Locs[1].GpxLocation.Distance;
-            for (int i = 1; i < _turns.Count; i++)
-                _turns[i].Distance = _turns[i].Locs[1].GpxLocation.Distance
-                    - _turns[i - 1].Locs[1].GpxLocation.Distance;
+        public static void computeTurnDistances(List<Turn> turns) {
+            if (turns.Count > 0)
+                turns[0].Distance = turns[0].Locs[1].GpxLocation.Distance;
+            for (int i = 1; i < turns.Count; i++)
+                turns[i].Distance = turns[i].Locs[1].GpxLocation.Distance
+                    - turns[i - 1].Locs[1].GpxLocation.Distance;
         }
 
         //compute present heading, future heading, and theta
-        double theta1 = 0.0, theta2 = 0.0;
-        double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
-        void computeTurn(int i) {
-            x1 = _turns[i].Locs[0].GpxLocation.Easting;
-            x2 = _turns[i].Locs[1].GpxLocation.Easting;
-            y1 = _turns[i].Locs[0].GpxLocation.Northing;
-            y2 = _turns[i].Locs[1].GpxLocation.Northing;
+
+        public static void computeTurn(Turn turn) {
+            double theta1 = 0.0, theta2 = 0.0;
+            double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
+            x1 = turn.Locs[0].GpxLocation.Easting;
+            x2 = turn.Locs[1].GpxLocation.Easting;
+            y1 = turn.Locs[0].GpxLocation.Northing;
+            y2 = turn.Locs[1].GpxLocation.Northing;
             theta1 = calculateTheta(x2 - x1, y2 - y1);
-            x1 = _turns[i].Locs[1].GpxLocation.Easting;
-            x2 = _turns[i].Locs[2].GpxLocation.Easting;
-            y1 = _turns[i].Locs[1].GpxLocation.Northing;
-            y2 = _turns[i].Locs[2].GpxLocation.Northing;
+            x1 = turn.Locs[1].GpxLocation.Easting;
+            x2 = turn.Locs[2].GpxLocation.Easting;
+            y1 = turn.Locs[1].GpxLocation.Northing;
+            y2 = turn.Locs[2].GpxLocation.Northing;
             theta2 = calculateTheta(x2 - x1, y2 - y1);
-            _turns[i].TurnMagnitude = Math.Abs(theta2 - theta1);
-            if (_turns[i].TurnMagnitude > 5.0) {
-                if (_turns[i].TurnMagnitude > 180.0)
-                    _turns[i].TurnMagnitude = 360.0 - _turns[i].TurnMagnitude;
+            turn.TurnMagnitude = Math.Abs(theta2 - theta1);
+            if (turn.TurnMagnitude > 5.0) {
+                if (turn.TurnMagnitude > 180.0)
+                    turn.TurnMagnitude = 360.0 - turn.TurnMagnitude;
                 if (theta2 - theta1 < 0.0 && Math.Abs(theta2 - theta1) >= 180.0)
-                    _turns[i].TurnDirection = "left";
+                    turn.TurnDirection = "left";
                 else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) >= 180.0)
-                    _turns[i].TurnDirection = "right";
+                    turn.TurnDirection = "right";
                 else if (theta2 - theta1 < 0.0 && Math.Abs(theta2 - theta1) < 180.0)
-                    _turns[i].TurnDirection = "right";
+                    turn.TurnDirection = "right";
                 else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) < 180.0)
-                    _turns[i].TurnDirection = "left";
-            } else _turns[i].TurnDirection = "null";
+                    turn.TurnDirection = "left";
+            } else turn.TurnDirection = "null";
         }
 
         //calculates the angles of the pre and post turn line segments
-        double calculateTheta(double xDelta, double yDelta) {
+        public static double calculateTheta(double xDelta, double yDelta) {
             double theta = 0.0;
             if (xDelta == 0.0 && yDelta > 0.0) theta = 90.0;
             else if (xDelta == 0.0 && yDelta < 0.0) theta = 270.0;

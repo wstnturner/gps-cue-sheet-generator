@@ -43,6 +43,8 @@ namespace CueSheetGenerator {
             cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
             file = thisExe.GetManifestResourceStream("CueSheetGenerator.straight.ico");
             cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
+            file = thisExe.GetManifestResourceStream("CueSheetGenerator.poi.ico");
+            cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
 
             _ps = new PathfinderStrategy();
             _ps.finishedProcessing += updateDirections;
@@ -95,7 +97,6 @@ namespace CueSheetGenerator {
                 toolStripStatusLabel1.Text = _ps.Status;
                 toolStripStatusLabel2.Text = "Done,";
                 lookupToolStripProgressBar.Value = 0;
-                updateTurnMap();
                 updateRideMap(false);
                 currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
                 // update startTextBox
@@ -112,28 +113,31 @@ namespace CueSheetGenerator {
 
         // set the contents of the cue sheet ListView control
         private void updateListView() {
+            if (_ps.Turns == null) return;
             //clear the list view
             cueSheetListView.Clear();
             //add necessary columns to list view
-            cueSheetListView.Columns.Add("Turn #", 50);
-            cueSheetListView.Columns.Add("Distance", 65);
-            cueSheetListView.Columns.Add("Turn", 48);
+            cueSheetListView.Columns.Add("Turn #", 48);
+            cueSheetListView.Columns.Add("Distance", 62);
+            cueSheetListView.Columns.Add("Turn", 44);
             cueSheetListView.Columns.Add("Street Name", -2);
-            for (int i = 0; i < _ps.Directions.Turns.Count; i++) {
-                Turn t = _ps.Directions.Turns[i];
+            for (int i = 0; i < _ps.Turns.Count; i++) {
+                Turn t = _ps.Turns[i];
                 ListViewItem lvi = null;
                 if (t.TurnDirection == "left")
                     lvi = new ListViewItem((i + 1).ToString(), 0);
                 else if (t.TurnDirection == "right")
                     lvi = new ListViewItem((i + 1).ToString(), 1);
-                else lvi = new ListViewItem((i + 1).ToString(), 2);
+                else if (t.TurnDirection == "straight") 
+                    lvi = new ListViewItem((i + 1).ToString(), 2);
+                else lvi = new ListViewItem((i + 1).ToString(), 3);
                 lvi.SubItems.Add(DirectionsPrinter.getDistanceInUnits(t.Locs[1].GpxLocation.Distance, _units));
                 lvi.SubItems.Add(t.TurnDirection);
                 lvi.SubItems.Add(t.Locs[2].StreetName);
                 cueSheetListView.Items.Add(lvi);
             }
             // highlight the first turn in the display
-            if (_ps.Directions.Turns.Count > 0)
+            if (_ps.Turns.Count > 0)
                 highlightCurrentTurn();
         }
 
@@ -185,8 +189,18 @@ namespace CueSheetGenerator {
             cueSheetListView.Focus();
         }
 
-        //all event handlers bolow here
+        private void enablePoiControlls(bool enable) {
+            //enable or disable the controls
+            poiNameLabel.Enabled = enable;
+            poiNametextBox.Enabled = enable;
+            poiDescriptionLabel.Enabled = enable;
+            poiDescriptionTextBox.Enabled = enable;
+            addPoiButton.Enabled = enable;
+        }
+
+        //all event handlers below here
         #region event_handlers
+
         //user drags an object onto the program surface
         private void MainForm_DragEnter(object sender, DragEventArgs e) {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -237,11 +251,24 @@ namespace CueSheetGenerator {
             }
         }
 
+        Point currentPoiLocation;
+
         //user clicks on the ride map, used to add points of interest
-        private void mapPictureBox_MouseClick(object sender, MouseEventArgs e) {
+        private void mapPictureBox_MouseDoubleClick(object sender, MouseEventArgs e) {
             //use this event to add notes to locations on the map
             //the note will appear in the csv file output by the program
-            _ps.addPointOfInterest(new Point(e.X, e.Y));
+            if (_ps.Turns != null) {
+                currentPoiLocation = new Point(e.X, e.Y);
+                enablePoiControlls(!addPoiButton.Enabled);
+            }
+        }
+
+        private void addPoiButton_Click(object sender, EventArgs e) {
+            _ps.addPointOfInterest(currentPoiLocation, poiNametextBox.Text, poiDescriptionTextBox.Text);
+            poiNametextBox.Text = "";
+            poiDescriptionTextBox.Text = "";
+            enablePoiControlls(!addPoiButton.Enabled);
+            updateListView();
         }
 
         //user saves a CSV file (clicks save in the dialogue)
@@ -316,7 +343,7 @@ namespace CueSheetGenerator {
             _ps.deleteCurrentTurn();
             updateTurnMap();
             updateRideMap(false);
-            if (_ps.Directions != null && _ps.Directions.Turns != null)
+            if (_ps.Turns != null)
                 updateDirections();
         }
 

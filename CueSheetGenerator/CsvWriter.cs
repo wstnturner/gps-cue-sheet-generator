@@ -35,14 +35,12 @@ namespace CueSheetGenerator {
                 csvFile.Append("Interval " + units + ",Total " + units + ",Turn"
                 + ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
                 + ",UTM Zone,Easting,Northing\r\n");
-                string notes = "";
                 for (int i = 0; i < turns.Count; i++) {
-                    notes = turns[i].Notes;
                     csvFile.Append(getDistanceInUnits(turns[i].Distance, units)
                         + "," + getDistanceInUnits(turns[i].Locs[1].GpxLocation.Distance, units)
                         + "," + turns[i].TurnDirection
                         + "," + Math.Round(turns[i].TurnMagnitude)
-                        + "," + turns[i].Locs[2].StreetName + "," + notes
+                        + "," + turns[i].Locs[2].StreetName + "," + turns[i].Notes
                         + "," + turns[i].Locs[1].GpxLocation.Lat
                         + "," + turns[i].Locs[1].GpxLocation.Lon
                         + "," + turns[i].Locs[1].GpxLocation.Elevation
