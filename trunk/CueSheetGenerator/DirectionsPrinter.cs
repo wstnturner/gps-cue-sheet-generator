@@ -56,9 +56,9 @@ namespace CueSheetGenerator {
 
         public static string getDistanceInUnits(double distance, string units) {
             switch (units) {
-                case "Meters": return Math.Round(distance, 1).ToString() + " meters";
-                case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString() + " kilometers";
-                case "Miles": return Math.Round(distance / METERS_PER_MILE, 1).ToString() + " miles";
+                case "Meters": return Math.Round(distance, 1).ToString() + " m";
+                case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString() + " km";
+                case "Miles": return Math.Round(distance / METERS_PER_MILE, 1).ToString() + " mi";
                 default: return null;
             }
         }

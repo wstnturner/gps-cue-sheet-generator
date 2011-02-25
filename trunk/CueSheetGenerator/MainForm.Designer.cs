@@ -74,6 +74,11 @@
             this.deleteButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.turnPictureBox = new System.Windows.Forms.PictureBox();
+            this.poiNametextBox = new System.Windows.Forms.TextBox();
+            this.poiNameLabel = new System.Windows.Forms.Label();
+            this.poiDescriptionLabel = new System.Windows.Forms.Label();
+            this.poiDescriptionTextBox = new System.Windows.Forms.TextBox();
+            this.addPoiButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -90,7 +95,7 @@
             this.groupBox1.Controls.Add(this.mapPictureBox);
             this.groupBox1.Location = new System.Drawing.Point(3, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(606, 619);
+            this.groupBox1.Size = new System.Drawing.Size(606, 587);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Ride Map";
@@ -100,12 +105,12 @@
             this.mapPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mapPictureBox.Location = new System.Drawing.Point(3, 16);
             this.mapPictureBox.Name = "mapPictureBox";
-            this.mapPictureBox.Size = new System.Drawing.Size(600, 600);
+            this.mapPictureBox.Size = new System.Drawing.Size(600, 568);
             this.mapPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.mapPictureBox.TabIndex = 0;
             this.mapPictureBox.TabStop = false;
             this.mapPictureBox.SizeChanged += new System.EventHandler(this.mapPictureBox_SizeChanged);
-            this.mapPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mapPictureBox_MouseClick);
+            this.mapPictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.mapPictureBox_MouseDoubleClick);
             this.mapPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mapPictureBox_MouseMove);
             // 
             // groupBox2
@@ -534,12 +539,69 @@
             this.turnPictureBox.TabStop = false;
             this.turnPictureBox.SizeChanged += new System.EventHandler(this.turnPictureBox_SizeChanged);
             // 
+            // poiNametextBox
+            // 
+            this.poiNametextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poiNametextBox.Enabled = false;
+            this.poiNametextBox.Location = new System.Drawing.Point(44, 617);
+            this.poiNametextBox.Name = "poiNametextBox";
+            this.poiNametextBox.Size = new System.Drawing.Size(127, 20);
+            this.poiNametextBox.TabIndex = 7;
+            // 
+            // poiNameLabel
+            // 
+            this.poiNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poiNameLabel.AutoSize = true;
+            this.poiNameLabel.Enabled = false;
+            this.poiNameLabel.Location = new System.Drawing.Point(3, 620);
+            this.poiNameLabel.Name = "poiNameLabel";
+            this.poiNameLabel.Size = new System.Drawing.Size(35, 13);
+            this.poiNameLabel.TabIndex = 8;
+            this.poiNameLabel.Text = "Name";
+            // 
+            // poiDescriptionLabel
+            // 
+            this.poiDescriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poiDescriptionLabel.AutoSize = true;
+            this.poiDescriptionLabel.Enabled = false;
+            this.poiDescriptionLabel.Location = new System.Drawing.Point(177, 620);
+            this.poiDescriptionLabel.Name = "poiDescriptionLabel";
+            this.poiDescriptionLabel.Size = new System.Drawing.Size(60, 13);
+            this.poiDescriptionLabel.TabIndex = 9;
+            this.poiDescriptionLabel.Text = "Description";
+            // 
+            // poiDescriptionTextBox
+            // 
+            this.poiDescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.poiDescriptionTextBox.Enabled = false;
+            this.poiDescriptionTextBox.Location = new System.Drawing.Point(243, 617);
+            this.poiDescriptionTextBox.Name = "poiDescriptionTextBox";
+            this.poiDescriptionTextBox.Size = new System.Drawing.Size(278, 20);
+            this.poiDescriptionTextBox.TabIndex = 10;
+            // 
+            // addPoiButton
+            // 
+            this.addPoiButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addPoiButton.Enabled = false;
+            this.addPoiButton.Location = new System.Drawing.Point(527, 614);
+            this.addPoiButton.Name = "addPoiButton";
+            this.addPoiButton.Size = new System.Drawing.Size(79, 23);
+            this.addPoiButton.TabIndex = 11;
+            this.addPoiButton.Text = "Add";
+            this.addPoiButton.UseVisualStyleBackColor = true;
+            this.addPoiButton.Click += new System.EventHandler(this.addPoiButton_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 666);
+            this.Controls.Add(this.addPoiButton);
+            this.Controls.Add(this.poiDescriptionTextBox);
+            this.Controls.Add(this.poiDescriptionLabel);
+            this.Controls.Add(this.poiNameLabel);
+            this.Controls.Add(this.poiNametextBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.deleteButton);
@@ -623,6 +685,11 @@
         private System.Windows.Forms.TextBox endTextBox;
         private System.Windows.Forms.TextBox startTextBox;
         private System.Windows.Forms.ListView cueSheetListView;
+        private System.Windows.Forms.TextBox poiNametextBox;
+        private System.Windows.Forms.Label poiNameLabel;
+        private System.Windows.Forms.Label poiDescriptionLabel;
+        private System.Windows.Forms.TextBox poiDescriptionTextBox;
+        private System.Windows.Forms.Button addPoiButton;
     }
 }
 

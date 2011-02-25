@@ -16,7 +16,7 @@ namespace CueSheetGenerator {
             Graphics g = Graphics.FromImage(map);
             SolidBrush sb = new SolidBrush(Color.Blue);
             Point pt;
-            for (int i = 1; i < points.Length; i++) {
+            for (int i = 0; i < points.Length; i++) {
                 pt = _fd.getPoint(points[i]);
                 g.FillEllipse(sb, pt.X - 2, pt.Y - 2, 4, 4);
             }
@@ -28,17 +28,14 @@ namespace CueSheetGenerator {
             Font f = new Font(FontFamily.GenericMonospace, 12, FontStyle.Bold);
             Point pt0, pt1, pt2;
             pt0 = _fd.getPoint(current.Locs[0].GpxLocation);
-            //Rectangle retB = new Rectangle(pt0.X-2, pt0.Y-2, 6, 7);
-            //g.FillRectangle(sb, retB);
             g.FillEllipse(sb, pt0.X - 3, pt0.Y - 3, 6, 6);
             pt1 = _fd.getPoint(current.Locs[1].GpxLocation);
-            //Rectangle retM = new Rectangle(pt1.X-2, pt1.Y-2, 6, 7);
-            //g.FillRectangle(sb, retM);
             g.FillEllipse(sb, pt1.X - 3, pt1.Y - 3, 6, 6);
             pt2 = _fd.getPoint(current.Locs[2].GpxLocation);
-            //Rectangle ret = new Rectangle(pt2.X-2, pt2.Y-2, 7, 6);
-            //g.FillRectangle(sb, ret);
             g.FillEllipse(sb, pt2.X - 3, pt2.Y - 3, 6, 6);
+            Pen p = new Pen(sb);
+            g.DrawLine(p, pt0, pt1);
+            g.DrawLine(p, pt1, pt2);
         }
 
         public void drawBeginAndEndPoints(ref Image map, Location begin, Location end) {
@@ -58,6 +55,16 @@ namespace CueSheetGenerator {
 
         public void drawPointsOfInterest(ref Image map, PointOfInterest[] pois) {
             //draw the points of interest on the map
+            Graphics g = Graphics.FromImage(map);
+            Font f = new Font(FontFamily.GenericSansSerif, 9, FontStyle.Bold);
+            SolidBrush sb1 = new SolidBrush(Color.Turquoise);
+            SolidBrush sb2 = new SolidBrush(Color.Black);
+            Point ptB;
+            for (int i = 0; i < pois.Length; i++) {
+                ptB = _fd.getPoint(pois[i].LocationFromMouse);
+                g.FillEllipse(sb1, ptB.X - 5, ptB.Y - 5, 10, 10);
+                g.DrawString(pois[i].Name + "\r\n" + pois[i].Notes, f, sb2, ptB);
+            }
         }
     }
 

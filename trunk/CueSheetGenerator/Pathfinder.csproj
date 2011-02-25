@@ -95,6 +95,7 @@
     <Compile Include="PathfinderAboutBox.Designer.cs">
       <DependentUpon>PathfinderAboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="POIGenerator.cs" />
     <Compile Include="PointOfInterest.cs" />
     <Compile Include="TrackFileParser.cs" />
     <Compile Include="TrackPath.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="WebInterface.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="poi.ico" />
     <Content Include="system-log-out_1.ico" />
     <Content Include="system-log-out_2.ico" />
   </ItemGroup>

@@ -43,8 +43,7 @@ namespace CueSheetGenerator {
 
         const string MarkersString1 = "&markers=color:0xff00ee|size:tiny|";
         const string MarkersString2 = "&markers=color:0xff00dd|size:tiny|";
-        //const string StartMarkersString = "&markers=color:0xffffff|label:S|";
-        //const string StopMarkersString = "&markers=color:0xffffff|label:F|";
+
         const int MAX_MAP_POINTS = 90;
 
         public const int REV_GEO_250 = 250, REV_GEO_500 = 500
@@ -223,25 +222,25 @@ namespace CueSheetGenerator {
 
         int findFirstPrevious(Location loc) {
             int i = 1;
-            while (loc.Index > _spacedOutPoints[i].Index) i++;
+            while (i < _spacedOutPoints.Count && loc.Index > _spacedOutPoints[i].Index) i++;
             return _spacedOutPoints[i-1].Index;
         }
 
         int findSecondPrevious(Location loc) {
             int i = 2;
-            while (loc.Index > _spacedOutPoints[i].Index) i++;
+            while (i < _spacedOutPoints.Count && loc.Index > _spacedOutPoints[i].Index) i++;
             return _spacedOutPoints[i - 2].Index;
         }
 
         int findFirstNext(Location loc) {
             int i = _spacedOutPoints.Count-2;
-            while (loc.Index < _spacedOutPoints[i].Index) i--;
+            while (i >= 0 && loc.Index < _spacedOutPoints[i].Index) i--;
             return _spacedOutPoints[i+1].Index;
         }
 
         int findSecondNext(Location loc) {
             int i = _spacedOutPoints.Count - 3;
-            while (loc.Index < _spacedOutPoints[i].Index) i--;
+            while (i >= 0 && loc.Index < _spacedOutPoints[i].Index) i--;
             return _spacedOutPoints[i + 2].Index;
         }
 
@@ -265,7 +264,7 @@ namespace CueSheetGenerator {
                 lastPoint--;
             }
 
-            DouglasReduction(Points, firstPoint, lastPoint, epsilon, ref pointIndexsToKeep);
+            DouglasReduction(Points, firstPoint, lastPoint, epsilon, pointIndexsToKeep);
             List<Location> returnPoints = new List<Location>();
             pointIndexsToKeep.Sort();
             foreach (Int32 index in pointIndexsToKeep) {
@@ -282,8 +281,9 @@ namespace CueSheetGenerator {
         /// <param name="lastPoint">The last point.</param>
         /// <param name="epsilon">The epsilon.</param>
         /// <param name="pointIndexsToKeep">The point index to keep.</param>
-        private static void DouglasReduction(List<Location> points, Int32 firstPoint, Int32 lastPoint, Double epsilon,
-           ref List<Int32> pointIndexsToKeep) {
+        private static void DouglasReduction(List<Location> points
+            , Int32 firstPoint, Int32 lastPoint, Double epsilon,
+            List<Int32> pointIndexsToKeep) {
             Double maxDistance = 0;
             Int32 indexFarthest = 0;
             for (Int32 index = firstPoint; index < lastPoint; index++) {
@@ -296,8 +296,8 @@ namespace CueSheetGenerator {
             if (maxDistance > epsilon && indexFarthest != 0) {
                 //Add the largest point that exceeds the tolerance
                 pointIndexsToKeep.Add(indexFarthest);
-                DouglasReduction(points, firstPoint, indexFarthest, epsilon, ref pointIndexsToKeep);
-                DouglasReduction(points, indexFarthest, lastPoint, epsilon, ref pointIndexsToKeep);
+                DouglasReduction(points, firstPoint, indexFarthest, epsilon, pointIndexsToKeep);
+                DouglasReduction(points, indexFarthest, lastPoint, epsilon, pointIndexsToKeep);
             }
         }
 

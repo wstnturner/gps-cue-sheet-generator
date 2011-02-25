@@ -65,18 +65,9 @@ namespace CueSheetGenerator {
         /// instance of location class, contains addresses and waypoints 
         /// for each address
         /// </summary>
-        List<Address> _locations = null;
+        List<Address> _addresses = null;
         public List<Address> Locations {
-            get { return _locations; }
-        }
-
-        DirectionsGenerator _directions = null;
-        /// <summary>
-        /// instance of directions generator class, contains a list of turns
-        /// and methods for generating a list of turns from locations
-        /// </summary>
-        public DirectionsGenerator Directions {
-            get { return _directions; }
+            get { return _addresses; }
         }
 
         CacheStrategy _cache = null;
@@ -96,7 +87,7 @@ namespace CueSheetGenerator {
         /// </summary>
         public int CurrentTurn {
             get {
-                if (_directions.Turns == null || _currentTurn >= _directions.Turns.Count)
+                if (_turns == null || _currentTurn >= _turns.Count)
                     _currentTurn = 0;
                 return _currentTurn;
             }
@@ -122,6 +113,15 @@ namespace CueSheetGenerator {
 
         private MapPainter _rideMpaPainter = null;
         private MapPainter _turnMapPainter = null;
+
+        //list of points of interest
+        List<PointOfInterest> _pois = null;
+
+        List<Turn> _turns = null;
+        public List<Turn> Turns {
+            get { return _turns; }
+            set { _turns = value; }
+        }
 
         /// <summary>
         /// constructor for pathfinder strategy
@@ -180,10 +180,9 @@ namespace CueSheetGenerator {
             turnPath.Weight = 10;
             turnPath.MapType = _path.MapType;
             string mapSize = width.ToString() + "x" + height.ToString() + "&";
-            if (_directions != null && _directions.Turns != null
-                && _directions.Turns.Count > _currentTurn) {
-                for (int i = _directions.Turns[_currentTurn].Locs[0].GpxLocation.Index;
-                    i <= _directions.Turns[_currentTurn].Locs[2].GpxLocation.Index; i++)
+            if (_turns != null && _turns.Count > _currentTurn) {
+                for (int i = _turns[_currentTurn].Locs[0].GpxLocation.Index;
+                    i <= _turns[_currentTurn].Locs[2].GpxLocation.Index; i++)
                     turnPath.Waypoints.Add(_path.Waypoints[i]);
             }
             turnPath.GeocodeWaypoints = turnPath.Waypoints;
@@ -208,8 +207,7 @@ namespace CueSheetGenerator {
         /// increment the current turn index
         /// </summary>
         public void incrementTurn() {
-            if (_directions != null && _directions.Turns != null
-                && _directions.Turns.Count - 1 > _currentTurn)
+            if (_turns != null && _turns.Count - 1 > _currentTurn)
                 _currentTurn++;
             else _currentTurn = 0;
         }
@@ -218,12 +216,10 @@ namespace CueSheetGenerator {
         /// decriment the current turn index
         /// </summary>
         public void decrementTurn() {
-            if (_directions != null && _directions.Turns != null
-                && 0 < _currentTurn)
+            if (_turns != null && 0 < _currentTurn)
                 _currentTurn--;
-            else if (_directions != null && _directions.Turns != null
-                && _directions.Turns.Count > 0)
-                _currentTurn = _directions.Turns.Count - 1;
+            else if (_turns != null && _turns.Count > 0)
+                _currentTurn = _turns.Count - 1;
             else _currentTurn = 0;
         }
 
@@ -231,12 +227,11 @@ namespace CueSheetGenerator {
         /// removes the turn at index _currentTurn from the turns array
         /// </summary>
         public void deleteCurrentTurn() {
-            if (_directions != null && _directions.Turns != null
-                && _directions.Turns.Count != 0) {
-                _directions.Turns.RemoveAt(_currentTurn);
+            if (_turns != null && _turns.Count != 0) {
+                _turns.RemoveAt(_currentTurn);
                 _turnImages.RemoveAt(_currentTurn);
-                _directions.computeTurnDistances();
-                if (_currentTurn > _directions.Turns.Count - 1)
+                DirectionsGenerator.computeTurnDistances(_turns);
+                if (_currentTurn > _turns.Count - 1)
                     _currentTurn = 0;
             }
         }
@@ -246,13 +241,12 @@ namespace CueSheetGenerator {
         /// </summary>
         public string getCurrentTurnString() {
             string turnString = "";
-            if (_directions != null && _directions.Turns != null
-                && _directions.Turns.Count != 0) {
+            if (_turns != null && _turns.Count != 0) {
                 turnString = (_currentTurn + 1).ToString() + ") "
-                    + _directions.Turns[_currentTurn].Locs[0].StreetName + " to "
-                    + _directions.Turns[_currentTurn].Locs[2].StreetName + ": "
-                    + _directions.Turns[_currentTurn].TurnDirection + " "
-                    + Math.Round(_directions.Turns[_currentTurn].TurnMagnitude, 1).ToString()
+                    + _turns[_currentTurn].Locs[0].StreetName + " to "
+                    + _turns[_currentTurn].Locs[2].StreetName + ": "
+                    + _turns[_currentTurn].TurnDirection + " "
+                    + Math.Round(_turns[_currentTurn].TurnMagnitude, 1).ToString()
                     + " degrees";
             }
             return turnString;
@@ -271,7 +265,18 @@ namespace CueSheetGenerator {
         /// <summary>
         /// stub for adding points of interest to the map
         /// </summary>
-        public void addPointOfInterest(Point p) { }
+        public void addPointOfInterest(Point p, string name, string description) {
+            if (_turns != null) {
+                Location loc = _rideMapFid.getWaypoint(p);
+                PointOfInterest poi = POIGenerator.createPointOfInterest(loc, _addresses);
+                poi.Name = name;
+                poi.Notes = description;
+                _pois.Add(poi);
+                int i = POIGenerator.addPOIToTurnList(poi, _turns);
+                _turnImages.Insert(i, null);
+                _currentTurn = i;
+            }
+        }
 
 
         /// <summary>
@@ -279,8 +284,8 @@ namespace CueSheetGenerator {
         /// </summary>
         public void writeCsvFile(string fileName, string units) {
             CsvWriter cw = new CsvWriter();
-            if (_locations != null && _locations.Count > 0 && _directions.Turns != null)
-                cw.writeCsvFile(fileName, _locations, _directions.Turns, units);
+            if (_addresses != null && _addresses.Count > 0 && _turns != null)
+                cw.writeCsvFile(fileName, _addresses, _turns, units);
             _image.Save(fileName + ".bmp");
             _status = cw.Status;
         }
@@ -315,10 +320,9 @@ namespace CueSheetGenerator {
             //and prune the path
             _path.processWaypoints(_waypointSeperation);
             //get the reverse geocoded locations
-            _locations = new List<Address>();
+            _addresses = new List<Address>();
             //iterate through the waypoints, look it up in the cache, if it is  
             //found, the use it. if it is not then ask google or geonames
-            _directions = new DirectionsGenerator();
             Thread t = new Thread(getLocations);
             t.Start();
         }
@@ -339,14 +343,15 @@ namespace CueSheetGenerator {
                     processedWaypoint.Invoke();
             }
             //sanatize input
-            for (int i = 0; i < _locations.Count; i++) {
-                if (_locations[i].StreetName == "") { _locations.RemoveAt(i); i--; };
+            for (int i = 0; i < _addresses.Count; i++) {
+                if (_addresses[i].StreetName == "") { _addresses.RemoveAt(i); i--; };
             }
             //generate directions
-            if (_locations.Count > 0) {
-                _directions.generateDirections(_locations);
-                _turnImages = new List<Image>(_directions.Turns.Count);
-                for (int i = 0; i < _directions.Turns.Count; i++)
+            if (_addresses.Count > 0) {
+                _pois = new List<PointOfInterest>();
+                _turns = DirectionsGenerator.generateDirections(_addresses);
+                _turnImages = new List<Image>(_turns.Count);
+                for (int i = 0; i < _turns.Count; i++)
                     _turnImages.Add(null);
             }
             if (finishedProcessing != null)
@@ -359,11 +364,11 @@ namespace CueSheetGenerator {
             //hit the cache first
             _tempLoc = _cache.lookup(wpt);
             if (_cache.CacheHit) {
-                _locations.Add(_tempLoc);
+                _addresses.Add(_tempLoc);
             } else if (!_cache.CacheHit && !_exceeded_query_limit) {
                 _fullGeoUrl = _baseGeoUrl + wpt.Lat + "," + wpt.Lon + "&sensor=false";
-                _locations.Add(new Address(_web.downloadWebPage(_fullGeoUrl), wpt));
-                if (_locations[i].Status == Address.OVER_QUERY_LIMIT) {
+                _addresses.Add(new Address(_web.downloadWebPage(_fullGeoUrl), wpt));
+                if (_addresses[i].Status == Address.OVER_QUERY_LIMIT) {
                     //_status = "Exceeded Google reverse geocoding API request quota";
                     _exceeded_query_limit = true;
                     getLocation(wpt, i);
@@ -371,19 +376,19 @@ namespace CueSheetGenerator {
             } else {
                 //if google cut us off, then try:
                 //http://ws.geonames.org/findNearestAddress?
-                if (_locations[_locations.Count - 1].Status == Address.OVER_QUERY_LIMIT)
-                    _locations.RemoveAt(_locations.Count - 1);
+                if (_addresses[_addresses.Count - 1].Status == Address.OVER_QUERY_LIMIT)
+                    _addresses.RemoveAt(_addresses.Count - 1);
                 _fullGeoUrl = "http://ws.geonames.org/findNearestAddress?lat=" + wpt.Lat + "&lng=" + wpt.Lon;
-                _locations.Add(new Address(_web.downloadWebPage(_fullGeoUrl), wpt));
-                if (_locations[_locations.Count - 1].Status == Address.SERVERS_OVERLOADED) {
-                    _locations.RemoveAt(_locations.Count - 1);
+                _addresses.Add(new Address(_web.downloadWebPage(_fullGeoUrl), wpt));
+                if (_addresses[_addresses.Count - 1].Status == Address.SERVERS_OVERLOADED) {
+                    _addresses.RemoveAt(_addresses.Count - 1);
                     _exceeded_query_limit = false;
                     //try again
                     getLocation(wpt, i);
                 }
             }
             if (!_cache.CacheHit)
-                _cache.addToCache(_locations[_locations.Count - 1]);
+                _cache.addToCache(_addresses[_addresses.Count - 1]);
         }
         /// <summary>
         /// 
@@ -394,13 +399,14 @@ namespace CueSheetGenerator {
         private void drawnOnRideMap(ref Image image, TrackPath path) {
             if (_rideMapFid.MapLocated) {
                 _rideMpaPainter.drawWaypoints(ref image, path.GeocodeWaypoints.ToArray());
-                if (_directions.Turns != null) {
-                    _rideMpaPainter.drawTurn(ref image, _directions.Turns[_currentTurn]);
+                if (_turns != null) {
+                    _rideMpaPainter.drawTurn(ref image, _turns[_currentTurn]);
                 }
                 Location begin = path.GeocodeWaypoints[0];
                 Location end = path.GeocodeWaypoints[path.GeocodeWaypoints.Count - 1];
                 _rideMpaPainter.drawBeginAndEndPoints(ref image, begin, end);
-                //_pd.drawPointsOfInterest(ref image, _pois);
+                if (_pois != null)
+                    _rideMpaPainter.drawPointsOfInterest(ref image, _pois.ToArray());
             }
         }
 
