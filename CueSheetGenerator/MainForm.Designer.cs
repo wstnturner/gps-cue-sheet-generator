@@ -157,6 +157,13 @@
             this.cueSheetListView.UseCompatibleStateImageBehavior = false;
             this.cueSheetListView.View = System.Windows.Forms.View.Details;
             this.cueSheetListView.SelectedIndexChanged += new System.EventHandler(this.cueSheetListView_SelectedIndexChanged);
+			this.cueSheetListView.AllowColumnReorder = true;
+			this.cueSheetListView.Columns.Clear();
+            //add necessary columns to list view
+            this.cueSheetListView.Columns.Add("Turn #", 48);
+            this.cueSheetListView.Columns.Add("Distance", 62);
+            this.cueSheetListView.Columns.Add("Turn", 44);
+            this.cueSheetListView.Columns.Add("Street Name", -2);
             // 
             // startTextBox
             // 
