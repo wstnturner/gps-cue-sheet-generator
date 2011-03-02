@@ -115,12 +115,9 @@ namespace CueSheetGenerator {
         private void updateListView() {
             if (_ps.Turns == null) return;
             //clear the list view
-            cueSheetListView.Clear();
+            cueSheetListView.Items.Clear();
             //add necessary columns to list view
-            cueSheetListView.Columns.Add("Turn #", 48);
-            cueSheetListView.Columns.Add("Distance", 62);
-            cueSheetListView.Columns.Add("Turn", 44);
-            cueSheetListView.Columns.Add("Street Name", -2);
+			// moved to MainForm.Designer.cs!
             for (int i = 0; i < _ps.Turns.Count; i++) {
                 Turn t = _ps.Turns[i];
                 ListViewItem lvi = null;
@@ -178,6 +175,7 @@ namespace CueSheetGenerator {
                 backButton.Enabled = false;
                 nextButton.Enabled = false;
                 turnPictureBox.Image = null;
+				cueSheetListView.Items.Clear();
                 updateRideMap(true);
             }
         }
