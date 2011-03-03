@@ -107,13 +107,17 @@ namespace CueSheetGenerator {
                 updateRideMap(false);
                 currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
                 // update startTextBox
-                beginTextBox.Text = "Start at " + _ps.Addresses[0].AddressString;
-                // update the cue sheet ListView
-                updateListView();
-                // update endTextBox
-                endTextBox.Text = "End at " + _ps.Addresses[_ps.Addresses.Count - 1].AddressString
-                    + "\r\nTotal distance: "
-                    + DirectionsPrinter.getDistanceInUnits(_ps.Path.TotalDistance, _units);
+                if (_ps.Addresses.Count > 0) {
+                    beginTextBox.Text = "Start at " + _ps.Addresses[0].AddressString;
+                    // update the cue sheet ListView
+                    updateListView();
+                    // update endTextBox
+                    endTextBox.Text = "End at " + _ps.Addresses[_ps.Addresses.Count - 1].AddressString
+                        + "\r\nTotal distance: "
+                        + DirectionsPrinter.getDistanceInUnits(_ps.Path.TotalDistance, _units);
+                } else {
+                    beginTextBox.Text = "Bad input file, check input file for correct format.";
+                }
             }
         }
 

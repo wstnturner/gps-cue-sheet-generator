@@ -268,7 +268,7 @@ namespace CueSheetGenerator {
         }
 
         /// <summary>
-        /// stub for adding points of interest to the map
+        /// function for adding points of interest to the map
         /// </summary>
         public void addPointOfInterest(Point p, string name, string description) {
             if (_turns != null) {
@@ -335,11 +335,12 @@ namespace CueSheetGenerator {
             Thread t = new Thread(getLocations);
             t.Start();
         }
-
+        bool _processingLocations = false;
         bool _exceeded_query_limit = false;
         //this runs in its own thread, looks up the locations in the 
         //path location list, invokes registered methods when done
         private void getLocations() {
+            _processingLocations = true;
             for (int i = 0; i < _path.GeocodeLocations.Count; i++) {
                 if (i % 20 == 0) _exceeded_query_limit = false;
                 //hit the cache first
@@ -351,6 +352,7 @@ namespace CueSheetGenerator {
                     _cache.addToCache(_addresses[_addresses.Count - 1]);
                     Thread.Sleep(20);
                 }
+                _processingLocations = false;
                 if (processedLocation != null)
                     processedLocation.Invoke();
             }

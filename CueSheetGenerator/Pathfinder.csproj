@@ -81,6 +81,7 @@
     <Compile Include="DirectionsPrinter.cs" />
     <Compile Include="FiducialStrategy.cs" />
     <Compile Include="HtmlWriter.cs" />
+    <Compile Include="KmlParser.cs" />
     <Compile Include="LeftLeaningRedBlackTree.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainForm.cs">
