@@ -9,14 +9,8 @@ namespace CueSheetGenerator {
     /// <summary>
     /// class csv writer, composes csv files from processed gpx files
     /// </summary>
-    class CsvWriter {
-        string _status = "Ok";
-        /// <summary>
-        /// status string
-        /// </summary>
-        public string Status {
-            get { return _status; }
-        }
+    class CsvWriter : CueSheetWriter {
+
 
         /// <summary>
         /// constructor for CSV writer
@@ -26,7 +20,7 @@ namespace CueSheetGenerator {
         /// <summary>
         /// write the comma seperated value list of turns out to a file
         /// </summary>
-        public void writeCsvFile(string fileName
+        public override void writeCueSheet(string fileName
             , List<Address> locs, List<Turn> turns, string units) {
             try {
                 StringBuilder csvFile = new StringBuilder();
@@ -56,16 +50,6 @@ namespace CueSheetGenerator {
                 sr.Close();
             } catch (Exception e) {
                 _status = e.Message;
-            }
-        }
-
-        private string getDistanceInUnits(double distance, string units) {
-            switch (units) {
-                case "Meters": return Math.Round(distance, 1).ToString();
-                case "Kilometers": return Math.Round(distance / 1000.0, 1).ToString();
-                case "Miles": return Math.Round(distance
-                    / DirectionsPrinter.METERS_PER_MILE, 1).ToString();
-                default: return null;
             }
         }
 

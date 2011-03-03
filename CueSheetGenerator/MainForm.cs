@@ -484,6 +484,10 @@ namespace CueSheetGenerator {
         }
         #endregion
 
+        private void cSVFileToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
         //private void copyToClipboardButton_Click(object sender, EventArgs e) {
         //    StringBuilder buffer = new StringBuilder();
         //    for (int i = 0; i < listView1.Columns.Count; i++) {

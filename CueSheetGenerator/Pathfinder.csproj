@@ -74,11 +74,13 @@
     <Compile Include="ConvertDegRad.cs" />
     <Compile Include="ConvertLatLonUtm.cs" />
     <Compile Include="CsvWriter.cs" />
+    <Compile Include="CueSheetWriter.cs" />
     <Compile Include="Datum.cs" />
     <Compile Include="Datums.cs" />
     <Compile Include="DirectionsGenerator.cs" />
     <Compile Include="DirectionsPrinter.cs" />
     <Compile Include="FiducialStrategy.cs" />
+    <Compile Include="HtmlWriter.cs" />
     <Compile Include="LeftLeaningRedBlackTree.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainForm.cs">
