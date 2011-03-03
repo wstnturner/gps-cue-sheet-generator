@@ -228,6 +228,10 @@ namespace CueSheetGenerator {
         /// </summary>
         public void deleteCurrentTurn() {
             if (_turns != null && _turns.Count != 0) {
+                for (int i = 0; i < _pois.Count; i++) {
+                    if (_pois[i].Notes == _turns[_currentTurn].Notes)
+                        _pois.RemoveAt(i);
+                }
                 _turns.RemoveAt(_currentTurn);
                 _turnImages.RemoveAt(_currentTurn);
                 DirectionsGenerator.computeTurnDistances(_turns);
@@ -399,7 +403,7 @@ namespace CueSheetGenerator {
         private void drawnOnRideMap(ref Image image, TrackPath path) {
             if (_rideMapFid.MapLocated) {
                 _rideMpaPainter.drawWaypoints(ref image, path.GeocodeWaypoints.ToArray());
-                if (_turns != null) {
+                if (_turns != null && _turns.Count > 0) {
                     _rideMpaPainter.drawTurn(ref image, _turns[_currentTurn]);
                 }
                 Location begin = path.GeocodeWaypoints[0];
