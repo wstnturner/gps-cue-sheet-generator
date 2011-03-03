@@ -190,9 +190,11 @@ namespace CueSheetGenerator {
 
         ////hightlight current direction text
         private void highlightCurrentTurn() {
-            cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
-            cueSheetListView.EnsureVisible(_ps.CurrentTurn);
-            cueSheetListView.Focus();
+			if (cueSheetListView.Items.Count > 0) {
+            	cueSheetListView.Items[_ps.CurrentTurn].Selected = true;
+            	cueSheetListView.EnsureVisible(_ps.CurrentTurn);
+            	cueSheetListView.Focus();
+			}
         }
 
         private void enablePoiControlls(bool enable) {
