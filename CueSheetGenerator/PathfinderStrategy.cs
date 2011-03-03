@@ -207,7 +207,7 @@ namespace CueSheetGenerator {
         /// increment the current turn index
         /// </summary>
         public void incrementTurn() {
-            if (_turns != null && _turns.Count - 1 > _currentTurn)
+            if (_turns != null && _turns.Count > 0 && _turns.Count - 1 > _currentTurn)
                 _currentTurn++;
             else _currentTurn = 0;
         }
@@ -216,9 +216,9 @@ namespace CueSheetGenerator {
         /// decriment the current turn index
         /// </summary>
         public void decrementTurn() {
-            if (_turns != null && 0 < _currentTurn)
+            if (_turns != null && _turns.Count > 0 && 0 < _currentTurn)
                 _currentTurn--;
-            else if (_turns != null && _turns.Count > 0)
+            else if (_turns != null && _turns.Count > 0 && _turns.Count > 0)
                 _currentTurn = _turns.Count - 1;
             else _currentTurn = 0;
         }
