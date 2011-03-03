@@ -122,7 +122,6 @@
             this.groupBox2.Controls.Add(this.cueSheetListView);
             this.groupBox2.Controls.Add(this.startTextBox);
             this.groupBox2.Location = new System.Drawing.Point(612, 24);
-            this.groupBox2.MinimumSize = new System.Drawing.Size(277, 318);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(277, 319);
             this.groupBox2.TabIndex = 1;
@@ -137,11 +136,13 @@
             this.endTextBox.Multiline = true;
             this.endTextBox.Name = "endTextBox";
             this.endTextBox.ReadOnly = true;
+            this.endTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.endTextBox.Size = new System.Drawing.Size(271, 34);
             this.endTextBox.TabIndex = 6;
             // 
             // cueSheetListView
             // 
+            this.cueSheetListView.AllowColumnReorder = true;
             this.cueSheetListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -157,13 +158,6 @@
             this.cueSheetListView.UseCompatibleStateImageBehavior = false;
             this.cueSheetListView.View = System.Windows.Forms.View.Details;
             this.cueSheetListView.SelectedIndexChanged += new System.EventHandler(this.cueSheetListView_SelectedIndexChanged);
-			this.cueSheetListView.AllowColumnReorder = true;
-			this.cueSheetListView.Columns.Clear();
-            //add necessary columns to list view
-            this.cueSheetListView.Columns.Add("Turn #", 48);
-            this.cueSheetListView.Columns.Add("Distance", 62);
-            this.cueSheetListView.Columns.Add("Turn", 44);
-            this.cueSheetListView.Columns.Add("Street Name", -2);
             // 
             // startTextBox
             // 
@@ -174,6 +168,7 @@
             this.startTextBox.Multiline = true;
             this.startTextBox.Name = "startTextBox";
             this.startTextBox.ReadOnly = true;
+            this.startTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.startTextBox.Size = new System.Drawing.Size(271, 34);
             this.startTextBox.TabIndex = 5;
             // 
@@ -549,7 +544,7 @@
             // 
             this.poiNametextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.poiNametextBox.Enabled = false;
-            this.poiNametextBox.Location = new System.Drawing.Point(44, 617);
+            this.poiNametextBox.Location = new System.Drawing.Point(66, 617);
             this.poiNametextBox.Name = "poiNametextBox";
             this.poiNametextBox.Size = new System.Drawing.Size(127, 20);
             this.poiNametextBox.TabIndex = 7;
@@ -559,30 +554,30 @@
             this.poiNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.poiNameLabel.AutoSize = true;
             this.poiNameLabel.Enabled = false;
-            this.poiNameLabel.Location = new System.Drawing.Point(3, 620);
+            this.poiNameLabel.Location = new System.Drawing.Point(4, 620);
             this.poiNameLabel.Name = "poiNameLabel";
-            this.poiNameLabel.Size = new System.Drawing.Size(35, 13);
+            this.poiNameLabel.Size = new System.Drawing.Size(56, 13);
             this.poiNameLabel.TabIndex = 8;
-            this.poiNameLabel.Text = "Name";
+            this.poiNameLabel.Text = "POI Name";
             // 
             // poiDescriptionLabel
             // 
             this.poiDescriptionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.poiDescriptionLabel.AutoSize = true;
             this.poiDescriptionLabel.Enabled = false;
-            this.poiDescriptionLabel.Location = new System.Drawing.Point(177, 620);
+            this.poiDescriptionLabel.Location = new System.Drawing.Point(199, 620);
             this.poiDescriptionLabel.Name = "poiDescriptionLabel";
-            this.poiDescriptionLabel.Size = new System.Drawing.Size(60, 13);
+            this.poiDescriptionLabel.Size = new System.Drawing.Size(81, 13);
             this.poiDescriptionLabel.TabIndex = 9;
-            this.poiDescriptionLabel.Text = "Description";
+            this.poiDescriptionLabel.Text = "POI Description";
             // 
             // poiDescriptionTextBox
             // 
             this.poiDescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.poiDescriptionTextBox.Enabled = false;
-            this.poiDescriptionTextBox.Location = new System.Drawing.Point(243, 617);
+            this.poiDescriptionTextBox.Location = new System.Drawing.Point(286, 617);
             this.poiDescriptionTextBox.Name = "poiDescriptionTextBox";
-            this.poiDescriptionTextBox.Size = new System.Drawing.Size(278, 20);
+            this.poiDescriptionTextBox.Size = new System.Drawing.Size(235, 20);
             this.poiDescriptionTextBox.TabIndex = 10;
             // 
             // addPoiButton
@@ -618,7 +613,7 @@
             this.Controls.Add(this.groupBox2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(900, 700);
+            this.MinimumSize = new System.Drawing.Size(900, 500);
             this.Name = "MainForm";
             this.Tag = "Pathfinder";
             this.Text = "Pathfinder";

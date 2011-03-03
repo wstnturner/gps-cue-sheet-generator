@@ -123,7 +123,7 @@ namespace CueSheetGenerator {
                     turn.TurnDirection = "right";
                 else if (theta2 - theta1 > 0.0 && Math.Abs(theta2 - theta1) < 180.0)
                     turn.TurnDirection = "left";
-            } else turn.TurnDirection = "null";
+            } else turn.TurnDirection = "straight";
         }
 
         //calculates the angles of the pre and post turn line segments

@@ -46,6 +46,14 @@ namespace CueSheetGenerator {
             file = thisExe.GetManifestResourceStream("CueSheetGenerator.poi.ico");
             cueSheetListView.SmallImageList.Images.Add(new Bitmap(Image.FromStream(file)));
 
+
+            cueSheetListView.Columns.Add("Turn #", 48);
+            cueSheetListView.Columns.Add("Distance", 62);
+            cueSheetListView.Columns.Add("Turn", 48);
+            cueSheetListView.Columns.Add("Street Name", -2);
+
+            //may need to add a method here to make the columns visible on mac
+
             _ps = new PathfinderStrategy();
             _ps.finishedProcessing += updateDirections;
             finishedProcessing += updateDirections;
@@ -194,6 +202,13 @@ namespace CueSheetGenerator {
             poiDescriptionLabel.Enabled = enable;
             poiDescriptionTextBox.Enabled = enable;
             addPoiButton.Enabled = enable;
+            if (enable) {
+                poiNameLabel.BackColor = Color.LimeGreen;
+                poiDescriptionLabel.BackColor = Color.LimeGreen;
+            } else {
+                poiNameLabel.BackColor = SystemColors.Control;
+                poiDescriptionLabel.BackColor = SystemColors.Control;
+            }
         }
 
         //all event handlers below here
