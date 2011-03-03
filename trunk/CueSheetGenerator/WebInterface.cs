@@ -11,6 +11,7 @@ namespace CueSheetGenerator {
     ///	web interface, retrieves web pages (XML) and images (maps)
     /// </summary>
     class WebInterface {
+        int _errorCounter = 0;
 
         string _status = "Ok";
         public string Status {
@@ -46,6 +47,7 @@ namespace CueSheetGenerator {
                 webResponse.Close();
                 webResponse.Close();
             } catch (Exception e) {
+                _errorCounter++;
                 _status = e.Message;
             }
             return tmpImage;
@@ -80,6 +82,7 @@ namespace CueSheetGenerator {
                 return pageContent;
             } catch (Exception e) {
                 _status = e.Message;
+                _errorCounter++;
                 return e.Message;
             }
         }
