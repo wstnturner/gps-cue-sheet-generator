@@ -33,10 +33,10 @@ namespace CueSheetGenerator {
                         Location wpt = new Location(double.Parse(n.Attributes[0].Value)
                         , double.Parse(n.Attributes[1].Value));
                         wpt.Elevation = double.Parse(n.FirstChild.InnerText);
-                        path.Waypoints.Add(wpt);
+                        path.Locations.Add(wpt);
                     }
                 }
-                _status = "Read " + path.Waypoints.Count + " waypoints";
+                _status = "Read " + path.Locations.Count + " locations";
             } catch (Exception e) {
                 _status = e.Message;
             }
@@ -70,10 +70,10 @@ namespace CueSheetGenerator {
                         Location wpt = new Location(double.Parse(n.Attributes[0].Value)
                         , double.Parse(n.Attributes[1].Value));
                         wpt.Elevation = double.Parse(n.FirstChild.InnerText);
-                        path.Waypoints.Add(wpt);
+                        path.Locations.Add(wpt);
                     }
                 }
-                _status = "Read " + path.Waypoints.Count + " waypoints";
+                _status = "Read " + path.Locations.Count + " locations";
             } catch (Exception e) {
                 _status = e.Message;
             }

@@ -29,11 +29,14 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.endTextBox = new System.Windows.Forms.TextBox();
             this.cueSheetListView = new System.Windows.Forms.ListView();
-            this.startTextBox = new System.Windows.Forms.TextBox();
+            this.beginTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hTMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,9 +82,6 @@
             this.poiDescriptionLabel = new System.Windows.Forms.Label();
             this.poiDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.addPoiButton = new System.Windows.Forms.Button();
-            this.cSVFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hTMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -123,7 +123,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.endTextBox);
             this.groupBox2.Controls.Add(this.cueSheetListView);
-            this.groupBox2.Controls.Add(this.startTextBox);
+            this.groupBox2.Controls.Add(this.beginTextBox);
             this.groupBox2.Location = new System.Drawing.Point(612, 24);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(277, 269);
@@ -160,18 +160,18 @@
             this.cueSheetListView.View = System.Windows.Forms.View.Details;
             this.cueSheetListView.SelectedIndexChanged += new System.EventHandler(this.cueSheetListView_SelectedIndexChanged);
             // 
-            // startTextBox
+            // beginTextBox
             // 
-            this.startTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.beginTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.startTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.startTextBox.Location = new System.Drawing.Point(3, 16);
-            this.startTextBox.Multiline = true;
-            this.startTextBox.Name = "startTextBox";
-            this.startTextBox.ReadOnly = true;
-            this.startTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.startTextBox.Size = new System.Drawing.Size(271, 34);
-            this.startTextBox.TabIndex = 5;
+            this.beginTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.beginTextBox.Location = new System.Drawing.Point(3, 16);
+            this.beginTextBox.Multiline = true;
+            this.beginTextBox.Name = "beginTextBox";
+            this.beginTextBox.ReadOnly = true;
+            this.beginTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.beginTextBox.Size = new System.Drawing.Size(271, 34);
+            this.beginTextBox.TabIndex = 5;
             // 
             // menuStrip1
             // 
@@ -193,13 +193,13 @@
             this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
             // 
@@ -210,19 +210,39 @@
             this.hTMLFileToolStripMenuItem,
             this.copyToClipboardToolStripMenuItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // cSVFileToolStripMenuItem
+            // 
+            this.cSVFileToolStripMenuItem.Name = "cSVFileToolStripMenuItem";
+            this.cSVFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.cSVFileToolStripMenuItem.Text = "CSV File";
+            this.cSVFileToolStripMenuItem.Click += new System.EventHandler(this.cSVFileToolStripMenuItem_Click);
+            // 
+            // hTMLFileToolStripMenuItem
+            // 
+            this.hTMLFileToolStripMenuItem.Name = "hTMLFileToolStripMenuItem";
+            this.hTMLFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.hTMLFileToolStripMenuItem.Text = "HTML File";
+            this.hTMLFileToolStripMenuItem.Click += new System.EventHandler(this.hTMLFileToolStripMenuItem_Click);
+            // 
+            // copyToClipboardToolStripMenuItem
+            // 
+            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
+            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
+            this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(108, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -234,7 +254,7 @@
             this.pathResToolStripMenuItem,
             this.revGeoToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.optionsToolStripMenuItem.Text = "Options";
             // 
             // unitsToolStripMenuItem
@@ -244,13 +264,13 @@
             this.kilometersToolStripMenuItem,
             this.milesToolStripMenuItem});
             this.unitsToolStripMenuItem.Name = "unitsToolStripMenuItem";
-            this.unitsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.unitsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.unitsToolStripMenuItem.Text = "Units";
             // 
             // metersToolStripMenuItem
             // 
             this.metersToolStripMenuItem.Name = "metersToolStripMenuItem";
-            this.metersToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.metersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.metersToolStripMenuItem.Tag = "Meters";
             this.metersToolStripMenuItem.Text = "Meters";
             this.metersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -258,7 +278,7 @@
             // kilometersToolStripMenuItem
             // 
             this.kilometersToolStripMenuItem.Name = "kilometersToolStripMenuItem";
-            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.kilometersToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.kilometersToolStripMenuItem.Tag = "Kilometers";
             this.kilometersToolStripMenuItem.Text = "Kilometers";
             this.kilometersToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -268,7 +288,7 @@
             this.milesToolStripMenuItem.Checked = true;
             this.milesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.milesToolStripMenuItem.Name = "milesToolStripMenuItem";
-            this.milesToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.milesToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.milesToolStripMenuItem.Tag = "Miles";
             this.milesToolStripMenuItem.Text = "Miles";
             this.milesToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
@@ -281,7 +301,7 @@
             this.terrainToolStripMenuItem,
             this.hybridToolStripMenuItem});
             this.mapTypeToolStripMenuItem.Name = "mapTypeToolStripMenuItem";
-            this.mapTypeToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.mapTypeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.mapTypeToolStripMenuItem.Text = "Map Type";
             // 
             // roadmapToolStripMenuItem
@@ -289,28 +309,28 @@
             this.roadmapToolStripMenuItem.Checked = true;
             this.roadmapToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.roadmapToolStripMenuItem.Name = "roadmapToolStripMenuItem";
-            this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.roadmapToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.roadmapToolStripMenuItem.Text = "Roadmap";
             this.roadmapToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
             // satelliteToolStripMenuItem
             // 
             this.satelliteToolStripMenuItem.Name = "satelliteToolStripMenuItem";
-            this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.satelliteToolStripMenuItem.Text = "Satellite";
             this.satelliteToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
             // terrainToolStripMenuItem
             // 
             this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
-            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.terrainToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.terrainToolStripMenuItem.Text = "Terrain";
             this.terrainToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
             // hybridToolStripMenuItem
             // 
             this.hybridToolStripMenuItem.Name = "hybridToolStripMenuItem";
-            this.hybridToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.hybridToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.hybridToolStripMenuItem.Text = "Hybrid";
             this.hybridToolStripMenuItem.Click += new System.EventHandler(this.mapTypeToolStripMenuItem_Click);
             // 
@@ -322,27 +342,27 @@
             this.twentyMToolStripMenuItem,
             this.thirtyMToolStripMenuItem});
             this.pathResToolStripMenuItem.Name = "pathResToolStripMenuItem";
-            this.pathResToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.pathResToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.pathResToolStripMenuItem.Text = "Path Resolution";
             // 
             // tenMToolStripMenuItem
             // 
             this.tenMToolStripMenuItem.Name = "tenMToolStripMenuItem";
-            this.tenMToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.tenMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.tenMToolStripMenuItem.Text = "10m";
             this.tenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
             // fifteenMToolStripMenuItem
             // 
             this.fifteenMToolStripMenuItem.Name = "fifteenMToolStripMenuItem";
-            this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.fifteenMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.fifteenMToolStripMenuItem.Text = "15m";
             this.fifteenMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
             // twentyMToolStripMenuItem
             // 
             this.twentyMToolStripMenuItem.Name = "twentyMToolStripMenuItem";
-            this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.twentyMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.twentyMToolStripMenuItem.Text = "20m";
             this.twentyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
@@ -351,7 +371,7 @@
             this.thirtyMToolStripMenuItem.Checked = true;
             this.thirtyMToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.thirtyMToolStripMenuItem.Name = "thirtyMToolStripMenuItem";
-            this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(97, 22);
+            this.thirtyMToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.thirtyMToolStripMenuItem.Text = "30m";
             this.thirtyMToolStripMenuItem.Click += new System.EventHandler(this.pathResolutionToolStripMenuItem_Click);
             // 
@@ -364,7 +384,7 @@
             this.points1000ToolStripMenuItem,
             this.points2000ToolStripMenuItem});
             this.revGeoToolStripMenuItem.Name = "revGeoToolStripMenuItem";
-            this.revGeoToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.revGeoToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.revGeoToolStripMenuItem.Text = "Geocode Points";
             // 
             // points250ToolStripMenuItem
@@ -372,35 +392,35 @@
             this.points250ToolStripMenuItem.Checked = true;
             this.points250ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.points250ToolStripMenuItem.Name = "points250ToolStripMenuItem";
-            this.points250ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.points250ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points250ToolStripMenuItem.Text = "250 Points";
             this.points250ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points500ToolStripMenuItem
             // 
             this.points500ToolStripMenuItem.Name = "points500ToolStripMenuItem";
-            this.points500ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.points500ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points500ToolStripMenuItem.Text = "500 Points";
             this.points500ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points750ToolStripMenuItem
             // 
             this.points750ToolStripMenuItem.Name = "points750ToolStripMenuItem";
-            this.points750ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.points750ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points750ToolStripMenuItem.Text = "750 Points";
             this.points750ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points1000ToolStripMenuItem
             // 
             this.points1000ToolStripMenuItem.Name = "points1000ToolStripMenuItem";
-            this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.points1000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points1000ToolStripMenuItem.Text = "1000 Points";
             this.points1000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
             // points2000ToolStripMenuItem
             // 
             this.points2000ToolStripMenuItem.Name = "points2000ToolStripMenuItem";
-            this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.points2000ToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.points2000ToolStripMenuItem.Text = "2000 Points";
             this.points2000ToolStripMenuItem.Click += new System.EventHandler(this.revGeoToolStripMenuItem_Click);
             // 
@@ -410,20 +430,20 @@
             this.ViewHelpToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // ViewHelpToolStripMenuItem
             // 
             this.ViewHelpToolStripMenuItem.Name = "ViewHelpToolStripMenuItem";
-            this.ViewHelpToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.ViewHelpToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.ViewHelpToolStripMenuItem.Text = "View Help";
             this.ViewHelpToolStripMenuItem.Click += new System.EventHandler(this.viewHelpToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -444,13 +464,14 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(22, 18);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(20, 18);
             this.toolStripStatusLabel1.Text = "Ok";
             // 
             // lookupToolStripProgressBar
             // 
             this.lookupToolStripProgressBar.Name = "lookupToolStripProgressBar";
             this.lookupToolStripProgressBar.Size = new System.Drawing.Size(150, 17);
+            this.lookupToolStripProgressBar.Step = 1;
             this.lookupToolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // toolStripStatusLabel2
@@ -461,7 +482,7 @@
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(25, 18);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 18);
             this.toolStripStatusLabel3.Text = "0, 0";
             // 
             // currentTurnStatusLabel
@@ -597,25 +618,6 @@
             this.addPoiButton.UseVisualStyleBackColor = true;
             this.addPoiButton.Click += new System.EventHandler(this.addPoiButton_Click);
             // 
-            // cSVFileToolStripMenuItem
-            // 
-            this.cSVFileToolStripMenuItem.Name = "cSVFileToolStripMenuItem";
-            this.cSVFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.cSVFileToolStripMenuItem.Text = "CSV File";
-            this.cSVFileToolStripMenuItem.Click += new System.EventHandler(this.cSVFileToolStripMenuItem_Click);
-            // 
-            // hTMLFileToolStripMenuItem
-            // 
-            this.hTMLFileToolStripMenuItem.Name = "hTMLFileToolStripMenuItem";
-            this.hTMLFileToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.hTMLFileToolStripMenuItem.Text = "HTML File";
-            // 
-            // copyToClipboardToolStripMenuItem
-            // 
-            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.copyToClipboardToolStripMenuItem.Text = "Copy to Clipboard";
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -708,7 +710,7 @@
         private System.Windows.Forms.ToolStripMenuItem points2000ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.TextBox endTextBox;
-        private System.Windows.Forms.TextBox startTextBox;
+        private System.Windows.Forms.TextBox beginTextBox;
         private System.Windows.Forms.ListView cueSheetListView;
         private System.Windows.Forms.TextBox poiNametextBox;
         private System.Windows.Forms.Label poiNameLabel;

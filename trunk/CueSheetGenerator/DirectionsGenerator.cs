@@ -15,9 +15,9 @@ namespace CueSheetGenerator {
         /// </summary>
 
         /// <summary>
-        ///computes the average of a list of waypoints
+        ///computes the average of a list of locations
         /// </summary>
-        public static Location averageWaypoints(List<Location> list) {
+        public static Location averageLocations(List<Location> list) {
             double lat = 0.0, lon = 0.0, east = 0.0
                 , north = 0.0, dist = 0.0, ele = 0.0;
             int index = 0;
@@ -64,7 +64,7 @@ namespace CueSheetGenerator {
                             tempWpts.Add(locs[i - 1].GpxLocation);
                             tempWpts.Add(locs[i].GpxLocation);
                             //average the two middle points
-                            locs[i].GpxLocation = averageWaypoints(tempWpts);
+                            locs[i].GpxLocation = averageLocations(tempWpts);
                             turns.Add(new Turn(locs[i - 2], locs[i], locs[i + 1]));
                         } else turns.Add(new Turn(locs[i - 1], locs[i], locs[i + 1]));
                         prevStreet = locs[i].StreetName;

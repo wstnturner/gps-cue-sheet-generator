@@ -20,17 +20,17 @@ namespace CueSheetGenerator {
         /// <summary>
         /// write the comma seperated value list of turns out to a file
         /// </summary>
-        public override void writeCueSheet(string fileName
+        public override void writeCueSheet(string fileName, string gpxFileName
             , List<Address> locs, List<Turn> turns, string units) {
             try {
-                StringBuilder csvFile = new StringBuilder();
+                StreamWriter sr = new StreamWriter(fileName);
                 //case for meters, kilometers, and miles
-                csvFile.Append("Start at " + locs[0].AddressString.Replace(",", "") + "\r\n");
-                csvFile.Append("Interval " + units + ",Total " + units + ",Turn"
-                + ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
-                + ",UTM Zone,Easting,Northing\r\n");
+                sr.WriteLine("Start at " + locs[0].AddressString.Replace(",", ""));
+                sr.WriteLine("Interval " + units + ",Total " + units + ",Turn"
+                    + ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
+                    + ",UTM Zone,Easting,Northing");
                 for (int i = 0; i < turns.Count; i++) {
-                    csvFile.Append(getDistanceInUnits(turns[i].Distance, units)
+                    sr.WriteLine(getDistanceInUnits(turns[i].Distance, units)
                         + "," + getDistanceInUnits(turns[i].Locs[1].GpxLocation.Distance, units)
                         + "," + turns[i].TurnDirection
                         + "," + Math.Round(turns[i].TurnMagnitude)
@@ -40,13 +40,11 @@ namespace CueSheetGenerator {
                         + "," + turns[i].Locs[1].GpxLocation.Elevation
                         + "," + turns[i].Locs[1].GpxLocation.Zone
                         + "," + turns[i].Locs[1].GpxLocation.Easting
-                        + "," + turns[i].Locs[1].GpxLocation.Northing + "\r\n");
+                        + "," + turns[i].Locs[1].GpxLocation.Northing);
                 }
-                csvFile.Append("End at " + locs[locs.Count - 1].AddressString.Replace(",", "")
+                sr.WriteLine("End at " + locs[locs.Count - 1].AddressString.Replace(",", "")
                     + "\r\ntotal distance: " + getDistanceInUnits(locs[locs.Count - 1]
-                    .GpxLocation.Distance, units) + " " + units + "\r\n");
-                StreamWriter sr = new StreamWriter(fileName);
-                sr.WriteLine(csvFile.ToString());
+                    .GpxLocation.Distance, units) + " " + units);
                 sr.Close();
             } catch (Exception e) {
                 _status = e.Message;

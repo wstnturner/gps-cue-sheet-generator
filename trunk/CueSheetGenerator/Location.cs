@@ -10,7 +10,7 @@ namespace CueSheetGenerator {
     class Location : IComparable {
 		double _lat = 0;
         /// <summary>
-        /// latitude of waypoint
+        /// latitude of location
         /// </summary>
 		public double Lat {
 			get { return _lat; }
@@ -19,7 +19,7 @@ namespace CueSheetGenerator {
 
 		double _lon = 0;
         /// <summary>
-        /// longitude of waypoint
+        /// longitude of location
         /// </summary>
 		public double Lon {
 			get { return _lon; }
@@ -28,7 +28,7 @@ namespace CueSheetGenerator {
 
 		private double _elevation = 0.0;
         /// <summary>
-        /// elevation of waypoint
+        /// elevation of location
         /// </summary>
 		public double Elevation {
 			get { return _elevation; }
@@ -37,7 +37,7 @@ namespace CueSheetGenerator {
 	
 		string _zone = "T10";
         /// <summary>
-        /// utm zone of waypoint
+        /// utm zone of location
         /// </summary>
 		public string Zone {
 			get { return _zone; }
@@ -46,7 +46,7 @@ namespace CueSheetGenerator {
 
 		double _northing = 0;
         /// <summary>
-        /// northing of waypoint
+        /// northing of location
         /// </summary>
 		public double Northing {
 			get { return _northing; }
@@ -55,7 +55,7 @@ namespace CueSheetGenerator {
 
 		double _easting = 0;
         /// <summary>
-        /// easting of waypoint
+        /// easting of location
         /// </summary>
 		public double Easting {
 			get { return _easting; }
@@ -64,7 +64,7 @@ namespace CueSheetGenerator {
 
 		double _distance = 0.0;
         /// <summary>
-        /// distance of waypoint from the start of the path
+        /// distance of location from the start of the path
         /// </summary>
 		public double Distance {
 			get { return _distance; }
@@ -74,7 +74,7 @@ namespace CueSheetGenerator {
 		private long _key = 0;
         /// <summary>
         /// key, composed of northing and easting, each divided by 10
-        /// implicit fuzzy cacheing because waypoints looked up by this
+        /// implicit fuzzy cacheing because locations looked up by this
         /// key will be rounded to the nearest 10 meters
         /// </summary>
 		public long Key {
@@ -83,10 +83,10 @@ namespace CueSheetGenerator {
 
 		int _index = 0;
         /// <summary>
-        /// index of waypoint in waypoint list, this is used because
-        /// not all waypoints get reverse geocoded (the set of locations 
-        /// is not onto the set of waypoints) so when drawing turns, the 
-        /// all waypoints will be used to construct the path
+        /// index of location in location list, this is used because
+        /// not all locations get reverse geocoded (the set of locations 
+        /// is not onto the set of locations) so when drawing turns, the 
+        /// all locations will be used to construct the path
         /// </summary>
 		public int Index {
 			get { return _index; }
@@ -107,7 +107,7 @@ namespace CueSheetGenerator {
 		}
 
         /// <summary>
-        /// set the key which to sort the waypoints by
+        /// set the key which to sort the locations by
         /// </summary>
 		public void setKey() {
 			_key = long.Parse(((int)(_northing / 10.0)).ToString() 
@@ -118,11 +118,11 @@ namespace CueSheetGenerator {
         /// implements IComparable
         /// </summary> 
 		public int CompareTo(object obj) {
-            Location otherwaypoint = obj as Location;
-			if (otherwaypoint != null)
-				return this.Key.CompareTo(otherwaypoint.Key);
+            Location otherLocation = obj as Location;
+			if (otherLocation != null)
+                return this.Key.CompareTo(otherLocation.Key);
 			else
-				throw new ArgumentException("Object is not a Waypoint");
+				throw new ArgumentException("Object is not a Location");
 		}
     }
 }

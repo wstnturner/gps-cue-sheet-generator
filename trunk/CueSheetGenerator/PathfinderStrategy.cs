@@ -17,7 +17,7 @@ namespace CueSheetGenerator {
         /// </summary>
         public delegate void updateStatusEventHandler();
         public event updateStatusEventHandler finishedProcessing;
-        public event updateStatusEventHandler processedWaypoint;
+        public event updateStatusEventHandler processedLocation;
 
         string _status = "Ok";
         /// <summary>
@@ -34,13 +34,13 @@ namespace CueSheetGenerator {
             , TWENTY_M = 20.0, THIRTY_M = 30.0;
 
 
-        double _waypointSeperation = THIRTY_M;
+        double _locationSeperation = THIRTY_M;
         /// <summary>
-        /// path resolution waypoint seperation
+        /// path resolution location seperation
         /// </summary>
-        public double WaypointSeperation {
-            get { return _waypointSeperation; }
-            set { _waypointSeperation = value; }
+        public double LocationSeperation {
+            get { return _locationSeperation; }
+            set { _locationSeperation = value; }
         }
 
         WebInterface _web = null;
@@ -53,7 +53,7 @@ namespace CueSheetGenerator {
 
         TrackPath _path = null;
         /// <summary>
-        /// track path instance, contians waypoints and 
+        /// track path instance, contians locations and 
         /// related methods for composing a path URL for 
         /// Google static maps
         /// </summary>
@@ -62,11 +62,11 @@ namespace CueSheetGenerator {
         }
 
         /// <summary>
-        /// instance of location class, contains addresses and waypoints 
+        /// instance of location class, contains addresses and locations 
         /// for each address
         /// </summary>
         List<Address> _addresses = null;
-        public List<Address> Locations {
+        public List<Address> Addresses {
             get { return _addresses; }
         }
 
@@ -99,18 +99,17 @@ namespace CueSheetGenerator {
 
         string _baseMapUrl = "http://maps.google.com/maps/api/staticmap?size=";
         string _mapSize = "500x500&";
-        string _baseGeoUrl = "http://maps.googleapis.com/maps/api/geocode/xml?latlng=";
         
         FiducialStrategy _rideMapFid = null;
         FiducialStrategy _turnMapFid = null;
 
-        Location _waypointFromMouse = null;
+        Location _locationFromMouse = null;
         /// <summary>
-        /// the waypoint that cooresponds to the location of the 
+        /// the location that cooresponds to the location of the 
         /// mouse pointer on the ride map
         /// </summary>
-        public Location WaypointFromMouse {
-            get { return _waypointFromMouse; }
+        public Location LocationFromMouse {
+            get { return _locationFromMouse; }
         }
 
         private MapPainter _rideMpaPainter = null;
@@ -146,7 +145,6 @@ namespace CueSheetGenerator {
             _cache.writeCachesToFile();
         }
 
-
         /// <summary>
         /// returns the image of the ride map
         /// </summary>
@@ -154,7 +152,7 @@ namespace CueSheetGenerator {
             Image mapImage = null;
             _mapSize = width.ToString() + "x" + height.ToString() + "&";
             // download web image
-            if (_path != null && _path.Waypoints.Count > 0) {
+            if (_path != null && _path.Locations.Count > 0) {
                 if (downloadNew) {
                     _mapImage = _web.downloadImage(_baseMapUrl + _mapSize
                         + _path.getPathUrlString() + "&sensor=false");
@@ -186,12 +184,12 @@ namespace CueSheetGenerator {
             if (_turns != null && _turns.Count > _currentTurn) {
                 for (int i = _turns[_currentTurn].Locs[0].GpxLocation.Index;
                     i <= _turns[_currentTurn].Locs[2].GpxLocation.Index; i++)
-                    turnPath.Waypoints.Add(_path.Waypoints[i]);
+                    turnPath.Locations.Add(_path.Locations[i]);
             }
-            turnPath.GeocodeWaypoints = turnPath.Waypoints;
+            turnPath.GeocodeLocations = turnPath.Locations;
             // download web image
-            if (turnPath != null && turnPath.Waypoints.Count > 0) {
-                //incedentally, getting the path string sorts the waypoints
+            if (turnPath != null && turnPath.Locations.Count > 0) {
+                //incedentally, getting the path string sorts the locations
                 string turnPathUrl = turnPath.getPathUrlString();
                 if (_turnImages[_currentTurn] == null) {
                     image = _web.downloadImage(_baseMapUrl + mapSize
@@ -263,10 +261,10 @@ namespace CueSheetGenerator {
         /// if the map has been located i.e. registered, then 
         /// we can return a UTM point given a mouse location on the image
         /// </summary>
-        public void getWaypointFromMousePosition(Point pt) {
-            if (_rideMapFid.MapLocated && _path.Waypoints.Count > 0)
-                _waypointFromMouse = _rideMapFid.getWaypoint(pt);
-            else _waypointFromMouse = null;
+        public void getLocationFromMousePosition(Point pt) {
+            if (_rideMapFid.MapLocated && _path.Locations.Count > 0)
+                _locationFromMouse = _rideMapFid.getLocation(pt);
+            else _locationFromMouse = null;
         }
 
         /// <summary>
@@ -274,7 +272,7 @@ namespace CueSheetGenerator {
         /// </summary>
         public void addPointOfInterest(Point p, string name, string description) {
             if (_turns != null) {
-                Location loc = _rideMapFid.getWaypoint(p);
+                Location loc = _rideMapFid.getLocation(p);
                 PointOfInterest poi = POIGenerator.createPointOfInterest(loc, _addresses);
                 poi.Name = name;
                 poi.Notes = description;
@@ -285,69 +283,76 @@ namespace CueSheetGenerator {
             }
         }
 
-
+        CueSheetWriter cueWriter = null;
         /// <summary>
         /// write the list of directions out to the filesystem as a comma seperated value file
         /// </summary>
         public void writeCsvFile(string fileName, string units) {
-            CsvWriter cw = new CsvWriter();
+            if (fileName.EndsWith(".csv"))
+                cueWriter = new CsvWriter();
+            else cueWriter = new HtmlWriter();
             if (_addresses != null && _addresses.Count > 0 && _turns != null)
-                cw.writeCueSheet(fileName, _addresses, _turns, units);
+                cueWriter.writeCueSheet(fileName, _inputFileName, _addresses, _turns, units);
             _drawnOnMapImage.Save(fileName + ".bmp");
-            _status = cw.Status;
+            _status = cueWriter.Status;
         }
 
+        string _inputFileName = null;
         /// <summary>
         /// given an input gpx file, process the file and conver the 
-        /// gps waypoints to locations using the google and geonames
+        /// gps locations to locations using the google and geonames
         /// reverse geocoding services, then generate a set of directions
         /// </summary>
         public void processInput(string fileName) {
+            _inputFileName = fileName;
             _currentTurn = 0;
             _path.resetPath();
-            //parse the gpx file for waypoints
+            //parse the gpx file for locations
             TrackFileParser parser;
             if (fileName.EndsWith(".gpx")) {
                 parser = new GpxParser(fileName, _path);
                 _status = parser.Status;
             }
-            processWaypoints();
+            processLocations();
         }
 
         /// <summary>
-        /// reprocess the waypoints initially read in from file,
+        /// reprocess the locations initially read in from file,
         /// called when the user changes the path resolution
         /// </summary>
         public void reProcessInput() {
-            processWaypoints();
+            processLocations();
         }
 
-        private void processWaypoints() {
+        private void processLocations() {
             //convert the lat lon coordinates to utm 
             //and prune the path
-            _path.processWaypoints(_waypointSeperation);
+            _path.processLocations(_locationSeperation);
             //get the reverse geocoded locations
             _addresses = new List<Address>();
-            //iterate through the waypoints, look it up in the cache, if it is  
+            //iterate through the locations, look it up in the cache, if it is  
             //found, the use it. if it is not then ask google or geonames
             Thread t = new Thread(getLocations);
             t.Start();
         }
 
         bool _exceeded_query_limit = false;
-        string _fullGeoUrl = "";
-        Address _tempLoc = null;
-
         //this runs in its own thread, looks up the locations in the 
-        //path waypoint list, invokes registered methods when done
+        //path location list, invokes registered methods when done
         private void getLocations() {
-            for (int i = 0; i < _path.GeocodeWaypoints.Count; i++) {
-                if (i % 10 == 0) _exceeded_query_limit = false;
-                getLocation(_path.GeocodeWaypoints[i], i);
-                if (!_cache.CacheHit)
+            for (int i = 0; i < _path.GeocodeLocations.Count; i++) {
+                if (i % 20 == 0) _exceeded_query_limit = false;
+                //hit the cache first
+                Address tempAddress = _cache.lookup(_path.GeocodeLocations[i]);
+                if (_cache.CacheHit) {
+                    _addresses.Add(tempAddress);
+                } else {
+                    _addresses.Add(getAddress(_path.GeocodeLocations[i]));
+                    _cache.addToCache(_addresses[_addresses.Count - 1]);
                     Thread.Sleep(20);
-                if (processedWaypoint != null)
-                    processedWaypoint.Invoke();
+                }
+                if (processedLocation != null)
+                    processedLocation.Invoke();
             }
             //sanatize input
             for (int i = 0; i < _addresses.Count; i++) {
@@ -365,38 +370,30 @@ namespace CueSheetGenerator {
                 finishedProcessing.Invoke();
         }
 
-        //retrieves the location from either the cache,
-        //google geocoding API, or geonames.org
-        private void getLocation(Location wpt, int i) {
-            //hit the cache first
-            _tempLoc = _cache.lookup(wpt);
-            if (_cache.CacheHit) {
-                _addresses.Add(_tempLoc);
-            } else if (!_cache.CacheHit && !_exceeded_query_limit) {
-                _fullGeoUrl = _baseGeoUrl + wpt.Lat + "," + wpt.Lon + "&sensor=false";
-                _addresses.Add(new Address(_web.downloadWebPage(_fullGeoUrl), wpt));
-                if (_addresses[i].Status == Address.OVER_QUERY_LIMIT) {
-                    //_status = "Exceeded Google reverse geocoding API request quota";
-                    _exceeded_query_limit = true;
-                    getLocation(wpt, i);
-                }
-            } else {
-                //if google cut us off, then try:
-                //http://ws.geonames.org/findNearestAddress?
-                if (_addresses[_addresses.Count - 1].Status == Address.OVER_QUERY_LIMIT)
-                    _addresses.RemoveAt(_addresses.Count - 1);
-                _fullGeoUrl = "http://ws.geonames.org/findNearestAddress?lat=" + wpt.Lat + "&lng=" + wpt.Lon;
-                _addresses.Add(new Address(_web.downloadWebPage(_fullGeoUrl), wpt));
-                if (_addresses[_addresses.Count - 1].Status == Address.SERVERS_OVERLOADED) {
-                    _addresses.RemoveAt(_addresses.Count - 1);
-                    _exceeded_query_limit = false;
-                    //try again
-                    getLocation(wpt, i);
+        //retrieves the address from either
+        //google geocoding API or geonames.org
+        private Address getAddress(Location loc) {
+            Address tempAddress = null;
+            while (tempAddress == null) {
+                if (!_exceeded_query_limit) {
+                    tempAddress = googleReverseGeocoder.getAddress(loc, _web);
+                    if (tempAddress.Status == GoogleXml.OVER_QUERY_LIMIT) {
+                        _exceeded_query_limit = true;
+                        tempAddress = null;
+                    }
+                } else {
+                    //if google cut us off, then try: http://ws.geonames.org/findNearestAddress?
+                    tempAddress = geoNamesReverseGeocoder.getAddress(loc, _web);
+                    if (tempAddress.Status == GeonamesXml.SERVERS_OVERLOADED) {
+                        _exceeded_query_limit = false; //now that we bounced off geonames, try google again
+                        tempAddress = null;
+                        Thread.Sleep(20); //wait a bit before asking google agian
+                    }
                 }
             }
-            if (!_cache.CacheHit)
-                _cache.addToCache(_addresses[_addresses.Count - 1]);
+            return tempAddress;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -405,12 +402,12 @@ namespace CueSheetGenerator {
         /// <returns>return image of the points drawn on ride map</returns>
         private void drawnOnRideMap(ref Image image, TrackPath path) {
             if (_rideMapFid.MapLocated) {
-                _rideMpaPainter.drawWaypoints(ref image, path.GeocodeWaypoints.ToArray());
+                _rideMpaPainter.drawLocations(ref image, path.GeocodeLocations.ToArray());
                 if (_turns != null && _turns.Count > 0) {
                     _rideMpaPainter.drawTurn(ref image, _turns[_currentTurn]);
                 }
-                Location begin = path.GeocodeWaypoints[0];
-                Location end = path.GeocodeWaypoints[path.GeocodeWaypoints.Count - 1];
+                Location begin = path.GeocodeLocations[0];
+                Location end = path.GeocodeLocations[path.GeocodeLocations.Count - 1];
                 _rideMpaPainter.drawBeginAndEndPoints(ref image, begin, end);
                 if (_pois != null)
                     _rideMpaPainter.drawPointsOfInterest(ref image, _pois.ToArray());
@@ -418,7 +415,7 @@ namespace CueSheetGenerator {
         }
 
         /// <summary>
-        /// Draw waypoints, begin and end points onto the turn inspector
+        /// Draw locations, begin and end points onto the turn inspector
         /// </summary>
         /// <param name="image">image of the turn map</param>
         /// <param name="path">current turn</param>
@@ -429,9 +426,9 @@ namespace CueSheetGenerator {
             //register the image to the UTM locations (UL, LR) _pd is our instance of PathDrawer 
             if (_turnMapFid.MapLocated) {
                 _turnMapFid.setCorrespondence(path.UpperLeft, path.LowerRight);
-                _turnMapPainter.drawWaypoints(ref image, path.GeocodeWaypoints.ToArray());
-                Location begin = path.GeocodeWaypoints[0];
-                Location end = path.GeocodeWaypoints[path.GeocodeWaypoints.Count - 1];
+                _turnMapPainter.drawLocations(ref image, path.GeocodeLocations.ToArray());
+                Location begin = path.GeocodeLocations[0];
+                Location end = path.GeocodeLocations[path.GeocodeLocations.Count - 1];
                 _turnMapPainter.drawBeginAndEndPoints(ref image, begin, end);
             }
         }
