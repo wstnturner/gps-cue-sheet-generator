@@ -33,7 +33,7 @@ namespace CueSheetGenerator {
             g.FillEllipse(sb, pt1.X - 3, pt1.Y - 3, 6, 6);
             pt2 = _fd.getPoint(current.Locs[2].GpxLocation);
             g.FillEllipse(sb, pt2.X - 3, pt2.Y - 3, 6, 6);
-            Pen p = new Pen(sb);
+            Pen p = new Pen(sb, 2);
             g.DrawLine(p, pt0, pt1);
             g.DrawLine(p, pt1, pt2);
         }
