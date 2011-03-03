@@ -94,7 +94,9 @@ namespace CueSheetGenerator {
             set { _currentTurn = value; }
         }
 
-        Image _image = null;
+        Image _mapImage = null;
+        Image _drawnOnMapImage = null;
+
         string _baseMapUrl = "http://maps.google.com/maps/api/staticmap?size=";
         string _mapSize = "500x500&";
         string _baseGeoUrl = "http://maps.googleapis.com/maps/api/geocode/xml?latlng=";
@@ -154,17 +156,18 @@ namespace CueSheetGenerator {
             // download web image
             if (_path != null && _path.Waypoints.Count > 0) {
                 if (downloadNew) {
-                    _image = _web.downloadImage(_baseMapUrl + _mapSize
+                    _mapImage = _web.downloadImage(_baseMapUrl + _mapSize
                         + _path.getPathUrlString() + "&sensor=false");
-                    _image = new Bitmap(_image);
-                    _rideMapFid.processImage((Bitmap)_image);
+                    _mapImage = new Bitmap(_mapImage);
+                    _rideMapFid.processImage((Bitmap)_mapImage);
                     if (_rideMapFid.MapLocated)
                         _rideMapFid.setCorrespondence(_path.UpperLeft, _path.LowerRight);
                 }
-                mapImage = new Bitmap(_image);
+                mapImage = new Bitmap(_mapImage);
                 drawnOnRideMap(ref mapImage, _path);
             } else
                 mapImage = _web.downloadImage(_baseMapUrl + _mapSize + "&sensor=false");
+            _drawnOnMapImage = mapImage;
             return mapImage;
         }
 
@@ -207,7 +210,7 @@ namespace CueSheetGenerator {
         /// increment the current turn index
         /// </summary>
         public void incrementTurn() {
-            if (_turns != null && _turns.Count > 0 && _turns.Count - 1 > _currentTurn)
+            if (_turns != null && _turns.Count - 1 > _currentTurn)
                 _currentTurn++;
             else _currentTurn = 0;
         }
@@ -216,9 +219,9 @@ namespace CueSheetGenerator {
         /// decriment the current turn index
         /// </summary>
         public void decrementTurn() {
-            if (_turns != null && _turns.Count > 0 && 0 < _currentTurn)
+            if (_turns != null && 0 < _currentTurn)
                 _currentTurn--;
-            else if (_turns != null && _turns.Count > 0 && _turns.Count > 0)
+            else if (_turns != null && _turns.Count > 0)
                 _currentTurn = _turns.Count - 1;
             else _currentTurn = 0;
         }
@@ -289,8 +292,8 @@ namespace CueSheetGenerator {
         public void writeCsvFile(string fileName, string units) {
             CsvWriter cw = new CsvWriter();
             if (_addresses != null && _addresses.Count > 0 && _turns != null)
-                cw.writeCsvFile(fileName, _addresses, _turns, units);
-            _image.Save(fileName + ".bmp");
+                cw.writeCueSheet(fileName, _addresses, _turns, units);
+            _drawnOnMapImage.Save(fileName + ".bmp");
             _status = cw.Status;
         }
 
