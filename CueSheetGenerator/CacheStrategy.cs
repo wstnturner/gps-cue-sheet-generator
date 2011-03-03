@@ -61,11 +61,11 @@ namespace CueSheetGenerator {
         Cache _currentCache = null;
 
         /// <summary>
-        /// looks up a location in the cache given an input waypoint
+        /// looks up a location in the cache given an input location
         /// </summary>
         public Address lookup(Location wpt) {
             _cacheHit = false;
-            //lookup the waypoint in a cache
+            //lookup the location in a cache
             //if it is not present, return null
             if (_currentCache == null) return null;
             if (wpt.Zone != _currentCache.Name) {
@@ -85,27 +85,27 @@ namespace CueSheetGenerator {
         /// <summary>
         /// add a new location to the cache
         /// </summary>
-        public void addToCache(Address loc) {
+        public void addToCache(Address address) {
             //if the location's zone matches a cache file name
             //then store it in the cache
             //else create a new cache
             if (_currentCache != null
-                && loc.GpxLocation.Zone == _currentCache.Name)
-                _currentCache.write(loc.GpxLocation.Key, loc);
+                && address.GpxLocation.Zone == _currentCache.Name)
+                _currentCache.write(address.GpxLocation.Key, address);
             else {
                 bool foundCache = false;
                 foreach (Cache c in _caches) {
-                    if (loc.GpxLocation.Zone == c.Name) {
+                    if (address.GpxLocation.Zone == c.Name) {
                         _currentCache = c;
                         foundCache = true;
-                        c.write(loc.GpxLocation.Key, loc);
+                        c.write(address.GpxLocation.Key, address);
                     }
                 }
                 //create the cache and store the location
                 if (!foundCache) {
-                    Cache c = new Cache(loc.GpxLocation.Zone);
+                    Cache c = new Cache(address.GpxLocation.Zone);
                     _currentCache = c;
-                    c.write(loc.GpxLocation.Key, loc);
+                    c.write(address.GpxLocation.Key, address);
                     _caches.Add(c);
                 }
             }
@@ -133,21 +133,21 @@ namespace CueSheetGenerator {
         Cache readCache(string fileName) {
             //read index, street name, and full street address
             StreamReader sr = new StreamReader(fileName);
-            Address loc = null;
+            Address address = null;
             Cache c = null;
             //use windows or unix file paths
             if (_win) c = new Cache(fileName.Remove(0, fileName.LastIndexOf("\\") + 1));
             else c = new Cache(fileName.Remove(0, fileName.LastIndexOf("/") + 1));
-            string key, address, streetName, s;
+            string key, addressString, streetName, s;
             while (!sr.EndOfStream) {
                 s = sr.ReadLine();
                 key = s.Substring(0, s.IndexOf("\t"));
                 s = s.Remove(0, s.IndexOf("\t") + 1);
                 streetName = s.Substring(0, s.IndexOf("\t"));
                 s = s.Remove(0, s.IndexOf("\t") + 1);
-                address = s;
-                loc = new Address(address, streetName);
-                c.Tree.insert(long.Parse(key), loc);
+                addressString = s;
+                address = new Address(addressString, streetName);
+                c.Tree.insert(long.Parse(key), address);
             }
             sr.Close();
             return c;
@@ -171,11 +171,11 @@ namespace CueSheetGenerator {
         private void writeCache(Cache c) {
             List<LLRBTree.Node> locs = c.Tree.getPreOrederList();
             StreamWriter sr = new StreamWriter(_cacheDir + c.Name);
-            Address loc = null;
+            Address address = null;
             foreach (LLRBTree.Node n in locs) {
-                loc = (Address)(n.getValue());
-                sr.WriteLine(n.getKey().ToString() + "\t" + loc.StreetName
-                    + "\t" + loc.AddressString);
+                address = (Address)(n.getValue());
+                sr.WriteLine(n.getKey().ToString() + "\t" + address.StreetName
+                    + "\t" + address.AddressString);
             }
             sr.Close();
         }

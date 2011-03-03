@@ -12,7 +12,7 @@ namespace CueSheetGenerator {
             _fd = f;
         }
 
-        public void drawWaypoints(ref Image map, Location[] points) {
+        public void drawLocations(ref Image map, Location[] points) {
             Graphics g = Graphics.FromImage(map);
             SolidBrush sb = new SolidBrush(Color.Blue);
             Point pt;

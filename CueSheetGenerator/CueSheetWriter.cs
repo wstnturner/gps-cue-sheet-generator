@@ -23,7 +23,7 @@ namespace CueSheetGenerator {
             }
         }
 
-        public abstract void writeCueSheet(string fileName
+        public abstract void writeCueSheet(string fileName, string gpxFileName
             , List<Address> locs, List<Turn> turns, string units);
     }
 }

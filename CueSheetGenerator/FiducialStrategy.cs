@@ -122,9 +122,9 @@ namespace CueSheetGenerator {
 
 
         /// <summary>
-        /// get a waypoint from a system.drawing point
+        /// get a location from a system.drawing point
         /// </summary>
-        public Location getWaypoint(Point pt) {
+        public Location getLocation(Point pt) {
             Location wpt = new Location();
             wpt.Easting = pt.X * _horizontalScale + _horizontalOffset;
             wpt.Northing = pt.Y * _verticalScale + _verticalOffset;
@@ -132,7 +132,7 @@ namespace CueSheetGenerator {
         }
 
         /// <summary>
-        /// get a system.drawing point from a waypoint
+        /// get a system.drawing point from a location
         /// </summary>
         public Point getPoint(Location wpt) {
             Point pt = new Point();

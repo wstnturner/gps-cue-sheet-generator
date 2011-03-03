@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="POIGenerator.cs" />
     <Compile Include="PointOfInterest.cs" />
+    <Compile Include="ReverseGeocoder.cs" />
     <Compile Include="TrackFileParser.cs" />
     <Compile Include="TrackPath.cs" />
     <Compile Include="PathfinderStrategy.cs" />

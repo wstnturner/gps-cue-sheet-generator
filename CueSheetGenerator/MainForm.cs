@@ -14,7 +14,7 @@ namespace CueSheetGenerator {
     /// </summary>
     public partial class MainForm : Form {
         event PathfinderStrategy.updateStatusEventHandler finishedProcessing;
-        event PathfinderStrategy.updateStatusEventHandler processedWaypoint;
+        event PathfinderStrategy.updateStatusEventHandler processedLocation;
         event PathfinderStrategy.updateStatusEventHandler enableControlls;
 
         //private instance of the pathfinder strategy class
@@ -59,8 +59,8 @@ namespace CueSheetGenerator {
             finishedProcessing += updateDirections;
             _ps.finishedProcessing += reEnableControls;
             enableControlls += reEnableControls;
-            _ps.processedWaypoint += updateProgressBar;
-            processedWaypoint += updateProgressBar;
+            _ps.processedLocation += updateProgressBar;
+            processedLocation += updateProgressBar;
             this.Show();
             if (fileName != null) openGpsFile(fileName);
             else updateRideMap(true);
@@ -83,15 +83,15 @@ namespace CueSheetGenerator {
             }
         }
 
-        /// every time a waypoint is decoded update the progress bar
+        /// every time a location is decoded update the progress bar
         void updateProgressBar() {
             //not ideal, i'd rather use logic to terminate the thread
             //rather than use error handling
             try {
-                if (startTextBox.InvokeRequired)
-                    this.Invoke(processedWaypoint);
+                if (beginTextBox.InvokeRequired)
+                    this.Invoke(processedLocation);
                 else
-                    lookupToolStripProgressBar.Value = _ps.Locations.Count;
+                    lookupToolStripProgressBar.Value = _ps.Addresses.Count;
             } catch (Exception e) {
                 Thread.CurrentThread.Abort(e);
             }
@@ -99,20 +99,19 @@ namespace CueSheetGenerator {
 
         /// when the directions have been generated update the directions display
         private void updateDirections() {
-            if (startTextBox.InvokeRequired) {
+            if (beginTextBox.InvokeRequired) {
                 this.Invoke(finishedProcessing);
             } else {
-                toolStripStatusLabel1.Text = _ps.Status;
                 toolStripStatusLabel2.Text = "Done,";
                 lookupToolStripProgressBar.Value = 0;
                 updateRideMap(false);
                 currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
                 // update startTextBox
-                startTextBox.Text = "Start at " + _ps.Locations[0].AddressString;
+                beginTextBox.Text = "Start at " + _ps.Addresses[0].AddressString;
                 // update the cue sheet ListView
                 updateListView();
                 // update endTextBox
-                endTextBox.Text = "End at " + _ps.Locations[_ps.Locations.Count - 1].AddressString
+                endTextBox.Text = "End at " + _ps.Addresses[_ps.Addresses.Count - 1].AddressString
                     + "\r\nTotal distance: "
                     + DirectionsPrinter.getDistanceInUnits(_ps.Path.TotalDistance, _units);
             }
@@ -148,7 +147,7 @@ namespace CueSheetGenerator {
 
         /// the controlls are disabled during processing, re-enable them afterward
         private void reEnableControls() {
-            if (startTextBox.InvokeRequired) {
+            if (beginTextBox.InvokeRequired) {
                 this.Invoke(enableControlls);
             } else {
                 fileToolStripMenuItem.Enabled = true;
@@ -172,11 +171,15 @@ namespace CueSheetGenerator {
 
         /// get the UI ready to display the route
         private void prepareToDisplayRoute() {
-            if (_ps.Path.Waypoints.Count > 0) {
+            if (_ps.Path.Locations.Count > 0) {
+                //must call this first, because updating the ride map
+                //affects the number of geocode locations
+                updateRideMap(true);
                 //initialize the progress bar
                 lookupToolStripProgressBar.Value = 0;
-                lookupToolStripProgressBar.Maximum = _ps.Path.GeocodeWaypoints.Count;
+                lookupToolStripProgressBar.Maximum = _ps.Path.GeocodeLocations.Count;
                 toolStripStatusLabel2.Text = "Processing,";
+                toolStripStatusLabel1.Text = _ps.Status;
                 fileToolStripMenuItem.Enabled = false;
                 optionsToolStripMenuItem.Enabled = false;
                 deleteButton.Enabled = false;
@@ -184,7 +187,8 @@ namespace CueSheetGenerator {
                 nextButton.Enabled = false;
                 turnPictureBox.Image = null;
 				cueSheetListView.Items.Clear();
-                updateRideMap(true);
+                beginTextBox.Clear();
+                endTextBox.Clear();
             }
         }
 
@@ -244,9 +248,6 @@ namespace CueSheetGenerator {
         }
 
         //user clicks the File->Save menu control
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e) {
-            saveCsvFileDialog.ShowDialog();
-        }
 
         //user changes the size of the map
         private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
@@ -257,11 +258,11 @@ namespace CueSheetGenerator {
         private void mapPictureBox_MouseMove(object sender, MouseEventArgs e) {
             if (_ps != null) {
                 Point pt = new Point(e.X, e.Y);
-                _ps.getWaypointFromMousePosition(pt);
-                if (_ps.WaypointFromMouse != null)
+                _ps.getLocationFromMousePosition(pt);
+                if (_ps.LocationFromMouse != null)
                     toolStripStatusLabel3.Text = _ps.Path.UpperLeft.Zone + " E "
-                        + Math.Round(_ps.WaypointFromMouse.Easting).ToString()
-                        + ", " + "N " + Math.Round(_ps.WaypointFromMouse.Northing).ToString()
+                        + Math.Round(_ps.LocationFromMouse.Easting).ToString()
+                        + ", " + "N " + Math.Round(_ps.LocationFromMouse.Northing).ToString()
                         + ",";
             }
         }
@@ -288,6 +289,7 @@ namespace CueSheetGenerator {
 
         //user saves a CSV file (clicks save in the dialogue)
         private void saveCsvFileDialog_FileOk(object sender, CancelEventArgs e) {
+
             _ps.writeCsvFile(saveCsvFileDialog.FileName, _units);
             toolStripStatusLabel1.Text = _ps.Status;
         }
@@ -419,26 +421,26 @@ namespace CueSheetGenerator {
             switch (sender.ToString()) {
                 case "10m":
                     tenMToolStripMenuItem.Checked = true;
-                    _ps.WaypointSeperation = PathfinderStrategy.TEN_M;
+                    _ps.LocationSeperation = PathfinderStrategy.TEN_M;
                     break;
                 case "15m":
                     fifteenMToolStripMenuItem.Checked = true;
-                    _ps.WaypointSeperation = PathfinderStrategy.FIFTEEN_M;
+                    _ps.LocationSeperation = PathfinderStrategy.FIFTEEN_M;
                     break;
                 case "20m":
                     twentyMToolStripMenuItem.Checked = true;
-                    _ps.WaypointSeperation = PathfinderStrategy.TWENTY_M;
+                    _ps.LocationSeperation = PathfinderStrategy.TWENTY_M;
                     break;
                 case "30m":
                     thirtyMToolStripMenuItem.Checked = true;
-                    _ps.WaypointSeperation = PathfinderStrategy.THIRTY_M;
+                    _ps.LocationSeperation = PathfinderStrategy.THIRTY_M;
                     break;
                 default:
                     thirtyMToolStripMenuItem.Checked = true;
-                    _ps.WaypointSeperation = PathfinderStrategy.THIRTY_M;
+                    _ps.LocationSeperation = PathfinderStrategy.THIRTY_M;
                     break;
             }
-            if (_ps.Path.Waypoints.Count > 0) {
+            if (_ps.Path.Locations.Count > 0) {
                 _ps.reProcessInput();
                 prepareToDisplayRoute();
             }
@@ -477,7 +479,7 @@ namespace CueSheetGenerator {
                     _ps.Path.MaxGpxPoints = TrackPath.REV_GEO_250;
                     break;
             }
-            if (_ps.Path.Waypoints.Count > 0) {
+            if (_ps.Path.Locations.Count > 0) {
                 _ps.reProcessInput();
                 prepareToDisplayRoute();
             }
@@ -485,25 +487,35 @@ namespace CueSheetGenerator {
         #endregion
 
         private void cSVFileToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            saveCsvFileDialog.Filter = "CSV File|*.csv";
+            saveCsvFileDialog.ShowDialog();
         }
 
-        //private void copyToClipboardButton_Click(object sender, EventArgs e) {
-        //    StringBuilder buffer = new StringBuilder();
-        //    for (int i = 0; i < listView1.Columns.Count; i++) {
-        //        buffer.Append(listView1.Columns[i].Text);
-        //        buffer.Append("\t");
-        //    }
-        //    buffer.Append("\n");
-        //    for (int i = 0; i < listView1.Items.Count; i++) {
-        //        for (int j = 0; j < listView1.Columns.Count; j++) {
-        //            buffer.Append(listView1.Items[i].SubItems[j].Text);
-        //            buffer.Append("\t");
-        //        }
-        //        buffer.Append("\n");
-        //    }
-        //    Clipboard.SetText(buffer.ToString());
-        //}
+        private void hTMLFileToolStripMenuItem_Click(object sender, EventArgs e) {
+            saveCsvFileDialog.Filter = "HTML File|*.html";
+            saveCsvFileDialog.ShowDialog();
+        }
+
+        private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e) {
+            copyToClipboard();
+        }
+
+        private void copyToClipboard() {
+            StringBuilder buffer = new StringBuilder();
+            for (int i = 0; i < cueSheetListView.Columns.Count; i++) {
+                buffer.Append(cueSheetListView.Columns[i].Text);
+                buffer.Append(",");
+            }
+            buffer.Append("\n");
+            for (int i = 0; i < cueSheetListView.Items.Count; i++) {
+                for (int j = 0; j < cueSheetListView.Columns.Count; j++) {
+                    buffer.Append(cueSheetListView.Items[i].SubItems[j].Text);
+                    buffer.Append(",");
+                }
+                buffer.Append("\n");
+            }
+            Clipboard.SetText(buffer.ToString());
+        }
 
     }
 
