@@ -18,7 +18,7 @@ namespace CueSheetGenerator {
                     shortFileName = fileName.Remove(0, fileName.LastIndexOf("\\") + 1);
                     shortGpxFimeName = gpxFileName.Remove(0, gpxFileName.LastIndexOf("\\") + 1);
                 } else if (fileName.Contains("/")) {
-                    shortFileName = fileName.Remove(0, fileName.LastIndexOf("/"));
+                    shortFileName = fileName.Remove(0, fileName.LastIndexOf("/") + 1);
                     shortGpxFimeName = gpxFileName.Remove(0, gpxFileName.LastIndexOf("/"));
                 }
                 StreamWriter sr = new StreamWriter(fileName);
