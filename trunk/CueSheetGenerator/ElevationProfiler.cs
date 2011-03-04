@@ -9,7 +9,7 @@ namespace CueSheetGenerator {
         static double _maxHeight = 0;
         static double _minHeight = double.PositiveInfinity;
 
-        public static Bitmap getElevationProfile(List<Location> locs) {
+        public static Bitmap getElevationProfile(List<Location> locs, string units) {
             if (locs == null || locs.Count < 1) return new Bitmap(100, 100);
             _maxHeight = 0;
             _minHeight = double.PositiveInfinity;
@@ -36,7 +36,7 @@ namespace CueSheetGenerator {
             for (int i = 40; i < width; i += 40) {
                 pt.X = i;
                 g.DrawLine(p2, i, height, i, 0);
-                g.DrawString(Math.Round((locs[i].Distance / 1000), 1).ToString(), f, sb, pt);
+                g.DrawString(DirectionsPrinter.getDistanceGivenUnits(locs[i].Distance, units).ToString(), f, sb, pt);
             }
             pt.X = 0;
             for (int i = 40; i < delta; i += 40) {

@@ -309,7 +309,7 @@ namespace CueSheetGenerator {
             if (_addresses != null && _addresses.Count > 0 && _turns != null)
                 cueWriter.writeCueSheet(fileName, _inputFileName, _addresses, _turns, units);
             _drawnOnMapImage.Save(fileName + ".bmp");
-            ElevationProfiler.getElevationProfile(_path.Locations).Save(fileName + ".ele.bmp");
+            ElevationProfiler.getElevationProfile(_path.Locations, units).Save(fileName + ".ele.bmp");
             _status = cueWriter.Status;
         }
 
@@ -452,6 +452,13 @@ namespace CueSheetGenerator {
                 Location begin = path.GeocodeLocations[0];
                 Location end = path.GeocodeLocations[path.GeocodeLocations.Count - 1];
                 _turnMapPainter.drawBeginAndEndPoints(ref image, begin, end);
+            }
+        }
+
+
+        public void makeTurnImagesNull() {
+            for(int i = 0; i < _turnImages.Count; i++) {
+                _turnImages[i] = null;
             }
         }
     }

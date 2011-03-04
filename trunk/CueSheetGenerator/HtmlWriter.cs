@@ -35,13 +35,13 @@ namespace CueSheetGenerator {
                 sr.WriteLine("<tr><td><b>Turn #</b></td><td><b>Distance</b></td><td><b>Turn</b></td><td><b>Street Name</b></td></tr>");
                 for (int i = 0; i < turns.Count; i++) {
                     sr.WriteLine("<tr><td>" + (i + 1) + "</td><td>"
-                        + getDistanceInUnits(turns[i].Locs[1].GpxLocation.Distance, units) + "</td><td>"
+                        + DirectionsPrinter.getDistanceGivenUnits(turns[i].Locs[1].GpxLocation.Distance, units) + "</td><td>"
                         + turns[i].TurnDirection + "</td><td>"
                         + turns[i].Locs[2].StreetName + "</td></tr>");
                 }
                 sr.WriteLine("</tbody></table></td></tr><tr>");
                 sr.WriteLine("<td>End at " + locs[locs.Count - 1].AddressString + "<br>");
-                sr.Write("Total distance: " + getDistanceInUnits(locs[locs.Count - 1].GpxLocation.Distance, units) + " ");
+                sr.Write("Total distance: " + DirectionsPrinter.getDistanceGivenUnits(locs[locs.Count - 1].GpxLocation.Distance, units) + " ");
                 sr.WriteLine(units + "</td></tr></tbody></table></td>");
                 sr.WriteLine("<td style=\"vertical-align: top;\"><img style=\"width: 600px; height: 600px;\" alt=\"ride map\" src=\"" + shortFileName + ".bmp\"></td>");
                 sr.WriteLine("</tr></tbody></table></body>");

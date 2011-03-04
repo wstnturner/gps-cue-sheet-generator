@@ -30,8 +30,8 @@ namespace CueSheetGenerator {
                     + ",Degrees,Street,Notes,Latitude,Longitude,Elevation (m)"
                     + ",UTM Zone,Easting,Northing");
                 for (int i = 0; i < turns.Count; i++) {
-                    sr.WriteLine(getDistanceInUnits(turns[i].Distance, units)
-                        + "," + getDistanceInUnits(turns[i].Locs[1].GpxLocation.Distance, units)
+                    sr.WriteLine(DirectionsPrinter.getDistanceGivenUnits(turns[i].Distance, units)
+                        + "," + DirectionsPrinter.getDistanceGivenUnits(turns[i].Locs[1].GpxLocation.Distance, units)
                         + "," + turns[i].TurnDirection
                         + "," + Math.Round(turns[i].TurnMagnitude)
                         + "," + turns[i].Locs[2].StreetName + "," + turns[i].Notes
@@ -43,7 +43,7 @@ namespace CueSheetGenerator {
                         + "," + turns[i].Locs[1].GpxLocation.Northing);
                 }
                 sr.WriteLine("End at " + locs[locs.Count - 1].AddressString.Replace(",", "")
-                    + "\r\ntotal distance: " + getDistanceInUnits(locs[locs.Count - 1]
+                    + "\r\ntotal distance: " + DirectionsPrinter.getDistanceGivenUnits(locs[locs.Count - 1]
                     .GpxLocation.Distance, units) + " " + units);
                 sr.Close();
             } catch (Exception e) {
