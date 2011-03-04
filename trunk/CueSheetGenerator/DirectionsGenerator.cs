@@ -48,6 +48,7 @@ namespace CueSheetGenerator {
         public static List<Turn> generateDirections(List<Address> locs) {
             List<Location> tempWpts = new List<Location>();
             List<Turn> turns = new List<Turn>();
+            if (locs == null || locs.Count < 3) return turns;
             string prevStreet = locs[0].StreetName;
             for (int i = 1; i < locs.Count; i++) {
                 //reject false street changes from intersections

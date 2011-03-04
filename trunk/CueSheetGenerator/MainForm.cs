@@ -71,7 +71,7 @@ namespace CueSheetGenerator {
             // show image in picturebox
             mapPictureBox.Image = _ps.getRideMap(downloadNew, mapPictureBox.Height, mapPictureBox.Width);
             if (mapPictureBox.Image == null)
-                toolStripStatusLabel1.Text = _ps.Web.Status;
+                toolStripStatusLabel1.Text = _ps.Status;
         }
 
         /// update the turn ins[ector turn map
@@ -107,7 +107,7 @@ namespace CueSheetGenerator {
                 updateRideMap(false);
                 currentTurnStatusLabel.Text = _ps.getCurrentTurnString();
                 // update startTextBox
-                if (_ps.Addresses.Count > 0) {
+                if (_ps.Addresses != null && _ps.Addresses.Count > 0) {
                     beginTextBox.Text = "Start at " + _ps.Addresses[0].AddressString;
                     // update the cue sheet ListView
                     updateListView();
@@ -116,7 +116,7 @@ namespace CueSheetGenerator {
                         + "\r\nTotal distance: "
                         + DirectionsPrinter.getDistanceInUnits(_ps.Path.TotalDistance, _units);
                 } else {
-                    beginTextBox.Text = "Bad input file, check input file for correct format.";
+                    beginTextBox.Text = _ps.Status;
                 }
             }
         }
@@ -243,19 +243,21 @@ namespace CueSheetGenerator {
 
         //user opens a GPX file (clicks OK)
         private void openGpxFileDialog_FileOk(object sender, CancelEventArgs e) {
-            openGpsFile(openGpxFileDialog.FileName);
+            openGpsFile(openGpsFileDialog.FileName);
         }
 
         //user clicks the File->Open menu control 
         private void openToolStripMenuItem1_Click(object sender, EventArgs e) {
-            openGpxFileDialog.ShowDialog();
+            openGpsFileDialog.ShowDialog();
         }
 
         //user clicks the File->Save menu control
 
         //user changes the size of the map
         private void mapPictureBox_SizeChanged(object sender, EventArgs e) {
-            if (_ps != null) updateRideMap(true);
+            if (_ps != null && this.WindowState != FormWindowState.Minimized
+                && mapPictureBox.Image != null && mapPictureBox.Size != mapPictureBox.Image.Size)
+                updateRideMap(true);
         }
 
         //user moves the mouse over the ride map
@@ -289,13 +291,6 @@ namespace CueSheetGenerator {
             poiDescriptionTextBox.Text = "";
             enablePoiControlls(!addPoiButton.Enabled);
             updateListView();
-        }
-
-        //user saves a CSV file (clicks save in the dialogue)
-        private void saveCsvFileDialog_FileOk(object sender, CancelEventArgs e) {
-
-            _ps.writeCsvFile(saveCsvFileDialog.FileName, _units);
-            toolStripStatusLabel1.Text = _ps.Status;
         }
 
         //user changes the units option (Meters, Kilometers, Miles)
@@ -490,16 +485,19 @@ namespace CueSheetGenerator {
         }
         #endregion
 
+        //user clicks save CSV file in file save menu
         private void cSVFileToolStripMenuItem_Click(object sender, EventArgs e) {
-            saveCsvFileDialog.Filter = "CSV File|*.csv";
-            saveCsvFileDialog.ShowDialog();
+            saveOutputFileDialog.Filter = "CSV File|*.csv";
+            saveOutputFileDialog.ShowDialog();
         }
 
+        //user clicks save HTML file in file save menu
         private void hTMLFileToolStripMenuItem_Click(object sender, EventArgs e) {
-            saveCsvFileDialog.Filter = "HTML File|*.html";
-            saveCsvFileDialog.ShowDialog();
+            saveOutputFileDialog.Filter = "HTML File|*.html";
+            saveOutputFileDialog.ShowDialog();
         }
 
+        //user clicks copy to clipboard file in file save menu
         private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e) {
             copyToClipboard();
         }
@@ -519,6 +517,19 @@ namespace CueSheetGenerator {
                 buffer.Append("\n");
             }
             Clipboard.SetText(buffer.ToString());
+        }
+
+        private void viewElevationProfileToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (_ps.Path.Locations != null && _ps.Path.Locations.Count > 0) {
+                ElevationProfileDisplay epd = new ElevationProfileDisplay(_ps.Path.Locations);
+                epd.Show();
+            }
+        }
+
+        //user saves a CSV or HTML file (clicks save in the dialogue)
+        private void saveOutputFileDialog_FileOk(object sender, CancelEventArgs e) {
+            _ps.writeOutputFile(saveOutputFileDialog.FileName, _units);
+            toolStripStatusLabel1.Text = _ps.Status;
         }
 
     }

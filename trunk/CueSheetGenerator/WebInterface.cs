@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Drawing;
+using System.Threading;
 
 namespace CueSheetGenerator {
     /// <summary>
@@ -46,8 +47,12 @@ namespace CueSheetGenerator {
                 // Cleanup
                 webResponse.Close();
                 webResponse.Close();
+                _errorCounter = 0;
             } catch (Exception e) {
                 _errorCounter++;
+                if (_errorCounter > 10) {
+                    //Thread.CurrentThread.Abort(e);
+                }
                 _status = e.Message;
             }
             return tmpImage;
@@ -62,6 +67,7 @@ namespace CueSheetGenerator {
         /// <param name="url">URL of the webpage</param>
         /// <returns>Website content</returns>
         public string downloadWebPage(string url) {
+            string pageContent = "";
             try {
                 // Open a connection
                 HttpWebRequest webRequestObject = (HttpWebRequest)HttpWebRequest.Create(url);
@@ -74,17 +80,20 @@ namespace CueSheetGenerator {
                 // Create reader object:
                 StreamReader reader = new StreamReader(webStream);
                 // Read the entire stream content:
-                string pageContent = reader.ReadToEnd();
+                pageContent = reader.ReadToEnd();
                 // Cleanup
                 reader.Close();
                 webStream.Close();
                 response.Close();
-                return pageContent;
+                _errorCounter = 0;   
             } catch (Exception e) {
                 _status = e.Message;
                 _errorCounter++;
-                return e.Message;
+                if (_errorCounter > 10) {
+                   // Thread.CurrentThread.Abort(e);
+                }
             }
+            return pageContent; 
         }
     }
 }
