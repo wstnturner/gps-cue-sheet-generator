@@ -36,7 +36,9 @@ namespace CueSheetGenerator {
 				}
 				_status = "Read " + path.Locations.Count + " locations";
             } catch (Exception e) {
-                _status = e.Message;
+                //_status = e.Message;
+                _status = "Parsing error, cannot read input file.";
+                path.Locations.Clear();
             }
         }
     }
