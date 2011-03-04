@@ -89,6 +89,8 @@ namespace CueSheetGenerator {
             //if the location's zone matches a cache file name
             //then store it in the cache
             //else create a new cache
+            if (address.AddressString == "")
+                return;
             if (_currentCache != null
                 && address.GpxLocation.Zone == _currentCache.Name)
                 _currentCache.write(address.GpxLocation.Key, address);

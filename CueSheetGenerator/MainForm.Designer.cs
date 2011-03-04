@@ -69,8 +69,8 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.currentTurnStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.openGpxFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.saveCsvFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.openGpsFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveOutputFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.nextButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
@@ -82,6 +82,7 @@
             this.poiDescriptionLabel = new System.Windows.Forms.Label();
             this.poiDescriptionTextBox = new System.Windows.Forms.TextBox();
             this.addPoiButton = new System.Windows.Forms.Button();
+            this.viewElevationProfileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mapPictureBox)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -178,7 +179,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.viewElevationProfileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(892, 24);
@@ -199,7 +201,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
             // 
@@ -210,7 +212,7 @@
             this.hTMLFileToolStripMenuItem,
             this.copyToClipboardToolStripMenuItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // cSVFileToolStripMenuItem
@@ -237,12 +239,12 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(108, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -491,16 +493,16 @@
             this.currentTurnStatusLabel.Name = "currentTurnStatusLabel";
             this.currentTurnStatusLabel.Size = new System.Drawing.Size(0, 18);
             // 
-            // openGpxFileDialog
+            // openGpsFileDialog
             // 
-            this.openGpxFileDialog.Filter = "GPX Files|*.gpx";
-            this.openGpxFileDialog.FilterIndex = 2;
-            this.openGpxFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openGpxFileDialog_FileOk);
+            this.openGpsFileDialog.Filter = "KML File|*.kml|GPX Files|*.gpx";
+            this.openGpsFileDialog.FilterIndex = 2;
+            this.openGpsFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openGpxFileDialog_FileOk);
             // 
-            // saveCsvFileDialog
+            // saveOutputFileDialog
             // 
-            this.saveCsvFileDialog.Filter = "CSV File|*.csv";
-            this.saveCsvFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveCsvFileDialog_FileOk);
+            this.saveOutputFileDialog.Filter = "CSV File|*.csv";
+            this.saveOutputFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.saveOutputFileDialog_FileOk);
             // 
             // printDialog1
             // 
@@ -618,6 +620,13 @@
             this.addPoiButton.UseVisualStyleBackColor = true;
             this.addPoiButton.Click += new System.EventHandler(this.addPoiButton_Click);
             // 
+            // viewElevationProfileToolStripMenuItem
+            // 
+            this.viewElevationProfileToolStripMenuItem.Name = "viewElevationProfileToolStripMenuItem";
+            this.viewElevationProfileToolStripMenuItem.Size = new System.Drawing.Size(121, 20);
+            this.viewElevationProfileToolStripMenuItem.Text = "View Elevation Profile";
+            this.viewElevationProfileToolStripMenuItem.Click += new System.EventHandler(this.viewElevationProfileToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -667,8 +676,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.OpenFileDialog openGpxFileDialog;
-        private System.Windows.Forms.SaveFileDialog saveCsvFileDialog;
+        private System.Windows.Forms.OpenFileDialog openGpsFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveOutputFileDialog;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -720,6 +729,7 @@
         private System.Windows.Forms.ToolStripMenuItem cSVFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hTMLFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToClipboardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewElevationProfileToolStripMenuItem;
     }
 }
 

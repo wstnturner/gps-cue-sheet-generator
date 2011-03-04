@@ -36,7 +36,7 @@ namespace CueSheetGenerator {
                         path.Locations.Add(loc);
                     }
                 }
-                _status = "Read " + path.Locations.Count + " locations";
+                _status = "Read " + path.Locations.Count + " Locations";
             } catch (Exception e) {
                 _status = e.Message;
             }

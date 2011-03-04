@@ -128,6 +128,9 @@ namespace CueSheetGenerator {
         /// constructor for pathfinder strategy
         /// </summary>
         public PathfinderStrategy() {
+            _turns = new List<Turn>();
+            _turnImages = new List<Image>();
+            _pois = new List<PointOfInterest>();
             _path = new TrackPath();
             _web = new WebInterface();
             _cache = new CacheStrategy();
@@ -152,22 +155,30 @@ namespace CueSheetGenerator {
             Image mapImage = null;
             _mapSize = width.ToString() + "x" + height.ToString() + "&";
             // download web image
-            if (_path != null && _path.Locations.Count > 0) {
+            if (_path != null && _path.Locations.Count > 0 && width != 0 && height != 0) {
                 if (downloadNew) {
                     _mapImage = _web.downloadImage(_baseMapUrl + _mapSize
                         + _path.getPathUrlString() + "&sensor=false");
-                    _mapImage = new Bitmap(_mapImage);
-                    _rideMapFid.processImage((Bitmap)_mapImage);
-                    if (_rideMapFid.MapLocated)
-                        _rideMapFid.setCorrespondence(_path.UpperLeft, _path.LowerRight);
+                    if (_mapImage == null) _status = _web.Status;
+                    else {
+                        _mapImage = new Bitmap(_mapImage);
+                        _rideMapFid.processImage((Bitmap)_mapImage);
+                        if (_rideMapFid.MapLocated)
+                            _rideMapFid.setCorrespondence(_path.UpperLeft, _path.LowerRight);
+                    }
                 }
-                mapImage = new Bitmap(_mapImage);
-                drawnOnRideMap(ref mapImage, _path);
-            } else
+                if (_mapImage != null) {
+                    mapImage = new Bitmap(_mapImage);
+                    drawnOnRideMap(ref mapImage, _path);
+                }
+            } else {
                 mapImage = _web.downloadImage(_baseMapUrl + _mapSize + "&sensor=false");
+                if (_mapImage == null) _status = _web.Status;
+            }
             _drawnOnMapImage = mapImage;
             return mapImage;
         }
+
 
         List<Image> _turnImages = null;
 
@@ -194,12 +205,16 @@ namespace CueSheetGenerator {
                 if (_turnImages[_currentTurn] == null) {
                     image = _web.downloadImage(_baseMapUrl + mapSize
                         + turnPathUrl + "&sensor=false");
-                    image = new Bitmap(image);
-                    _turnImages[_currentTurn] = image;
+                    if (image == null) _status = _web.Status;
+                    else {
+                        image = new Bitmap(image);
+                        _turnImages[_currentTurn] = image;
+                    }
                 } else {
                     image = _turnImages[_currentTurn];
                 }
-                drawOnTurnMap(ref image, turnPath);
+                if (image != null)
+                    drawOnTurnMap(ref image, turnPath);
             }
             return image;
         }
@@ -287,13 +302,14 @@ namespace CueSheetGenerator {
         /// <summary>
         /// write the list of directions out to the filesystem as a comma seperated value file
         /// </summary>
-        public void writeCsvFile(string fileName, string units) {
+        public void writeOutputFile(string fileName, string units) {
             if (fileName.EndsWith(".csv"))
                 cueWriter = new CsvWriter();
             else cueWriter = new HtmlWriter();
             if (_addresses != null && _addresses.Count > 0 && _turns != null)
                 cueWriter.writeCueSheet(fileName, _inputFileName, _addresses, _turns, units);
             _drawnOnMapImage.Save(fileName + ".bmp");
+            ElevationProfiler.getElevationProfile(_path.Locations).Save(fileName + ".ele.bmp");
             _status = cueWriter.Status;
         }
 
@@ -306,16 +322,17 @@ namespace CueSheetGenerator {
         public void processInput(string fileName) {
             _inputFileName = fileName;
             _currentTurn = 0;
+            _turns.Clear();
             _path.resetPath();
             //parse the gpx file for locations
-            TrackFileParser parser;
+            TrackFileParser parser = null;
             if (fileName.EndsWith(".gpx")) {
                 parser = new GpxParser(fileName, _path);
                 _status = parser.Status;
             } else if (fileName.EndsWith(".kml")) {
-				parser = new KmlParser(fileName, _path);
-				_status = parser.Status;
-			}
+                parser = new KmlParser(fileName, _path);
+                _status = parser.Status;
+            }
             processLocations();
         }
 
