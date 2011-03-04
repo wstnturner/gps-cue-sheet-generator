@@ -407,6 +407,7 @@ namespace CueSheetGenerator {
                     _ps.Path.MapType = TrackPath.ROADMAP;
                     break;
             }
+            _ps.makeTurnImagesNull();
             updateRideMap(true);
             updateTurnMap();
         }
@@ -521,7 +522,7 @@ namespace CueSheetGenerator {
 
         private void viewElevationProfileToolStripMenuItem_Click(object sender, EventArgs e) {
             if (_ps.Path.Locations != null && _ps.Path.Locations.Count > 0) {
-                ElevationProfileDisplay epd = new ElevationProfileDisplay(_ps.Path.Locations);
+                ElevationProfileDisplay epd = new ElevationProfileDisplay(_ps.Path.Locations, _units);
                 epd.Show();
             }
         }
