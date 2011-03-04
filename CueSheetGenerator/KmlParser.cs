@@ -8,17 +8,21 @@ namespace CueSheetGenerator {
     class KmlParser : TrackFileParser {
 
         public KmlParser(string fileName, TrackPath path) {
+            string s = "";
+            string[] lines;
+            string[] coords;
+            string[] splitstrings = { "\r\n", "\n", "\r" };
             try {
                 StreamReader sr = new StreamReader(fileName);
-                string s = sr.ReadToEnd();
+                s = sr.ReadToEnd();
                 sr.Close();
                 s = s.Substring(s.IndexOf("<coordinates>")
                     , s.IndexOf("</coordinates>") - s.IndexOf("<coordinates>"));
 				s = s.Replace("<coordinates>", "");
 				s = s.Replace("</coordinates>", "");
-				if (s[0] == '\n') s = s.Substring(1);  // get rid of leading newline char
-				if (s[s.Length - 1] == '\n') s = s.Substring(0, s.Length - 1);	// ditto, trailing newline char
                 s = s.Replace(" ", "");
+                s = s.Trim();
+                lines = s.Split(splitstrings, StringSplitOptions.None);
 
 				// after string processing, have one long string like this:
 				// -124.058970,43.979150,0.000000\n
@@ -26,8 +30,7 @@ namespace CueSheetGenerator {
 				// ...
 				
 				// so split into lines, then split each line by ','
-				string[] lines = s.Split('\n');
-				string[] coords;
+
 				foreach (string line in lines) {
 					coords = line.Split(',');
 					Location loc = new Location(double.Parse(coords[1]), double.Parse(coords[0]));
