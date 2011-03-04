@@ -45,7 +45,7 @@ namespace CueSheetGenerator {
                 sr.WriteLine(units + "</td></tr></tbody></table></td>");
                 sr.WriteLine("<td style=\"vertical-align: top;\"><img style=\"width: 600px; height: 600px;\" alt=\"ride map\" src=\"" + shortFileName + ".bmp\"></td>");
                 sr.WriteLine("</tr></tbody></table></body>");
-                sr.WriteLine("<img style=\"width: 950px; height: 300px;\" alt=\"elevation profile\" src=\"" + shortFileName + ".ele.bmp\"></html>");
+                sr.WriteLine("<img style=\"width: 950px; height: 250px;\" alt=\"elevation profile\" src=\"" + shortFileName + ".ele.bmp\"></html>");
                 sr.Close();
             } catch (Exception e) {
                 _status = e.Message;
