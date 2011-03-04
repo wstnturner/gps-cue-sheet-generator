@@ -7,34 +7,34 @@ using System.IO;
 namespace CueSheetGenerator {
     class KmlParser : TrackFileParser {
 
-        public void parse(string fileName, TrackPath path) {
+        public KmlParser(string fileName, TrackPath path) {
             try {
                 StreamReader sr = new StreamReader(fileName);
                 string s = sr.ReadToEnd();
                 sr.Close();
                 s = s.Substring(s.IndexOf("<coordinates>")
                     , s.IndexOf("</coordinates>") - s.IndexOf("<coordinates>"));
-                s = s.Replace("-", "");
-                s = s.Replace("\n", ",");
-                s = s.Replace(" ", ",");
-                s = s.Replace("<coordinates>", "");
-                List<double> latArray = new List<double>();
-                List<double> lonArray = new List<double>();
-                string num;
-                while (s != ",") {
-                    num = s.Substring(s.IndexOf(",") + 1, s.IndexOf(",", s.IndexOf(",") + 1) - 1);
-                    lonArray.Add(double.Parse(num));
-                    s = s.Remove(0, s.IndexOf(",", s.IndexOf(",") + 1));
-                    num = s.Substring(s.IndexOf(",") + 1, s.IndexOf(",", s.IndexOf(",") + 1) - 1);
-                    latArray.Add(double.Parse(num));
-                    s = s.Remove(0, s.IndexOf(",", s.IndexOf(",") + 1));
-                    s = s.Remove(0, s.IndexOf(",", s.IndexOf(",") + 1));
-                }
-                for (int i = 0; i < lonArray.Count; i++) {
-                    Location loc = new Location(latArray[i], lonArray[i]);
-                    //loc.Elevation = double.Parse(n.FirstChild.InnerText);
-                    path.Locations.Add(loc);
-                }
+				s = s.Replace("<coordinates>", "");
+				s = s.Replace("</coordinates>", "");
+				if (s[0] == '\n') s = s.Substring(1);  // get rid of leading newline char
+				if (s[s.Length - 1] == '\n') s = s.Substring(0, s.Length - 1);	// ditto, trailing newline char
+                s = s.Replace(" ", "");
+
+				// after string processing, have one long string like this:
+				// -124.058970,43.979150,0.000000\n
+				// -123.177780,44.048160,0.000000\n
+				// ...
+				
+				// so split into lines, then split each line by ','
+				string[] lines = s.Split('\n');
+				string[] coords;
+				foreach (string line in lines) {
+					coords = line.Split(',');
+					Location loc = new Location(double.Parse(coords[1]), double.Parse(coords[0]));
+					loc.Elevation = double.Parse(coords[2]);
+					path.Locations.Add(loc);
+				}
+				_status = "Read " + path.Locations.Count + " locations";
             } catch (Exception e) {
                 _status = e.Message;
             }

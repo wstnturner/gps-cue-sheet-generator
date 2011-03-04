@@ -312,7 +312,10 @@ namespace CueSheetGenerator {
             if (fileName.EndsWith(".gpx")) {
                 parser = new GpxParser(fileName, _path);
                 _status = parser.Status;
-            }
+            } else if (fileName.EndsWith(".kml")) {
+				parser = new KmlParser(fileName, _path);
+				_status = parser.Status;
+			}
             processLocations();
         }
 
