@@ -175,6 +175,7 @@ namespace CueSheetGenerator {
 
         /// get the UI ready to display the route
         private void prepareToDisplayRoute() {
+            toolStripStatusLabel1.Text = _ps.Status;
             if (_ps.Path.Locations.Count > 0) {
                 //must call this first, because updating the ride map
                 //affects the number of geocode locations
@@ -183,7 +184,6 @@ namespace CueSheetGenerator {
                 lookupToolStripProgressBar.Value = 0;
                 lookupToolStripProgressBar.Maximum = _ps.Path.GeocodeLocations.Count;
                 toolStripStatusLabel2.Text = "Processing,";
-                toolStripStatusLabel1.Text = _ps.Status;
                 fileToolStripMenuItem.Enabled = false;
                 optionsToolStripMenuItem.Enabled = false;
                 deleteButton.Enabled = false;
@@ -320,7 +320,10 @@ namespace CueSheetGenerator {
 
         //user changes the size of the turn map picture box
         private void turnPictureBox_SizeChanged(object sender, EventArgs e) {
-            if (_ps != null) updateTurnMap();
+            if (_ps != null) {
+                _ps.makeTurnImagesNull();
+                updateTurnMap();
+            }
         }
 
         //user clicked the next button

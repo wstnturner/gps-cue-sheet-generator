@@ -23,5 +23,7 @@ namespace CueSheetGenerator {
 		public string Status {
 			get { return _status; }
 		}
+
+
 	}
 }
