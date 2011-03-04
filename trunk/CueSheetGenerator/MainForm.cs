@@ -236,7 +236,7 @@ namespace CueSheetGenerator {
             Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
             if (a != null && fileToolStripMenuItem.Enabled) {
                 string s = a.GetValue(0).ToString();
-                if (s.EndsWith(".gpx"))
+                if (s.EndsWith(".gpx") || s.EndsWith(".kml"))
                     openGpsFile(s);
             }
         }
