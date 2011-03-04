@@ -306,10 +306,11 @@ namespace CueSheetGenerator {
             if (fileName.EndsWith(".csv"))
                 cueWriter = new CsvWriter();
             else cueWriter = new HtmlWriter();
-            if (_addresses != null && _addresses.Count > 0 && _turns != null)
+            if (_addresses != null && _addresses.Count > 0 && _turns != null) {
                 cueWriter.writeCueSheet(fileName, _inputFileName, _addresses, _turns, units);
-            _drawnOnMapImage.Save(fileName + ".bmp");
-            ElevationProfiler.getElevationProfile(_path.Locations, units).Save(fileName + ".ele.bmp");
+                _drawnOnMapImage.Save(fileName + ".bmp");
+                ElevationProfiler.getElevationProfile(_path.Locations, units).Save(fileName + ".ele.bmp");
+            }
             _status = cueWriter.Status;
         }
 
