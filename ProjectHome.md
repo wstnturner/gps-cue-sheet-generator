@@ -1,0 +1,1 @@
+GPS Cue Sheet Generator uses reverse geocoding and GPS waypoint data to generate cue sheets (directions).
